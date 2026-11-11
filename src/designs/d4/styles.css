@@ -14,6 +14,7 @@
 @layer base {
   html {
     overflow-x: clip;
+    scroll-behavior: smooth;
   }
 
   body {
@@ -21,11 +22,13 @@
   }
 
   h1 {
-    @apply font-display text-4xl md:text-[3.5rem] font-bold uppercase tracking-tight;
+    @apply font-display text-[2.4rem] sm:text-6xl lg:text-[4rem] font-bold uppercase tracking-tight;
+    line-height: 1;
   }
 
   h2 {
-    @apply font-display text-3xl md:text-4xl font-bold uppercase;
+    @apply font-display text-3xl md:text-5xl font-bold uppercase;
+    line-height: 1.05;
   }
 
   h3 {
@@ -45,100 +48,120 @@
   }
 }
 
-/* Custom animations and keyframes */
-@keyframes footstep-fade {
-  0% {
-    opacity: 0;
-    transform: scale(0.8);
+@layer components {
+  /* Container and layout */
+  .container-narrow {
+    @apply max-w-5xl mx-auto;
   }
-  20% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
 
-@keyframes slide-in-left {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
+  .section {
+    @apply py-16 md:py-24 px-4 md:px-8;
   }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
 
-@keyframes slide-in-right {
-  from {
-    opacity: 0;
-    transform: translateX(20px);
+  /* Buttons: flat poster look with a hard offset shadow */
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-xl font-bold text-white uppercase tracking-wider text-center transition-all duration-200;
   }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
 
-@keyframes scale-in {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
+  .btn-primary {
+    @apply bg-[#0f5a9f] border-2 border-[#2d3436];
+    box-shadow: 4px 4px 0 #2d3436;
   }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
 
-@keyframes color-shift {
-  0% {
-    --color-progress: #0f5a9f;
+  .btn-accent {
+    @apply bg-[#ff8c42] border-2 border-[#2d3436] text-[#2d3436];
+    box-shadow: 4px 4px 0 #2d3436;
   }
-  50% {
-    --color-progress: #ff8c42;
+
+  .btn-outline {
+    @apply bg-white border-2 border-[#2d3436] text-[#2d3436];
+    box-shadow: 4px 4px 0 #ffd60a;
   }
-  100% {
-    --color-progress: #ffd60a;
+
+  .btn-primary:hover,
+  .btn-accent:hover,
+  .btn-outline:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 #2d3436;
+  }
+
+  .btn-primary:active,
+  .btn-accent:active,
+  .btn-outline:active {
+    transform: translate(3px, 3px);
+    box-shadow: 1px 1px 0 #2d3436;
+  }
+
+  /* Framed card with a hard coloured shadow */
+  .poster {
+    @apply border-2 border-[#2d3436] rounded-2xl bg-white;
+    box-shadow: 8px 8px 0 var(--poster-shadow, #0f5a9f);
+  }
+
+  .kicker {
+    @apply font-display uppercase text-xs md:text-sm text-[#0f5a9f];
+    letter-spacing: 0.22em;
+  }
+
+  /* Planner */
+  [data-planner] button {
+    @apply min-h-[40px];
+  }
+
+  [data-planner] button[aria-pressed="true"] {
+    @apply bg-[#0f5a9f] text-white font-bold;
+  }
+
+  [data-planner-session] {
+    @apply p-4 rounded-lg bg-[#f5f1e8]/80 border-l-4 border-[#0f5a9f];
   }
 }
 
 @keyframes float-rotate {
   0% {
-    transform: translateY(0px) rotateZ(-2deg);
+    transform: translateY(0px) rotateZ(-3deg);
   }
   50% {
-    transform: translateY(-8px) rotateZ(2deg);
+    transform: translateY(-4px) rotateZ(3deg);
   }
   100% {
-    transform: translateY(0px) rotateZ(-2deg);
+    transform: translateY(0px) rotateZ(-3deg);
   }
 }
 
-.animate-footstep {
-  animation: footstep-fade 0.6s ease-out infinite;
-}
-
-@supports (animation-timeline: view()) {
-  @keyframes on-scroll-scale {
-    from {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
   }
 }
 
 /* Style icon floating animation */
 html.js [data-style-icon] {
-  animation: float-rotate 4s ease-in-out infinite;
+  animation: float-rotate 3s ease-in-out infinite;
 }
 
-/* Prevent motion on reduced motion */
+/* Running strip of dance words */
+.marquee {
+  @apply overflow-hidden bg-[#0f5a9f] text-[#ffd60a] border-y-2 border-[#2d3436] py-3;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 22s linear infinite;
+}
+
+.marquee-track span {
+  @apply font-display uppercase text-lg md:text-2xl px-5 whitespace-nowrap;
+}
+
+.marquee-track span:nth-child(even) {
+  @apply text-white;
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -147,74 +170,8 @@ html.js [data-style-icon] {
     scroll-behavior: auto !important;
   }
 
-  .smooth-scroll {
-    scroll-behavior: auto;
+  html.js [data-style-icon],
+  .marquee-track {
+    animation: none;
   }
-}
-
-/* Button styles */
-.btn {
-  @apply inline-flex items-center justify-center px-6 py-3 rounded-lg font-bold text-white uppercase tracking-wider transition-all duration-300 active:scale-95;
-}
-
-.btn-primary {
-  @apply bg-[#0f5a9f] hover:bg-[#0d4a7f];
-}
-
-.btn-accent {
-  @apply bg-[#ff8c42] hover:bg-[#e67a30];
-}
-
-/* Section and container styles */
-.section {
-  @apply py-16 md:py-24 px-4 md:px-8;
-}
-
-.container-narrow {
-  @apply max-w-5xl mx-auto;
-}
-
-.timeline-connector {
-  position: relative;
-}
-
-/* Timeline step styling */
-.timeline-step {
-  @apply relative pb-12 last:pb-0;
-}
-
-.timeline-step::before {
-  content: "";
-  @apply absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#0f5a9f] via-[#ff8c42] to-[#ffd60a];
-  width: 3px;
-  margin-left: -1.5px;
-}
-
-/* Planner styles */
-[data-planner] {
-  @apply bg-white/60 rounded-2xl p-6 md:p-8 backdrop-blur-sm;
-}
-
-[data-planner] button {
-  @apply min-w-[40px] min-h-[40px];
-}
-
-[data-planner] button[aria-pressed="true"] {
-  @apply bg-[#0f5a9f] text-white font-bold;
-}
-
-[data-planner] button[data-date] {
-  @apply rounded-lg hover:bg-[#0f5a9f]/10;
-}
-
-[data-planner] button[data-date][aria-pressed="true"] {
-  @apply bg-[#ffd60a] text-[#2d3436] font-bold;
-}
-
-[data-planner] button[data-date][data-lesson] {
-  @apply ring-2 ring-[#0f5a9f];
-}
-
-[data-planner-session] {
-  @apply p-4 rounded-lg bg-[#f5f1e8]/80 border-l-4 border-[#0f5a9f];
 }

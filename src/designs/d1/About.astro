@@ -6,19 +6,19 @@ import { site } from "../../data/site";
 
 <section data-section class="section-padding bg-gradient-to-b from-[#0a0e27] to-[#1a1f3a]">
   <div class="container-max">
-    <h2 class="mb-12 neon-text">Кто я и откуда я танцую</h2>
+    <h2 class="mb-12 neon-text">Кто ставит ваш танец</h2>
 
     <div class="grid md:grid-cols-2 gap-12 items-center">
       <!-- Left: Photo gallery -->
       <div class="grid grid-cols-2 gap-4">
         <!-- Portrait -->
-        <div data-card data-reveal class="neon-border rounded overflow-hidden bg-[#1a1f3a] group cursor-pointer">
+        <div data-card data-reveal class="neon-border rounded overflow-hidden bg-[#1a1f3a] group aspect-square">
           <Image
             src={photos.portrait.src}
             alt={photos.portrait.alt}
-            widths={[320]}
-            sizes="320px"
-            class="w-full h-auto group-hover:scale-105 transition-transform duration-300"
+            widths={[320, 640]}
+            sizes="(max-width: 768px) 45vw, 320px"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
         </div>
 
@@ -26,25 +26,25 @@ import { site } from "../../data/site";
         <div
           data-card
           data-reveal
-          class="neon-border-cyan rounded overflow-hidden bg-[#1a1f3a] row-span-2 flex items-center group cursor-pointer"
+          class="neon-border-cyan rounded overflow-hidden bg-[#1a1f3a] row-span-2 group"
         >
           <Image
-            src={photos.danceSmile.src}
-            alt={photos.danceSmile.alt}
-            widths={[320]}
-            sizes="320px"
-            class="w-full h-auto group-hover:scale-105 transition-transform duration-300"
+            src={photos.danceDip.src}
+            alt={photos.danceDip.alt}
+            widths={[320, 640]}
+            sizes="(max-width: 768px) 45vw, 320px"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
         </div>
 
         <!-- Team Medals -->
-        <div data-card data-reveal class="neon-border rounded overflow-hidden bg-[#1a1f3a] group cursor-pointer">
+        <div data-card data-reveal class="neon-border rounded overflow-hidden bg-[#1a1f3a] group aspect-square">
           <Image
-            src={photos.teamMedals.src}
-            alt={photos.teamMedals.alt}
-            widths={[320]}
-            sizes="320px"
-            class="w-full h-auto group-hover:scale-105 transition-transform duration-300"
+            src={photos.partyWide.src}
+            alt={photos.partyWide.alt}
+            widths={[320, 640]}
+            sizes="(max-width: 768px) 45vw, 320px"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
         </div>
       </div>
@@ -52,8 +52,8 @@ import { site } from "../../data/site";
       <!-- Right: Text content -->
       <div class="space-y-6">
         <p class="text-lg neon-text-cyan">
-          Танец для меня — это не просто движения под музыку, это история, которую рассказывает
-          пара своим гостям.
+          Свадебный танец — это не просто движения под музыку, это история, которую пара
+          рассказывает своим гостям.
         </p>
 
         <p class="text-base text-gray-300">
@@ -63,8 +63,8 @@ import { site } from "../../data/site";
         </p>
 
         <p class="text-base text-gray-300">
-          Вёл группы для начинающих и опытных танцоров, выступаю на вечеринках и фестивалях,
-          работаю с семейными парами и друзьями.
+          Вёл группы для начинающих и продолжающих, танцую на вечеринках и фестивалях и работаю
+          с парами, которые никогда раньше не танцевали.
         </p>
 
         <p class="text-base text-gray-300">

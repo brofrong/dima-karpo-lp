@@ -1,300 +1,237 @@
 /**
- * Canvas 2D animation for footprint trails showing dance step patterns.
- * Uses continuous looping animation with fade effects.
+ * Canvas 2D step chart: two shoe prints walk the bachata basic
+ * (side, close, side, tap — and back) on a loop, with the count underneath.
  */
 
-interface FootprintTrail {
-  x: number;
-  y: number;
-  size: number;
-  opacity: number;
-  color: string;
-  createdAt: number;
-  lifetime: number; // milliseconds
+interface StepChartOptions {
+  leftColor?: string;
+  rightColor?: string;
+  tapColor?: string;
+  inkColor?: string;
+  /** Length of one count, in milliseconds. */
+  beat?: number;
 }
 
-export function initFootprintCanvas(
-  canvas: HTMLCanvasElement,
-  options: {
-    color?: string;
-    loopDuration?: number;
-  } = {},
-): void {
-  const canvasCtx = canvas.getContext("2d");
-  if (!canvasCtx) return;
+/** Foot positions, in slots, before each of the eight counts (and after the last). */
+const LEFT = [-0.5, -1.5, -1.5, -2.5, -2.5, -2.5, -1.5, -1.5, -0.5];
+const RIGHT = [0.5, 0.5, -0.5, -0.5, -1.5, -0.5, -0.5, 0.5, 0.5];
+const SLOTS = [-2.5, -1.5, -0.5, 0.5];
+const COUNTS = 8;
 
-  const ctx: CanvasRenderingContext2D = canvasCtx;
+function easeInOut(value: number): number {
+  return value < 0.5 ? 2 * value * value : 1 - (-2 * value + 2) ** 2 / 2;
+}
+
+export function initStepChart(
+  canvas: HTMLCanvasElement,
+  options: StepChartOptions = {},
+): void {
+  const context = canvas.getContext("2d");
+  if (!context) return;
+  const ctx: CanvasRenderingContext2D = context;
 
   const {
-    color = "#0f5a9f",
-    loopDuration = 3000, // 3 seconds for a full cycle
+    leftColor = "#0f5a9f",
+    rightColor = "#ff8c42",
+    tapColor = "#ffd60a",
+    inkColor = "#2d3436",
+    beat = 560,
   } = options;
 
-  // Set canvas size
-  const dpr = window.devicePixelRatio || 1;
-  const rect = canvas.getBoundingClientRect();
-  canvas.width = rect.width * dpr;
-  canvas.height = rect.height * dpr;
-  ctx.scale(dpr, dpr);
+  let width = 0;
+  let height = 0;
 
-  const width = rect.width;
-  const height = rect.height;
-
-  // Define bachata basic step pattern (triangle shape)
-  const stepWidth = width * 0.4;
-  const stepHeight = height * 0.4;
-  const centerX = width / 2;
-  const centerY = height / 2;
-
-  // Three points of the basic step
-  const stepPoints = [
-    { x: centerX, y: centerY - stepHeight / 2 }, // top
-    { x: centerX - stepWidth / 2, y: centerY + stepHeight / 2 }, // bottom left
-    { x: centerX + stepWidth / 2, y: centerY + stepHeight / 2 }, // bottom right
-  ];
-
-  const trails: FootprintTrail[] = [];
-
-  const prefers = window.matchMedia("(prefers-reduced-motion: reduce)");
-  let shouldAnimate = !prefers.matches;
-
-  prefers.addEventListener("change", (e) => {
-    shouldAnimate = !e.matches;
-  });
-
-  function drawFootprint(
-    x: number,
-    y: number,
-    size: number,
-    opacity: number,
-    colorVal: string,
-  ): void {
-    ctx.save();
-    ctx.globalAlpha = opacity;
-    ctx.fillStyle = colorVal;
-
-    // Simple footprint shape: oval with small toe markers
-    ctx.beginPath();
-    ctx.ellipse(x, y, size * 1.2, size * 0.6, 0, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Toe marks
-    ctx.fillRect(x - size * 0.3, y - size * 0.4, size * 0.15, size * 0.2);
-    ctx.fillRect(x, y - size * 0.4, size * 0.15, size * 0.2);
-    ctx.fillRect(x + size * 0.3, y - size * 0.4, size * 0.15, size * 0.2);
-
-    ctx.restore();
+  function resize(): void {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = canvas.clientWidth;
+    height = canvas.clientHeight;
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  function animate(currentTime: number): void {
-    // Clear canvas
-    ctx.fillStyle = "#f5f1e8";
-    ctx.fillRect(0, 0, width, height);
-
-    if (!shouldAnimate) {
-      // Show static final pattern
-      ctx.strokeStyle = color;
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(stepPoints[0].x, stepPoints[0].y);
-      ctx.lineTo(stepPoints[1].x, stepPoints[1].y);
-      ctx.lineTo(stepPoints[2].x, stepPoints[2].y);
-      ctx.closePath();
-      ctx.stroke();
-
-      // Draw static footprints
-      stepPoints.forEach((point) => {
-        drawFootprint(point.x, point.y, 12, 0.5, color);
-      });
-
-      requestAnimationFrame(animate);
-      return;
-    }
-
-    // Draw step pattern
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(stepPoints[0].x, stepPoints[0].y);
-    ctx.lineTo(stepPoints[1].x, stepPoints[1].y);
-    ctx.lineTo(stepPoints[2].x, stepPoints[2].y);
-    ctx.closePath();
-    ctx.stroke();
-
-    // Progress through the cycle (0 to 1)
-    const progress = (currentTime % loopDuration) / loopDuration;
-
-    // Add new footprints along the path
-    if (progress < 0.25) {
-      // First segment: top to bottom-left
-      const segProgress = progress / 0.25;
-      const x =
-        stepPoints[0].x + (stepPoints[1].x - stepPoints[0].x) * segProgress;
-      const y =
-        stepPoints[0].y + (stepPoints[1].y - stepPoints[0].y) * segProgress;
-      trails.push({
-        x,
-        y,
-        size: 10,
-        opacity: 1,
-        color: color,
-        createdAt: currentTime,
-        lifetime: 600,
-      });
-    } else if (progress < 0.5) {
-      // Second segment: bottom-left to bottom-right
-      const segProgress = (progress - 0.25) / 0.25;
-      const x =
-        stepPoints[1].x + (stepPoints[2].x - stepPoints[1].x) * segProgress;
-      const y =
-        stepPoints[1].y + (stepPoints[2].y - stepPoints[1].y) * segProgress;
-      trails.push({
-        x,
-        y,
-        size: 10,
-        opacity: 1,
-        color: color,
-        createdAt: currentTime,
-        lifetime: 600,
-      });
-    } else if (progress < 0.75) {
-      // Third segment: bottom-right back to top
-      const segProgress = (progress - 0.5) / 0.25;
-      const x =
-        stepPoints[2].x + (stepPoints[0].x - stepPoints[2].x) * segProgress;
-      const y =
-        stepPoints[2].y + (stepPoints[0].y - stepPoints[2].y) * segProgress;
-      trails.push({
-        x,
-        y,
-        size: 10,
-        opacity: 1,
-        color: color,
-        createdAt: currentTime,
-        lifetime: 600,
-      });
-    }
-
-    // Update and draw trails
-    for (let i = trails.length - 1; i >= 0; i--) {
-      const trail = trails[i];
-      const age = currentTime - trail.createdAt;
-
-      if (age > trail.lifetime) {
-        trails.splice(i, 1);
-        continue;
-      }
-
-      const opacity = 1 - age / trail.lifetime;
-      drawFootprint(trail.x, trail.y, trail.size, opacity, trail.color);
-    }
-
-    requestAnimationFrame(animate);
-  }
-
-  requestAnimationFrame(animate);
-}
-
-/**
- * Canvas animation showing the basic bachata step with interactive stepping.
- */
-export function initStepDiagramCanvas(
-  canvas: HTMLCanvasElement,
-  options: {
-    colors?: string[];
-    stepCount?: number;
-  } = {},
-): void {
-  const canvasCtx = canvas.getContext("2d");
-  if (!canvasCtx) return;
-
-  const ctx: CanvasRenderingContext2D = canvasCtx;
-
-  const colors = options.colors || ["#0f5a9f", "#ff8c42", "#ffd60a", "#4da6ff"];
-  const stepCount = options.stepCount || 8;
-
-  // Set canvas size
-  const dpr = window.devicePixelRatio || 1;
-  const rect = canvas.getBoundingClientRect();
-  canvas.width = rect.width * dpr;
-  canvas.height = rect.height * dpr;
-  ctx.scale(dpr, dpr);
-
-  const width = rect.width;
-  const height = rect.height;
-  const stepWidth = width * 0.15;
-  const startY = height / 2;
-
-  let currentStep = 0;
-
-  function drawStep(
+  function shoe(
     x: number,
     y: number,
-    isLeft: boolean,
-    opacity: number = 1,
+    length: number,
+    color: string,
+    onToe: boolean,
+    alpha: number,
   ): void {
     ctx.save();
-    ctx.globalAlpha = opacity;
-
-    // Footprint shape
-    const size = stepWidth;
-    ctx.fillStyle = colors[(isLeft ? 0 : 1) % colors.length];
-
-    // Basic footprint
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = color;
     ctx.beginPath();
     ctx.ellipse(
       x,
-      y,
-      size * 1.2,
-      size * 0.6,
-      isLeft ? -0.3 : 0.3,
+      y - length * 0.16,
+      length * 0.23,
+      length * 0.33,
+      0,
       0,
       Math.PI * 2,
     );
     ctx.fill();
-
+    if (!onToe) {
+      ctx.beginPath();
+      ctx.ellipse(
+        x,
+        y + length * 0.36,
+        length * 0.16,
+        length * 0.13,
+        0,
+        0,
+        Math.PI * 2,
+      );
+      ctx.fill();
+    }
     ctx.restore();
   }
 
-  function animate(currentTime: number): void {
-    // Clear canvas
-    ctx.fillStyle = "#f5f1e8";
-    ctx.fillRect(0, 0, width, height);
+  function draw(time: number): void {
+    ctx.clearRect(0, 0, width, height);
+    if (width === 0 || height === 0) return;
 
-    // Draw connection line
-    ctx.strokeStyle = "#0f5a9f";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(stepWidth, startY);
-    ctx.lineTo(width - stepWidth, startY);
-    ctx.stroke();
+    const total = time / beat;
+    const count = Math.floor(total) % COUNTS;
+    const phase = total - Math.floor(total);
+    const move = easeInOut(Math.min(phase / 0.6, 1));
 
-    // Draw step sequence
-    const stepDistance = (width - stepWidth * 2) / (stepCount - 1);
+    const slot = width / 5;
+    const centerX = width / 2;
+    const floorY = height * 0.4;
+    const length = Math.min(height * 0.44, slot * 1.5);
+    const toX = (position: number) => centerX + (position + 1) * slot;
 
-    for (let i = 0; i < stepCount; i++) {
-      const x = stepWidth + i * stepDistance;
-      const isLeft = i % 2 === 0;
-      const opacity = Math.max(0, 1 - Math.abs(i - currentStep) / 2);
+    // Empty slots on the floor
+    ctx.save();
+    ctx.strokeStyle = inkColor;
+    ctx.globalAlpha = 0.18;
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([4, 5]);
+    for (const position of SLOTS) {
+      ctx.beginPath();
+      ctx.ellipse(
+        toX(position),
+        floorY,
+        length * 0.3,
+        length * 0.56,
+        0,
+        0,
+        Math.PI * 2,
+      );
+      ctx.stroke();
+    }
+    ctx.restore();
 
-      drawStep(x, startY, isLeft, opacity);
+    const leftX = toX(LEFT[count] + (LEFT[count + 1] - LEFT[count]) * move);
+    const rightX = toX(RIGHT[count] + (RIGHT[count + 1] - RIGHT[count]) * move);
+    const leftMoves = LEFT[count] !== LEFT[count + 1];
+    // Counts 4 and 8 are taps: the moving foot lands on the toe only.
+    const isTap = count === 3 || count === 7;
+    const lift = Math.sin(Math.min(phase / 0.6, 1) * Math.PI) * length * 0.1;
 
-      // Draw step number
-      ctx.fillStyle = opacity > 0 ? "#2d3436" : "#999";
-      ctx.font = `bold 10px sans-serif`;
-      ctx.textAlign = "center";
-      ctx.globalAlpha = opacity;
-      ctx.fillText(`${i + 1}`, x, startY + stepWidth * 1.2);
+    // Ripple under a tap
+    if (isTap && phase > 0.6) {
+      const ripple = (phase - 0.6) / 0.4;
+      ctx.save();
+      ctx.strokeStyle = tapColor;
+      ctx.lineWidth = 3;
+      ctx.globalAlpha = 1 - ripple;
+      ctx.beginPath();
+      ctx.arc(
+        leftMoves ? leftX : rightX,
+        floorY - length * 0.16,
+        length * (0.3 + ripple * 0.35),
+        0,
+        Math.PI * 2,
+      );
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    shoe(
+      leftX,
+      floorY - (leftMoves ? lift : 0),
+      length,
+      leftColor,
+      isTap && leftMoves,
+      1,
+    );
+    shoe(
+      rightX,
+      floorY - (leftMoves ? 0 : lift),
+      length,
+      rightColor,
+      isTap && !leftMoves,
+      1,
+    );
+
+    // The count: eight beads, the current one filled
+    const beadY = height * 0.86;
+    const beadGap = Math.min(width / 9.5, 34);
+    const beadRadius = beadGap * 0.34;
+    const firstX = centerX - (beadGap * (COUNTS - 1)) / 2;
+    ctx.font = `${Math.round(beadRadius * 1.15)}px "Russo One", sans-serif`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    for (let index = 0; index < COUNTS; index++) {
+      const x = firstX + index * beadGap;
+      const active = index === count;
+      const tap = index === 3 || index === 7;
+      ctx.beginPath();
+      ctx.arc(
+        x,
+        beadY,
+        active ? beadRadius * 1.25 : beadRadius,
+        0,
+        Math.PI * 2,
+      );
+      if (active) {
+        ctx.fillStyle = tap ? tapColor : index < 4 ? leftColor : rightColor;
+        ctx.fill();
+      }
+      ctx.strokeStyle = inkColor;
+      ctx.globalAlpha = active ? 1 : 0.35;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      ctx.fillStyle = active && !tap ? "#ffffff" : inkColor;
+      ctx.fillText(String(index + 1), x, beadY + 1);
       ctx.globalAlpha = 1;
     }
-
-    // Auto-advance step
-    if (currentTime % 3000 < 16) {
-      currentStep = (currentStep + 1) % stepCount;
-    }
-
-    requestAnimationFrame(animate);
   }
 
-  requestAnimationFrame(animate);
+  resize();
+
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let frame = 0;
+  let visible = true;
+
+  function tick(time: number): void {
+    draw(time);
+    frame = visible && !reducedMotion.matches ? requestAnimationFrame(tick) : 0;
+  }
+
+  function start(): void {
+    if (frame === 0) frame = requestAnimationFrame(tick);
+  }
+
+  new ResizeObserver(() => {
+    resize();
+    // A still frame keeps the chart readable while the loop is paused.
+    if (frame === 0) draw(0);
+  }).observe(canvas);
+
+  new IntersectionObserver((entries) => {
+    visible = entries.some((entry) => entry.isIntersecting);
+    if (visible) start();
+  }).observe(canvas);
+
+  reducedMotion.addEventListener("change", start);
+  document.fonts?.ready.then(() => {
+    if (frame === 0) draw(0);
+  });
+
+  draw(0);
+  start();
 }

@@ -1,3 +1,4 @@
+import gsap from "gsap";
 import { formatRuDayMonth, weekdayShortRu } from "../../lib/dates";
 import { createPlannerStore, type PlannerView } from "../../lib/planner-store";
 import type { ExtraId, LevelId, StyleId } from "../../lib/planner";
@@ -111,7 +112,23 @@ export function mountPlanner(root: HTMLElement): void {
       );
     }
 
-    lessons.textContent = String(view.lessons);
+    const oldLessons = parseInt(lessons.textContent || "0", 10);
+    const newLessons = view.lessons;
+
+    if (oldLessons !== newLessons) {
+      gsap.to(
+        { value: oldLessons },
+        {
+          value: newLessons,
+          duration: 0.5,
+          ease: "back.out",
+          onUpdate: function () {
+            lessons.textContent = String(Math.round(this.targets()[0].value));
+          },
+        },
+      );
+    }
+
     daysLeft.textContent = view.plan ? String(view.plan.daysLeft) : "—";
     headline.textContent = view.plan
       ? view.plan.headline

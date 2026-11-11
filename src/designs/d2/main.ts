@@ -8,6 +8,17 @@ import Lenis from "lenis";
 gsap.registerPlugin(ScrollTrigger, SplitText, DrawSVGPlugin);
 
 export function initPage(): void {
+  const headlines = document.querySelectorAll<HTMLElement>("h1[data-headline]");
+
+  // ===== Reduce motion support =====
+  // The stylesheet hides the headline for its entrance, so show it and stop here.
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    headlines.forEach((headline) => {
+      headline.style.opacity = "1";
+    });
+    return;
+  }
+
   // Store observers for cleanup
   const observers: MutationObserver[] = [];
 
@@ -17,27 +28,30 @@ export function initPage(): void {
     wheelMultiplier: 1,
     gestureOrientation: "vertical",
   });
+  lenis.on("scroll", ScrollTrigger.update);
 
   function raf(time: number) {
-    lenis.raf(time);
+    lenis.raf(time * 1000);
   }
 
   gsap.ticker.add(raf);
+  gsap.ticker.lagSmoothing(0);
 
   // ===== Ornament animation =====
-  const ornament = document.querySelector("[data-ornament] svg");
-  if (ornament) {
-    const paths = ornament.querySelectorAll("path");
-    paths.forEach((path) => {
-      gsap.from(path, {
-        drawSVG: 0,
-        duration: 1.2,
-        ease: "power2.out",
-        delay: 0.2,
-        stagger: 0.1,
-      });
-    });
-  }
+  gsap.from("[data-ornament] svg path", {
+    drawSVG: 0,
+    duration: 1.2,
+    ease: "power2.out",
+    delay: 0.2,
+    stagger: 0.1,
+  });
+  gsap.from("[data-ornament] svg", {
+    rotate: -90,
+    scale: 0.6,
+    transformOrigin: "50% 50%",
+    duration: 1.4,
+    ease: "power3.out",
+  });
 
   // ===== Section dividers animation =====
   ScrollTrigger.batch("[data-divider] svg path", {
@@ -50,119 +64,114 @@ export function initPage(): void {
       });
     },
     start: "top 85%",
+    once: true,
   });
 
   // ===== Hero headline animation =====
-  const headlines = document.querySelectorAll("h1[data-headline]");
   headlines.forEach((headline) => {
     const split = new SplitText(headline, { type: "words,chars" });
+    gsap.set(headline, { opacity: 1 });
     gsap.from(split.chars, {
       opacity: 0,
-      y: 10,
-      duration: 0.6,
-      stagger: 0.08,
-      ease: "power2.out",
+      y: 24,
+      rotate: 6,
+      duration: 0.7,
+      stagger: 0.035,
+      ease: "power3.out",
+      delay: 0.3,
     });
   });
 
-  // ===== Photo duotone hover effect =====
-  const photos = document.querySelectorAll("[data-photo-frame] img");
-  photos.forEach((photo) => {
-    const container = photo.closest("[data-photo-frame]");
-    if (!container) return;
-
-    // Only apply on devices with hover capability
-    if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
-      container.addEventListener("mouseenter", () => {
-        gsap.to(photo, {
-          filter: "saturate(0.95)",
-          duration: 0.4,
-          ease: "power2.inOut",
-        });
-      });
-
-      container.addEventListener("mouseleave", () => {
-        gsap.to(photo, {
-          filter: "saturate(0.75)",
-          duration: 0.4,
-          ease: "power2.inOut",
-        });
-      });
-    }
+  // ===== Hero copy and photo =====
+  gsap.from("[data-hero-in]", {
+    opacity: 0,
+    y: 24,
+    duration: 0.8,
+    stagger: 0.12,
+    ease: "power2.out",
+    delay: 0.9,
   });
 
+  // ===== Photo hover =====
+  if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    document
+      .querySelectorAll<HTMLElement>("[data-photo-frame]")
+      .forEach((frame) => {
+        const photo = frame.querySelector("img");
+        if (!photo) return;
+        frame.addEventListener("mouseenter", () => {
+          gsap.to(photo, { scale: 1.06, duration: 0.6, ease: "power2.out" });
+        });
+        frame.addEventListener("mouseleave", () => {
+          gsap.to(photo, { scale: 1, duration: 0.6, ease: "power2.out" });
+        });
+      });
+  }
+
   // ===== Scroll reveals =====
-  const photoConfig: Parameters<typeof ScrollTrigger.batch>[1] = {
+  // Everything below is visible without JS; the tweens only run once an
+  // element scrolls in, so nothing stays hidden if a trigger never fires.
+  ScrollTrigger.batch("[data-photo-frame]:not([data-hero-in] *)", {
     onEnter: (batch: Element[]) => {
-      gsap.to(batch, {
-        opacity: 1,
-        duration: 0.6,
-        ease: "power2.out",
-        stagger: { each: 0.1 },
+      gsap.from(batch, {
+        opacity: 0,
+        y: 32,
+        scale: 0.96,
+        duration: 0.8,
+        ease: "power3.out",
+        stagger: 0.12,
       });
     },
-    start: "top 85%",
-  };
-  ScrollTrigger.batch("[data-photo-frame]", photoConfig);
+    start: "top 88%",
+    once: true,
+  });
 
   // ===== Section headlines scroll reveal =====
-  const h2Config: Parameters<typeof ScrollTrigger.batch>[1] = {
+  ScrollTrigger.batch("h2:not([data-hero-in] *)", {
     onEnter: (batch: Element[]) => {
       batch.forEach((element) => {
         const split = new SplitText(element, { type: "words,chars" });
         gsap.from(split.chars, {
           opacity: 0,
-          y: 15,
+          y: 18,
           duration: 0.5,
-          stagger: 0.04,
+          stagger: 0.02,
           ease: "power2.out",
         });
       });
     },
-    start: "top 80%",
-  };
-  ScrollTrigger.batch("h2", h2Config);
+    start: "top 85%",
+    once: true,
+  });
 
   // ===== Text paragraphs fade in =====
-  const pConfig: Parameters<typeof ScrollTrigger.batch>[1] = {
+  ScrollTrigger.batch("section p", {
     onEnter: (batch: Element[]) => {
-      gsap.to(batch, {
-        opacity: 1,
+      gsap.from(batch, {
+        opacity: 0,
+        y: 14,
         duration: 0.6,
         ease: "power2.out",
+        stagger: 0.06,
+        clearProps: "opacity,transform",
       });
     },
-    start: "top 90%",
-  };
-  ScrollTrigger.batch("p", pConfig);
+    start: "top 92%",
+    once: true,
+  });
 
   // ===== Planner animations =====
   const planner = document.querySelector("[data-planner]");
   if (planner) {
-    // Animate day buttons when they appear
-    ScrollTrigger.create({
-      trigger: planner,
-      onEnter: () => {
-        const buttons = planner.querySelectorAll("button[data-date]");
-        gsap.to(buttons, {
-          opacity: 1,
-          duration: 0.4,
-          stagger: { each: 0.02 },
-          ease: "power2.out",
-        });
-      },
-      start: "top 80%",
-    });
-
     // Animate lessons count
     const lessonsElement = planner.querySelector("[data-planner-lessons]");
     if (lessonsElement) {
       const observer = new MutationObserver(() => {
-        gsap.from(lessonsElement, {
-          scale: 0.8,
-          duration: 0.3,
-          ease: "back.out",
-        });
+        gsap.fromTo(
+          lessonsElement,
+          { scale: 0.8 },
+          { scale: 1, duration: 0.3, ease: "back.out", overwrite: true },
+        );
       });
       observer.observe(lessonsElement as Node, {
         childList: true,
@@ -176,13 +185,18 @@ export function initPage(): void {
     const styleButtons = planner.querySelectorAll("[data-planner-style]");
     styleButtons.forEach((button) => {
       button.addEventListener("click", () => {
-        gsap.to(button, {
-          scale: 0.95,
-          duration: 0.15,
-          ease: "power2.out",
-          yoyo: true,
-          repeat: 1,
-        });
+        gsap.fromTo(
+          button,
+          { scale: 1 },
+          {
+            scale: 0.95,
+            duration: 0.15,
+            ease: "power2.out",
+            yoyo: true,
+            repeat: 1,
+            overwrite: true,
+          },
+        );
       });
     });
   }
@@ -191,35 +205,8 @@ export function initPage(): void {
   // Animation handled by inline script in FAQ.astro with smooth CSS transitions
   // Do not add GSAP listener here to avoid state sync conflicts
 
-  // ===== Reduce motion support =====
-  const prefersReducedMotion = matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
-
-  if (prefersReducedMotion) {
-    // Clear all animations
-    gsap.globalTimeline.clear();
-    ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-
-    // Simple opacity reveals instead
-    document
-      .querySelectorAll(
-        "[data-photo-frame], h1[data-headline], h2, p, [data-ornament] svg, [data-divider] svg",
-      )
-      .forEach((el) => {
-        (el as HTMLElement).style.opacity = "1";
-      });
-  }
-
-  // Provide cleanup function for observers
-  (
-    globalThis as unknown as { cleanupPageObservers: () => void }
-  ).cleanupPageObservers = () => {
-    observers.forEach((observer) => observer.disconnect());
-  };
-
   // Automatically clean up observers on page unload
-  window.addEventListener("beforeunload", () => {
+  window.addEventListener("pagehide", () => {
     observers.forEach((observer) => observer.disconnect());
   });
 }

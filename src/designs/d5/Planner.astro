@@ -13,7 +13,7 @@ import {
 <section id="planner" data-planner class="section-padding bg-[#f0e4d7]">
   <div class="container-narrow grid gap-8 md:gap-12 md:grid-cols-3">
     <!-- Calendar -->
-    <div class="md:col-span-2 bg-white rounded-lg p-6 border border-[#d4947a] border-opacity-20">
+    <div class="md:col-span-2 bg-white rounded-lg p-6 border border-[#d4947a]/20">
       <div class="flex items-center justify-between mb-6">
         <button
           type="button"
@@ -46,7 +46,7 @@ import {
     </div>
 
     <!-- Options (sidebar on desktop) -->
-    <div class="bg-white rounded-lg p-6 border border-[#d4947a] border-opacity-20 md:row-span-2 max-h-fit">
+    <div class="bg-white rounded-lg p-6 border border-[#d4947a]/20 md:row-span-2 max-h-fit">
       <div class="space-y-6">
         <div class="space-y-3">
           <h4 class="text-base font-normal text-[#8b6b47] mb-2">Стиль танца</h4>
@@ -105,7 +105,7 @@ import {
     </div>
 
     <!-- Results -->
-    <div class="bg-white rounded-lg p-6 border border-[#d4947a] border-opacity-20 md:col-span-2" aria-live="polite">
+    <div class="bg-white rounded-lg p-6 border border-[#d4947a]/20 md:col-span-2" aria-live="polite">
       <div class="flex items-baseline gap-3 mb-4">
         <div class="text-base text-[#8b6b47]">Занятий:</div>
         <div class="text-3xl font-display text-[#b3733b]">
@@ -177,7 +177,6 @@ import {
 
   [data-planner-grid] :global(button:hover) {
     border-color: #d4947a;
-    border-opacity: 0.5;
   }
 
   [data-planner-grid] :global(button:disabled) {

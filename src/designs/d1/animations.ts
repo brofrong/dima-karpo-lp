@@ -15,12 +15,12 @@ export function animateHeroHeading() {
   const h1 = document.querySelector("h1");
   if (!h1) return;
 
-  const split = new SplitText(h1, { type: "chars" });
+  const split = new SplitText(h1, { type: "words,chars" });
   gsap.to(split.chars, {
     opacity: 1,
     y: 0,
     duration: 0.6,
-    stagger: 0.06,
+    stagger: 0.03,
     ease: "elastic.out(1, 0.5)",
     delay: 0.1,
     startAt: { opacity: 0, y: 40 },
@@ -30,12 +30,12 @@ export function animateHeroHeading() {
 export function animateSectionHeadings() {
   const headings = document.querySelectorAll("h2");
   headings.forEach((heading) => {
-    const split = new SplitText(heading, { type: "chars" });
+    const split = new SplitText(heading, { type: "words,chars" });
     gsap.to(split.chars, {
       opacity: 1,
       y: 0,
-      duration: 0.5,
-      stagger: 0.08,
+      duration: 0.4,
+      stagger: 0.02,
       ease: "back.out(1.7)",
       scrollTrigger: {
         trigger: heading,

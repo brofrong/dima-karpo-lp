@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import { helloLink } from "../../data/site";
+import { site, helloLink } from "../../data/site";
 import Ornament from "./Ornament.astro";
 
 interface Props {
@@ -10,38 +10,24 @@ interface Props {
 const { photos } = Astro.props;
 ---
 
-<header class="relative min-h-screen flex flex-col items-center justify-center py-16 md:py-20 px-6">
-  <div class="absolute inset-0 pointer-events-none">
-    <div
-      class="absolute top-12 left-1/2 -translate-x-1/2 w-32 h-32 opacity-20"
-      aria-hidden="true"
-    >
-      <svg viewBox="0 0 120 120" class="w-full h-full">
-        <defs>
-          <radialGradient id="ornGradient" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#d4a574" />
-            <stop offset="100%" stop-color="#8b4a52" />
-          </radialGradient>
-        </defs>
-        <circle cx="60" cy="60" r="55" fill="url(#ornGradient)" opacity="0.1" />
-      </svg>
-    </div>
-  </div>
+<header class="relative flex flex-col items-center px-6 pt-10 pb-16 md:pt-14 md:pb-20 overflow-hidden">
+  <div class="hero-glow absolute inset-0 pointer-events-none" aria-hidden="true"></div>
 
-  <div class="relative z-10 max-w-4xl">
+  <div class="relative z-10 w-full max-w-5xl">
     <!-- SVG Ornament -->
     <Ornament />
 
     <!-- Main Headline -->
     <h1
       data-headline
-      class="text-center mb-8 md:mb-12 font-serif italic leading-tight"
+      class="text-center mb-6 md:mb-8 font-serif italic leading-[0.95] text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-[#e8c4a0]"
     >
       Первый танец<br />вашей мечты
     </h1>
 
     <!-- Subtitle -->
     <p
+      data-hero-in
       class="text-center text-lg md:text-xl mb-12 md:mb-16 text-[#c9a881] font-serif italic max-w-2xl mx-auto"
     >
       Элегантность в каждом движении. Бачата, вальс или микс на вашу музыку —
@@ -50,36 +36,40 @@ const { photos } = Astro.props;
 
     <!-- Hero Photo and CTA Section -->
     <div
-      class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center mb-8"
+      class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center mb-8"
     >
       <!-- Photo -->
-      <div class="order-2 md:order-1">
-        <div
-          data-photo-frame
-          class="aspect-square bg-[#0f0d0f] overflow-hidden border-2 border-[#d4a574]"
-        >
-          <Image
-            src={photos.danceSmile.src}
-            alt={photos.danceSmile.alt}
-            widths={[320, 640]}
-            sizes="(max-width: 768px) 90vw, 400px"
-            class="w-full h-full object-cover mix-blend-multiply filter saturate-75"
-          />
+      <div class="order-2 md:order-1" data-hero-in>
+        <div class="hero-frame relative max-w-md mx-auto">
+          <div
+            data-photo-frame
+            class="aspect-[4/5] bg-[#0f0d0f] overflow-hidden border-2 border-[#d4a574]"
+          >
+            <Image
+              src={photos.danceSmile.src}
+              alt={photos.danceSmile.alt}
+              widths={[320, 640]}
+              sizes="(max-width: 768px) 90vw, 448px"
+              loading="eager"
+              class="w-full h-full object-cover sepia-[0.25] saturate-[0.9]"
+            />
+          </div>
         </div>
       </div>
 
       <!-- CTA Buttons -->
-      <div class="order-1 md:order-2 flex flex-col gap-6">
+      <div class="order-1 md:order-2 flex flex-col gap-6" data-hero-in>
         <div>
           <p class="text-sm uppercase tracking-widest text-[#d4a574] mb-4 font-serif">
-            Готовы к переменам?
+            Ваш постановщик
           </p>
-          <h2 class="text-3xl md:text-4xl font-serif italic mb-6">
-            Дмитрий Карпов
+          <h2 class="text-4xl md:text-5xl font-serif italic mb-6 text-[#e8c4a0]">
+            {site.name}
           </h2>
-          <p class="text-[#c9a881] mb-8 font-serif">
-            Преподаватель бачаты и постановщик свадебных танцев. <br />
-            Ваш танец будет красивым, безопасным и запоминающимся.
+          <p class="text-[#c9a881] mb-2 font-serif leading-relaxed">
+            Преподаватель бачаты и постановщик свадебных танцев. Строит
+            хореографию вокруг вас: вашей песни, вашего уровня, платья и размера
+            площадки.
           </p>
         </div>
 
@@ -108,11 +98,36 @@ const { photos } = Astro.props;
     </div>
 
     <!-- Brief intro -->
-    <div class="text-center max-w-2xl mx-auto">
+    <div class="text-center max-w-2xl mx-auto" data-hero-in>
       <p class="text-[#c9a881] font-serif leading-relaxed">
-        Обычно нужно 5–7 занятий, чтобы подготовиться. Хватает одного или двух
-        месяцев. Место и расписание — договоримся в Telegram.
+        Обычно нужно 5–7 занятий, чтобы подготовиться. Лучше начать за месяц-два
+        до свадьбы. Место и расписание — договоримся в Telegram.
       </p>
     </div>
   </div>
 </header>
+
+<style>
+  .hero-glow {
+    background:
+      radial-gradient(
+        ellipse 70% 45% at 50% 18%,
+        rgba(139, 74, 82, 0.38),
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse 50% 30% at 50% 0%,
+        rgba(212, 165, 116, 0.16),
+        transparent 70%
+      );
+  }
+
+  .hero-frame::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1px solid #8b4a52;
+    transform: translate(14px, 14px);
+    pointer-events: none;
+  }
+</style>

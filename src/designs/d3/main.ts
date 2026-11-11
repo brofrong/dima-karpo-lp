@@ -1,290 +1,206 @@
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-import SplitText from "gsap/SplitText";
-import DrawSVGPlugin from "gsap/DrawSVGPlugin";
 import Lenis from "lenis";
+import { initFlowCanvas } from "./flow-canvas";
+import { mountPlanner } from "./planner-client";
 
-gsap.registerPlugin(ScrollTrigger, SplitText, DrawSVGPlugin);
+gsap.registerPlugin(ScrollTrigger);
+
+/** Where a `data-reveal` element starts from, by attribute value. */
+const REVEAL_FROM: Record<string, gsap.TweenVars> = {
+  left: { x: -44 },
+  right: { x: 44 },
+  zoom: { scale: 0.6 },
+};
 
 export function initPage(): void {
-  // Initialize Lenis smooth scroll
-  const lenis = new Lenis({
-    duration: 1.2,
-    easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-  });
-
-  function raf(time: number) {
-    lenis.raf(time);
-    ScrollTrigger.update();
+  for (const root of document.querySelectorAll<HTMLElement>("[data-planner]")) {
+    mountPlanner(root);
   }
 
-  gsap.ticker.add(raf);
-
-  // Respect prefers-reduced-motion
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
-
-  // Marquee scroll-driven animation
-  const marqueeElement =
-    document.querySelector<HTMLElement>("[data-d3-marquee]");
-  if (marqueeElement) {
-    if (!prefersReducedMotion) {
-      // Get the width of half the marquee (since it has duplicated content)
-      const marqueeWidth = marqueeElement.scrollWidth / 2;
-
-      // Create continuous scrolling animation with moderate speed
-      const marqueeTimeline = gsap.timeline({ repeat: -1 });
-      marqueeTimeline.fromTo(
-        marqueeElement,
-        { x: 0 },
-        {
-          x: -marqueeWidth,
-          duration: 60, // base duration for continuous loop
-          ease: "none",
-        },
-      );
-
-      // Adjust speed based on scroll velocity (optional scroll-sync)
-      ScrollTrigger.create({
-        onUpdate: () => {
-          // Adjust timeline playback speed based on scroll velocity
-          const scrollVelocity = lenis.velocity;
-          const timeScaleAdjustment = Math.max(
-            0.5,
-            Math.min(2, 1 + scrollVelocity * 0.05),
-          );
-          marqueeTimeline.timeScale(timeScaleAdjustment);
-        },
-      });
-    }
-  }
-
-  if (!prefersReducedMotion) {
-    // Hero parallax effect - SVG and photo respond to scroll
-    const heroSvg = document.querySelector<SVGElement>(".d3-hero__svg");
-    const heroPhoto = document.querySelector<HTMLElement>(".d3-hero__photo");
-
-    if (heroSvg || heroPhoto) {
-      gsap.to([heroSvg, heroPhoto], {
-        scrollTrigger: {
-          trigger: ".d3-hero",
-          start: "top top",
-          end: "bottom top",
-          scrub: 0.5,
-          markers: false,
-        },
-        y: 100,
-        duration: 1,
-      });
-    }
-
-    // Enhanced timeline animations - markers pop in and connectors fade
-    const timelineMarkers = document.querySelectorAll<HTMLElement>(
-      ".d3-timeline-marker",
-    );
-    timelineMarkers.forEach((marker, index) => {
-      gsap.from(marker, {
-        scrollTrigger: {
-          trigger: marker,
-          start: "top 80%",
-          end: "top 60%",
-          markers: false,
-        },
-        scale: 0,
-        opacity: 0,
-        duration: 0.4,
-        delay: index * 0.1,
-        ease: "back.out",
-      });
-    });
-
-    // Animate timeline connector paths
-    const connectorPaths = document.querySelectorAll<SVGPathElement>(
-      ".d3-timeline-connector path",
-    );
-    connectorPaths.forEach((path, index) => {
-      gsap.from(path, {
-        scrollTrigger: {
-          trigger: path,
-          start: "top 80%",
-          end: "top 50%",
-          scrub: 0.5,
-          markers: false,
-        },
-        opacity: 0,
-        duration: 0.6,
-        delay: index * 0.1,
-      });
-    });
-  }
-
-  // Split text animation for headings
-  const headings = document.querySelectorAll(
-    ".d3-hero__title, .d3-whois h2, .d3-whatdance h2, .d3-howitgoes h2, .d3-planner h2, .d3-faq h2, .d3-cta h2",
+  const canvas = document.querySelector<HTMLCanvasElement>(
+    "canvas[data-flow-canvas]",
   );
+  if (canvas) initFlowCanvas(canvas);
 
-  headings.forEach((heading) => {
-    if (!(heading instanceof HTMLElement)) return;
+  // The script is running: the stylesheet's "show it anyway" timer can stand down.
+  document.documentElement.classList.add("fx-ready");
 
-    const split = new SplitText(heading, { type: "words,chars" });
+  // Without motion the stylesheet shows everything as is.
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    gsap.from(split.chars, {
-      scrollTrigger: {
-        trigger: heading,
-        start: "top 80%",
-        end: "top 50%",
-        scrub: 0.5,
-        markers: false,
-      },
-      opacity: 0,
-      y: 20,
-      stagger: 0.1,
-      duration: 0.6,
-    });
+  const lenis = new Lenis({ anchors: true });
+  lenis.on("scroll", ScrollTrigger.update);
+  gsap.ticker.add((time) => lenis.raf(time * 1000));
+  gsap.ticker.lagSmoothing(0);
+
+  initHero();
+  initReveals();
+  initParallax();
+  initMarquee();
+  initThread();
+  initMagnets();
+
+  gsap.to("[data-progress]", {
+    scaleX: 1,
+    ease: "none",
+    scrollTrigger: { start: 0, end: "max", scrub: 0.3 },
   });
 
-  // Scroll-triggered animations for sections
-  const sections = document.querySelectorAll(
-    ".d3-whois, .d3-whatdance, .d3-howitgoes, .d3-planner, .d3-faq, .d3-cta",
-  );
+  window.addEventListener("load", () => ScrollTrigger.refresh());
+}
 
-  sections.forEach((section) => {
-    if (!(section instanceof HTMLElement)) return;
+/** Headline lines rise out of their masks, the rest follows. */
+function initHero(): void {
+  gsap.set("[data-hero-title]", { opacity: 1 });
+  gsap.set("[data-hero-item]", { y: 26 });
+  gsap.set("[data-hero-pop]", { scale: 0.6, rotate: -10 });
 
-    gsap.from(section, {
-      scrollTrigger: {
-        trigger: section,
-        start: "top 100%",
-        end: "top 30%",
-        scrub: 1,
-        markers: false,
-      },
-      opacity: 0.8,
-      y: 40,
-      duration: 1,
-    });
-  });
-
-  // Hover animation for dance cards
-  const danceCards = document.querySelectorAll(".d3-dance-card");
-  danceCards.forEach((card) => {
-    if (!(card instanceof HTMLElement)) return;
-
-    card.addEventListener("mouseenter", () => {
-      gsap.to(card, {
-        y: -8,
-        duration: 0.3,
-        overwrite: "auto",
-      });
-    });
-
-    card.addEventListener("mouseleave", () => {
-      gsap.to(card, {
-        y: 0,
-        duration: 0.3,
-        overwrite: "auto",
-      });
-    });
-  });
-
-  // Hover animation for FAQ items
-  const faqItems = document.querySelectorAll(".d3-faq-item");
-  faqItems.forEach((item) => {
-    if (!(item instanceof HTMLElement)) return;
-
-    item.addEventListener("mouseenter", () => {
-      gsap.to(item, {
-        x: 4,
-        duration: 0.3,
-      });
-    });
-
-    item.addEventListener("mouseleave", () => {
-      gsap.to(item, {
-        x: 0,
-        duration: 0.3,
-      });
-    });
-  });
-
-  // Button hover effects
-  const buttons = document.querySelectorAll(".d3-btn");
-  buttons.forEach((button) => {
-    if (!(button instanceof HTMLElement)) return;
-
-    button.addEventListener("mouseenter", () => {
-      gsap.to(button, {
-        scale: 1.05,
-        duration: 0.3,
-        overwrite: "auto",
-      });
-    });
-
-    button.addEventListener("mouseleave", () => {
-      gsap.to(button, {
+  gsap
+    .timeline({ defaults: { ease: "expo.out" } })
+    .from(
+      "[data-hero-title] .fx-line > span",
+      { yPercent: 118, duration: 1.1, stagger: 0.12 },
+      0.1,
+    )
+    .to(
+      "[data-hero-item]",
+      { opacity: 1, y: 0, duration: 0.9, stagger: 0.08 },
+      0.35,
+    )
+    .to(
+      "[data-hero-pop]",
+      {
+        opacity: 1,
         scale: 1,
-        duration: 0.3,
-        overwrite: "auto",
-      });
-    });
-  });
+        rotate: 0,
+        duration: 1.1,
+        stagger: 0.12,
+        ease: "back.out(1.5)",
+      },
+      0.25,
+    );
 
-  // Interactive SVG circles
-  const interactiveCircles = document.querySelectorAll<SVGCircleElement>(
-    ".d3-interactive-circle",
+  gsap.to("[data-hero-visual]", {
+    yPercent: 14,
+    ease: "none",
+    scrollTrigger: {
+      trigger: "[data-hero]",
+      start: "top top",
+      end: "bottom top",
+      scrub: true,
+    },
+  });
+}
+
+/**
+ * Entrances. The elements start hidden in CSS, so tween to an explicit end
+ * state: a from-tween would animate from 0 to 0.
+ */
+function initReveals(): void {
+  const elements = gsap.utils.toArray<HTMLElement>("[data-reveal]");
+  for (const element of elements) {
+    gsap.set(element, REVEAL_FROM[element.dataset.reveal ?? ""] ?? { y: 36 });
+  }
+
+  ScrollTrigger.batch(elements, {
+    start: "top 90%",
+    once: true,
+    onEnter: (batch) =>
+      gsap.to(batch, {
+        opacity: 1,
+        x: 0,
+        y: 0,
+        scale: 1,
+        duration: 0.9,
+        stagger: 0.08,
+        ease: "expo.out",
+        overwrite: true,
+      }),
+  });
+}
+
+function initParallax(): void {
+  for (const element of gsap.utils.toArray<HTMLElement>("[data-parallax]")) {
+    const shift = Number(element.dataset.parallax);
+    gsap.fromTo(
+      element,
+      { yPercent: shift },
+      {
+        yPercent: -shift,
+        ease: "none",
+        scrollTrigger: {
+          trigger: element,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      },
+    );
+  }
+}
+
+/** The ribbons lean into the scroll and settle when it stops. */
+function initMarquee(): void {
+  const lean = gsap.quickTo("[data-marquee-skew]", "skewX", {
+    duration: 0.4,
+    ease: "power3.out",
+  });
+  const settle = gsap.delayedCall(0.12, () => lean(0)).pause();
+
+  ScrollTrigger.create({
+    onUpdate: (self) => {
+      lean(gsap.utils.clamp(-16, 16, self.getVelocity() / -220));
+      settle.restart(true);
+    },
+  });
+}
+
+/** The thread between the steps is drawn as the page scrolls. */
+function initThread(): void {
+  const steps = document.querySelector<HTMLElement>("[data-steps]");
+  if (!steps) return;
+
+  gsap.fromTo(
+    "[data-thread-fill]",
+    { clipPath: "inset(0% 0% 100% 0%)" },
+    {
+      clipPath: "inset(0% 0% 0% 0%)",
+      ease: "none",
+      scrollTrigger: {
+        trigger: steps,
+        start: "top 72%",
+        end: "bottom 62%",
+        scrub: 0.5,
+      },
+    },
   );
-  interactiveCircles.forEach((circle) => {
-    const originalR = parseFloat(circle.getAttribute("r") || "8");
-    const originalFill = circle.getAttribute("fill") || "#ff9500";
+}
 
-    // Define accent colors for different circles
-    const accentColorMap: Record<string, string> = {
-      "#ff6b6b": "#0064ff", // red -> blue
-      "#ff9500": "#ff6b6b", // orange -> red
-      "#0064ff": "#ff9500", // blue -> orange
-      "#f09433": "#2d3436", // orange-warm -> dark
-    };
+/** Pill buttons pull towards the cursor. */
+function initMagnets(): void {
+  if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
 
-    const newColor = accentColorMap[originalFill] || "#ff9500";
-
-    circle.addEventListener("mouseenter", () => {
-      gsap.to(circle, {
-        attr: { r: originalR * 1.4, fill: newColor },
-        duration: 0.25,
-        ease: "power2.out",
-        overwrite: "auto",
-      });
+  for (const button of document.querySelectorAll<HTMLElement>(
+    "[data-magnetic]",
+  )) {
+    const moveX = gsap.quickTo(button, "x", {
+      duration: 0.4,
+      ease: "power3.out",
+    });
+    const moveY = gsap.quickTo(button, "y", {
+      duration: 0.4,
+      ease: "power3.out",
     });
 
-    circle.addEventListener("mouseleave", () => {
-      gsap.to(circle, {
-        attr: { r: originalR, fill: originalFill },
-        duration: 0.25,
-        ease: "power2.out",
-        overwrite: "auto",
-      });
+    button.addEventListener("pointermove", (event) => {
+      const box = button.getBoundingClientRect();
+      moveX((event.clientX - box.left - box.width / 2) * 0.25);
+      moveY((event.clientY - box.top - box.height / 2) * 0.4);
     });
-  });
-
-  // FAQ accordion animation
-  const faqDetails = document.querySelectorAll(".d3-faq-item");
-  faqDetails.forEach((detail) => {
-    if (!(detail instanceof HTMLElement)) return;
-
-    const summary = detail.querySelector(".d3-faq-summary");
-    if (!summary) return;
-
-    summary.addEventListener("click", (e) => {
-      e.preventDefault();
-
-      const isOpen = detail.hasAttribute("open");
-
-      if (!isOpen) {
-        detail.setAttribute("open", "");
-      } else {
-        detail.removeAttribute("open");
-      }
+    button.addEventListener("pointerleave", () => {
+      moveX(0);
+      moveY(0);
     });
-  });
+  }
 }

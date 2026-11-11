@@ -10,9 +10,10 @@ import Footer from "./sections/Footer.astro";
 import { site, helloLink } from "../../data/site";
 import "./styles.css";
 
-const title = "Танец Шаг за Шагом — свадебный танец с Дмитрием Карповым";
+const title = "Свадебный танец шаг за шагом — Дмитрий Карпов";
 const description =
-  "Путь к совершенству в каждом движении. Программа свадебного танца от первого контакта до генеральной репетиции.";
+  "Постановка свадебного танца: от первого сообщения до первого танца. Бачата, вальс, микс или ваша песня. Обычно 5–7 занятий.";
+const marqueeWords = ["Шаг", "Ритм", "Поворот", "Поддержка", "Финал", "Бачата", "Вальс", "Ваша песня"];
 ---
 
 <BaseLayout
@@ -32,77 +33,58 @@ const description =
 
   <main>
     <Hero />
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        {[...marqueeWords, ...marqueeWords, ...marqueeWords, ...marqueeWords].map((word) => <span>{word}</span>)}
+      </div>
+    </div>
     <WhoIs />
     <Styles />
     <HowItGoes />
     <Planner />
     <FAQ />
-    <div class="section bg-gradient-to-br from-[#0f5a9f] via-[#ff8c42] to-[#ffd60a] text-white py-20">
-      <div class="container-narrow px-4">
-        <h2 class="text-center text-3xl md:text-4xl font-display font-bold uppercase mb-6">
-          Ваш путь начинается здесь
-        </h2>
-        <p class="text-center text-lg mb-8 max-w-2xl mx-auto">
-          Готовы воплотить мечту о свадебном танце? Напишите Дмитрию прямо
-          сейчас, и вместе вы создадите нечто особенное.
+    <section class="cta-band px-4 md:px-8 py-20 md:py-28 text-center">
+      <div class="container-narrow">
+        <h2 class="mb-6">Сделайте первый шаг</h2>
+        <p class="text-lg md:text-xl mb-10 max-w-2xl mx-auto" data-animate-in>
+          Напишите Дмитрию: расскажите про дату свадьбы и песню — и вместе придумаете ваш танец.
         </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <a
-            href={helloLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn btn-primary bg-white text-[#0f5a9f] hover:bg-gray-100"
-          >
+        <div class="flex flex-col sm:flex-row gap-4 justify-center" data-animate-in>
+          <a href={helloLink} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
             Написать в Telegram
           </a>
-          <a
-            href={site.instagramUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn btn-accent border-2 border-white text-white hover:bg-white/20"
-          >
+          <a href={site.instagramUrl} target="_blank" rel="noopener noreferrer" class="btn btn-outline">
             Смотреть в Instagram
           </a>
         </div>
       </div>
-    </div>
+    </section>
     <Footer />
   </main>
 
   <script>
-    import { initFootprintCanvas } from "./canvas-footprints";
+    import { initStepChart } from "./canvas-footprints";
     import { mountPlanner } from "./planner-client";
     import { initAnimations } from "./animations";
 
-    // Initialize canvas animations
-    const heroCanvas = document.querySelector(
-      "canvas[data-hero-canvas]",
-    ) as HTMLCanvasElement;
+    const heroCanvas = document.querySelector<HTMLCanvasElement>("canvas[data-hero-canvas]");
     if (heroCanvas) {
-      initFootprintCanvas(heroCanvas, {
-        color: "#0f5a9f",
-        loopDuration: 3000,
-      });
+      initStepChart(heroCanvas);
     }
 
-    const stepDiagramCanvas = document.querySelector(
-      "canvas[data-step-diagram]",
-    ) as HTMLCanvasElement;
-    if (stepDiagramCanvas) {
-      const { initStepDiagramCanvas } = await import("./canvas-footprints");
-      initStepDiagramCanvas(stepDiagramCanvas, {
-        colors: ["#0f5a9f", "#ff8c42", "#ffd60a", "#4da6ff"],
-      });
-    }
-
-    // Initialize GSAP animations
     initAnimations();
 
-    // Initialize planner
-    for (const root of document.querySelectorAll<HTMLElement>(
-      "[data-planner]",
-    )) {
+    for (const root of document.querySelectorAll<HTMLElement>("[data-planner]")) {
       mountPlanner(root);
     }
   </script>
 </BaseLayout>
+
+<style>
+  .cta-band {
+    background: #ffd60a;
+    border-top: 2px solid #2d3436;
+    background-image: radial-gradient(rgba(45, 52, 54, 0.12) 2px, transparent 2px);
+    background-size: 28px 28px;
+  }
+</style>

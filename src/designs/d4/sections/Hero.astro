@@ -1,78 +1,129 @@
 ---
 import { Image } from "astro:assets";
 import { photos } from "../../../data/photos";
-import { helloLink } from "../../../data/site";
+import { site, helloLink } from "../../../data/site";
 ---
 
 <section
-  class="section pt-12 md:pt-24 pb-24 md:pb-32 bg-[#f5f1e8]"
+  id="hero"
+  class="hero relative overflow-hidden bg-[#f5f1e8] px-4 md:px-8 pt-10 pb-20 md:pt-16 md:pb-28"
   data-hero
-  data-section
 >
-  <div class="container-narrow">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-      <!-- Left: Headline -->
-      <div class="flex flex-col justify-center">
-        <h1 class="mb-6" data-animate-in>
-          Танец, который помнят на всю жизнь
-        </h1>
-        <p class="text-lg text-[#2d3436] mb-8 leading-relaxed" data-animate-in>
-          От первой встречи до самого светлого момента вашей свадьбы — мы
-          пройдём этот путь вместе. Пять простых шагов помогут вам танцевать
-          уверенно, красиво и естественно.
-        </p>
-        <div class="flex flex-col sm:flex-row gap-4 mb-8" data-animate-in>
-          <a
-            href={helloLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn btn-primary"
-          >
-            Начать путь
-          </a>
-          <a
-            href="#planner"
-            class="btn bg-white border-2 border-[#0f5a9f] text-[#0f5a9f] hover:bg-[#0f5a9f]/5"
-          >
-            Вычислить программу
-          </a>
-        </div>
-        <p class="text-sm text-[#666] italic" data-animate-in>
-          ✨ Специализация Дмитрия — бачата, но любой стиль возможен
-        </p>
+  <!-- Dance-floor grid -->
+  <div class="hero-floor" aria-hidden="true" data-hero-floor></div>
+
+  <div
+    class="relative max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] gap-14 lg:gap-16 items-center"
+  >
+    <!-- Copy -->
+    <div>
+      <p class="kicker mb-5" data-animate-in>Постановка свадебного танца</p>
+
+      <h1 class="mb-6" data-hero-title>
+        Первый танец<br />шаг за <span class="text-[#0f5a9f]">шагом</span>
+      </h1>
+
+      <p class="text-lg md:text-xl mb-8 max-w-xl" data-animate-in>
+        {site.name} ставит свадебные танцы: бачату, вальс, микс стилей или хореографию под вашу
+        песню. Обычно хватает {site.typicalLessons} — даже если вы никогда не танцевали.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 mb-8" data-animate-in>
+        <a href={helloLink} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+          Написать в Telegram
+        </a>
+        <a href="#planner" class="btn btn-outline">Посчитать программу</a>
       </div>
 
-      <!-- Right: Canvas animation -->
-      <div class="flex flex-col items-center justify-center" data-animate-in>
-        <canvas
-          data-hero-canvas
-          aria-hidden="true"
-          class="w-full max-w-xs sm:max-w-sm aspect-square rounded-2xl shadow-lg"
-          width="400"
-          height="400"
-        ></canvas>
+      <ul class="hero-facts" data-animate-in>
+        <li><strong>{site.typicalLessons}</strong> обычно хватает</li>
+        <li><strong>С нуля</strong> опыт не нужен</li>
+        <li><strong>Ваша песня</strong> любой стиль</li>
+      </ul>
+    </div>
+
+    <!-- Photo + step chart -->
+    <div class="hero-visual relative w-full max-w-sm mx-auto lg:max-w-md lg:mr-0" data-animate-in="right">
+      <div class="hero-photo poster overflow-hidden">
         <Image
           src={photos.danceSmile.src}
           alt={photos.danceSmile.alt}
           widths={[320, 640]}
-          sizes="(max-width: 640px) 280px, (max-width: 768px) 320px, 400px"
-          class="w-full max-w-xs sm:max-w-sm aspect-square object-cover rounded-2xl shadow-lg mt-8 transform hover:scale-105 transition-transform duration-300"
+          sizes="(max-width: 1024px) 384px, 448px"
+          loading="eager"
+          class="block w-full aspect-[4/5] object-cover"
         />
       </div>
-    </div>
 
-    <!-- Tagline -->
-    <div class="text-center mt-16">
-      <p class="text-[#0f5a9f] font-display uppercase text-sm tracking-widest font-bold">
-        Ваш путь начинается здесь
-      </p>
+      <div class="hero-chart poster">
+        <canvas data-hero-canvas aria-hidden="true" class="block w-full aspect-[16/9]"></canvas>
+        <p class="hero-chart-caption">Базовый шаг бачаты</p>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  canvas[data-hero-canvas] {
-    background: linear-gradient(135deg, rgba(15, 90, 159, 0.05) 0%, rgba(255, 140, 66, 0.05) 100%);
-    border: 2px solid rgba(15, 90, 159, 0.2);
+  .hero-floor {
+    position: absolute;
+    inset: -10% 0 0 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(15, 90, 159, 0.07) 2px, transparent 2px),
+      linear-gradient(90deg, rgba(15, 90, 159, 0.07) 2px, transparent 2px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 75% 70% at 70% 45%, #000 20%, transparent 75%);
+  }
+
+  .hero-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 2rem;
+    font-size: 0.875rem;
+    color: #555;
+  }
+
+  .hero-facts strong {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.125rem;
+    text-transform: uppercase;
+    color: #2d3436;
+  }
+
+  .hero-visual {
+    padding-bottom: 3.5rem;
+  }
+
+  .hero-photo {
+    --poster-shadow: #ffd60a;
+    transform: rotate(2deg);
+  }
+
+  .hero-chart {
+    --poster-shadow: #ff8c42;
+    position: absolute;
+    left: -0.5rem;
+    bottom: 0;
+    width: 68%;
+    padding: 0.5rem 0.5rem 0.4rem;
+    transform: rotate(-3deg);
+  }
+
+  .hero-chart-caption {
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    line-height: 1.2;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: center;
+    color: #0f5a9f;
+  }
+
+  @media (min-width: 1024px) {
+    .hero-chart {
+      left: -3rem;
+    }
   }
 </style>

@@ -2,35 +2,22 @@
 import { site, helloLink } from "../../../data/site";
 ---
 
-<footer
-  class="bg-gradient-to-r from-[#2d3436] via-[#0f5a9f] to-[#0d3a5f] text-white py-12 md:py-16"
-  data-footer
->
-  <div class="container-narrow px-4">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+<footer class="bg-[#2d3436] text-white px-4 md:px-8 py-12 md:py-16" data-footer>
+  <div class="container-narrow">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
       <!-- Brand -->
       <div>
-        <h3 class="font-display font-bold text-xl uppercase mb-4">
-          {site.name}
-        </h3>
-        <p class="text-sm text-white/80 mb-4">
-          Преподаватель бачаты и постановщик свадебных танцев
-        </p>
-        <p class="text-xs text-white/60">
-          Путь к совершенству в каждом движении
-        </p>
+        <p class="font-display text-xl uppercase mb-3">{site.name}</p>
+        <p class="text-sm text-white/80">{site.role}</p>
       </div>
 
       <!-- Navigation -->
       <div>
-        <h4 class="font-display font-bold text-sm uppercase mb-4">Быстрые ссылки</h4>
+        <p class="font-display text-sm uppercase text-[#ffd60a] mb-4">На странице</p>
         <ul class="space-y-2 text-sm">
           <li>
-            <a
-              href="#planner"
-              class="hover:text-[#ffd60a] transition-colors"
-            >
-              Вычислить программу
+            <a href="#planner" class="hover:text-[#ffd60a] transition-colors">
+              Посчитать программу
             </a>
           </li>
           <li>
@@ -44,34 +31,29 @@ import { site, helloLink } from "../../../data/site";
             </a>
           </li>
           <li>
-            <a href="#" class="hover:text-[#ffd60a] transition-colors">
-              Вернуться в начало
-            </a>
+            <a href="#hero" class="hover:text-[#ffd60a] transition-colors">Вернуться в начало</a>
           </li>
         </ul>
       </div>
 
       <!-- Contact -->
       <div>
-        <h4 class="font-display font-bold text-sm uppercase mb-4">Контакт</h4>
+        <p class="font-display text-sm uppercase text-[#ffd60a] mb-4">Контакт</p>
         <a
           href={helloLink}
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 bg-[#ffd60a] text-[#2d3436] font-bold px-4 py-2 rounded-lg hover:shadow-lg transition-shadow"
+          class="inline-flex items-center gap-2 bg-[#ffd60a] text-[#2d3436] font-bold px-4 py-2 rounded-lg hover:bg-white transition-colors"
         >
-          → Telegram
+          Telegram {site.telegramHandle}
         </a>
-        <p class="text-xs text-white/60 mt-4">
-          Обсудим музыку, стиль и дату вашей свадьбы
-        </p>
+        <p class="text-xs text-white/60 mt-4">Цена, место и расписание — лично в Telegram</p>
       </div>
     </div>
 
-    <!-- Divider -->
     <div class="border-t border-white/20 pt-8">
       <p class="text-center text-xs text-white/60">
-        © 2024 {site.name}. Сделано с любовью к танцам.
+        {site.name} — постановка свадебного танца шаг за шагом
       </p>
     </div>
   </div>

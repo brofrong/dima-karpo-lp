@@ -1,19 +1,20 @@
 ---
+import { Image } from "astro:assets";
+import { photos } from "../../../data/photos";
 ---
 
 <section
-  class="section py-16 md:py-24 bg-gradient-to-br from-[#f5f1e8] via-white to-[#f5f1e8]"
+  class="section bg-[#f5f1e8]"
   data-section
 >
   <div class="container-narrow">
-    <h2 class="text-center text-3xl md:text-4xl font-display font-bold uppercase mb-12">
-      Какой танец вам нравится
-    </h2>
+    <p class="kicker text-center mb-4">Любой стиль</p>
+    <h2 class="text-center mb-12">Какой танец выбрать</h2>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       <!-- Bachata -->
       <div
-        class="bg-white/80 backdrop-blur rounded-xl p-6 hover:shadow-lg transition-shadow"
+        class="style-card"
         data-animate-in
       >
         <svg
@@ -55,13 +56,13 @@
           Бачата
         </h3>
         <p class="text-sm text-[#666] text-center">
-          Тёплый, близкий танец — специализация Дмитрия. Идеально для свадьбы.
+          Тёплый, близкий танец — специализация Дмитрия. Хорошо смотрится на свадьбе.
         </p>
       </div>
 
       <!-- Waltz -->
       <div
-        class="bg-white/80 backdrop-blur rounded-xl p-6 hover:shadow-lg transition-shadow"
+        class="style-card"
         data-animate-in
       >
         <svg
@@ -109,12 +110,12 @@
 
       <!-- Mix -->
       <div
-        class="bg-white/80 backdrop-blur rounded-xl p-6 hover:shadow-lg transition-shadow"
+        class="style-card"
         data-animate-in
       >
         <svg
           viewBox="0 0 100 140"
-          class="w-16 h-20 mx-auto mb-4 text-[#ffd60a]"
+          class="w-16 h-20 mx-auto mb-4 text-[#e0a800]"
           data-style-icon
         >
           <!-- Dynamic pose - starting tender -->
@@ -151,13 +152,13 @@
           Микс стилей
         </h3>
         <p class="text-sm text-[#666] text-center">
-          От нежного начала к зажигательному финалу. Лучшее обоих миров.
+          От нежного начала к зажигательному финалу. Лучшее из двух миров.
         </p>
       </div>
 
       <!-- Your song -->
       <div
-        class="bg-white/80 backdrop-blur rounded-xl p-6 hover:shadow-lg transition-shadow"
+        class="style-card"
         data-animate-in
       >
         <svg
@@ -208,6 +209,49 @@
           Хореография под вашу любимую песню. Ваша история в танце.
         </p>
       </div>
+
+      <!-- Featured technique photo -->
+      <div
+        class="style-extra poster md:col-span-2 lg:col-span-4 overflow-hidden grid sm:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] items-center"
+        data-animate-in
+      >
+        <Image
+          src={photos.danceDip.src}
+          alt={photos.danceDip.alt}
+          widths={[320, 640]}
+          sizes="(max-width: 640px) 92vw, 460px"
+          class="block w-full h-full aspect-[4/3] sm:aspect-[16/9] object-cover"
+        />
+        <div class="p-6 md:p-8">
+          <h3 class="mb-3">Поддержки и эффектный финал</h3>
+          <p>
+            Наклон, поддержка, красивая точка в конце — добавим, если хочется, чтобы гости
+            ахнули. Всё подбирается под ваш уровень.
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
+
+<style>
+  .style-card {
+    padding: 1.5rem;
+    border: 2px solid #2d3436;
+    border-radius: 1rem;
+    background: #fff;
+    box-shadow: 5px 5px 0 #2d3436;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .style-card:hover {
+    transform: translate(-3px, -3px) rotate(-1deg);
+    box-shadow: 8px 8px 0 #0f5a9f;
+  }
+
+  .style-extra {
+    --poster-shadow: #ff8c42;
+  }
+</style>

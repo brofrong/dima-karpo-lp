@@ -6,10 +6,14 @@ import { photos } from "../../data/photos";
 import Planner from "./Planner.astro";
 import "./styles.css";
 
-const title = "Своя Музыка — свадебный танец с Дмитрием Карповым";
+const title = "Свадебный танец под вашу музыку — Дмитрий Карпов";
 const description =
-  "Вашем танце, вашей песне, вашей истории. Постановка свадебного танца: бачата, вальс, микс или ваш любимый трек.";
+  "Ваш танец, ваша песня, ваша история. Постановка свадебного танца: бачата, вальс, микс или ваш любимый трек.";
 const themeColor = "#faf8f5";
+// Bar heights of the hero equalizer, in percent.
+const equalizerBars = Array.from({ length: 26 }, (_, index) =>
+  Math.round(35 + 65 * Math.abs(Math.sin(index * 1.7))),
+);
 ---
 
 <BaseLayout
@@ -29,62 +33,70 @@ const themeColor = "#faf8f5";
 
   <main>
     <!-- Hero Section -->
-    <section class="section-padding bg-[#faf8f5]">
-      <div class="container-narrow text-center">
-        <!-- Ornament -->
-        <div class="mb-8 flex justify-center">
-          <svg
-            class="ornament-animated"
-            width="60"
-            height="2"
-            viewBox="0 0 60 2"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <line
-              x1="0"
-              y1="1"
-              x2="60"
-              y2="1"
-              stroke="#d4947a"
-              stroke-width="1.5"
-            />
-          </svg>
+    <section class="hero relative overflow-hidden bg-[#faf8f5] px-4 md:px-8 pt-12 pb-16 md:pt-20 md:pb-24">
+      <div class="hero-wash" aria-hidden="true"></div>
+      <div
+        class="relative max-w-6xl mx-auto grid md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] gap-10 md:gap-16 items-center"
+      >
+        <div class="text-center md:text-left">
+          <p class="hero-kicker text-xs md:text-sm uppercase text-[#b3733b] mb-6">
+            Постановка свадебного танца
+          </p>
+
+          <!-- H1 -->
+          <h1 class="mb-6 hero-title text-5xl sm:text-6xl lg:text-7xl xl:text-8xl">
+            Первый танец под&nbsp;вашу музыку
+          </h1>
+
+          <!-- Equalizer -->
+          <div class="equalizer mx-auto md:mx-0 mb-6" aria-hidden="true">
+            {
+              equalizerBars.map((height, index) => (
+                <span style={`--h:${height}%;--i:${index}`} />
+              ))
+            }
+          </div>
+
+          <!-- Subtitle -->
+          <p class="text-xl md:text-2xl text-[#b3733b] italic mb-6 hero-subtitle">
+            Ваш танец, ваша песня, ваша история
+          </p>
+
+          <p class="text-base md:text-lg text-[#666] mb-10 max-w-xl mx-auto md:mx-0 hero-subtitle">
+            {site.name} — преподаватель бачаты и постановщик свадебных танцев.
+            Обычно хватает {site.typicalLessons}, даже если вы никогда не
+            танцевали.
+          </p>
+
+          <!-- CTAs -->
+          <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start hero-subtitle">
+            <a href={helloLink} target="_blank" rel="noopener noreferrer"
+              class="btn-cta">
+              Написать Дмитрию
+            </a>
+            <a
+              href="#planner"
+              class="px-8 py-3 border-2 border-[#b3733b] text-[#b3733b] font-body text-lg rounded-md transition-all duration-300 hover:bg-[#b3733b] hover:text-white"
+            >
+              Попробовать календарь
+            </a>
+          </div>
         </div>
 
-        <!-- H1 -->
-        <h1 class="mb-4 hero-title">Ваш первый танец вместе</h1>
-
-        <!-- Subtitle -->
-        <p class="text-xl md:text-2xl text-[#b3733b] italic mb-12 hero-subtitle">
-          Вашем танце, вашей песне, вашей истории
-        </p>
-
         <!-- Featured Photo -->
-        <div class="mb-12 flex justify-center overflow-hidden rounded-sm hero-photo">
-          <div class="photo-tinted w-full max-w-[640px]">
+        <div class="hero-photo relative w-full max-w-sm md:max-w-md mx-auto md:mr-0">
+          <div class="hero-photo-frame" aria-hidden="true"></div>
+          <div class="photo-tinted relative overflow-hidden rounded-sm">
             <Image
               src={photos.danceSmile.src}
               alt={photos.danceSmile.alt}
               widths={[320, 640]}
-              sizes="(max-width: 768px) 320px, 640px"
-              class="w-full h-auto block border border-[#d4947a] border-opacity-30"
+              sizes="(max-width: 768px) 384px, 448px"
+              loading="eager"
+              class="w-full aspect-[4/5] object-cover block"
             />
           </div>
-        </div>
-
-        <!-- CTAs -->
-        <div class="flex flex-col md:flex-row gap-4 justify-center">
-          <a href={helloLink} target="_blank" rel="noopener noreferrer"
-            class="btn-cta">
-            Написать Дмитрию
-          </a>
-          <a
-            href="#planner"
-            class="px-8 py-3 border-2 border-[#b3733b] text-[#b3733b] font-body text-lg rounded-md transition-all duration-300 hover:bg-[#b3733b] hover:text-white"
-          >
-            Попробовать календарь
-          </a>
+          <p class="hero-photo-note font-display italic">бачата · вальс · ваш трек</p>
         </div>
       </div>
     </section>
@@ -116,9 +128,9 @@ const themeColor = "#faf8f5";
           <div>
             <h2 class="mb-6">Кто такой Дмитрий</h2>
             <p class="text-lg text-[#666] mb-4 leading-relaxed">
-              Дмитрий Карпов — преподаватель бачаты и постановщик свадебных танцев с большой
-              страстью к движению и музыке. Он работает с парами, которые хотят
-              создать незабываемый момент на своей свадьбе.
+              Дмитрий Карпов — преподаватель бачаты и постановщик свадебных танцев.
+              Он вёл группы для начинающих и продолжающих, танцует на вечеринках
+              и фестивалях и ставит танцы парам к свадьбе.
             </p>
             <p class="text-lg text-[#666] mb-6 leading-relaxed">
               Бачата — его специализация. Это теплый, чувственный танец, где партнеры
@@ -137,7 +149,7 @@ const themeColor = "#faf8f5";
                 alt={photos.portrait.alt}
                 widths={[320]}
                 sizes="(max-width: 768px) 300px, 360px"
-                class="w-full h-auto block border border-[#d4947a] border-opacity-30"
+                class="w-full h-auto block border border-[#d4947a]/30"
               />
             </div>
             <p class="text-center text-[#8b6b47] mt-4 text-sm">
@@ -151,6 +163,15 @@ const themeColor = "#faf8f5";
               </a>
             </p>
           </div>
+        </div>
+
+        <!-- Quote Callout -->
+        <div class="mt-16 md:mt-20 max-w-2xl mx-auto">
+          <blockquote class="quote-callout text-center">
+            <p class="text-2xl md:text-3xl italic text-[#8b6b47] leading-relaxed mb-6">
+              Танец — это разговор двоих под музыку, которую вы выбрали сами.
+            </p>
+          </blockquote>
         </div>
       </div>
     </section>
@@ -186,7 +207,7 @@ const themeColor = "#faf8f5";
             <p class="text-base text-[#666] mb-6 leading-relaxed">
               Тёплый, чувственный, близкий танец. Это специализация Дмитрия — он
               чувствует каждый шаг, каждое движение партнёра. На свадьбе бачата
-              выглядит трогательно и запоминающейся.
+              выглядит трогательно и надолго запоминается.
             </p>
             <div class="photo-tinted rounded-sm overflow-hidden mb-4">
               <Image
@@ -194,7 +215,7 @@ const themeColor = "#faf8f5";
                 alt={photos.dancePink.alt}
                 widths={[360]}
                 sizes="360px"
-                class="w-full h-auto block border border-[#d4947a] border-opacity-30"
+                class="w-full h-auto block border border-[#d4947a]/30"
               />
             </div>
           </div>
@@ -213,7 +234,7 @@ const themeColor = "#faf8f5";
                 alt={photos.danceHall.alt}
                 widths={[360]}
                 sizes="360px"
-                class="w-full h-auto block border border-[#d4947a] border-opacity-30"
+                class="w-full h-auto block border border-[#d4947a]/30"
               />
             </div>
           </div>
@@ -245,11 +266,11 @@ const themeColor = "#faf8f5";
     <section class="section-padding bg-white section-reveal">
       <div class="container-narrow">
         <h2 class="text-center mb-12">Как это работает</h2>
-        <div class="space-y-10">
+        <div class="space-y-10" data-steps>
           <!-- Step 1 -->
           <div class="flex gap-6 items-start">
             <div
-              class="flex-shrink-0 w-12 h-12 rounded-full bg-[#d4947a] bg-opacity-20 flex items-center justify-center text-[#b3733b] font-display text-xl"
+              class="flex-shrink-0 w-12 h-12 rounded-full bg-[#d4947a]/20 flex items-center justify-center text-[#b3733b] font-display text-xl"
             >
               1
             </div>
@@ -266,15 +287,15 @@ const themeColor = "#faf8f5";
           <!-- Step 2 -->
           <div class="flex gap-6 items-start">
             <div
-              class="flex-shrink-0 w-12 h-12 rounded-full bg-[#d4947a] bg-opacity-20 flex items-center justify-center text-[#b3733b] font-display text-xl"
+              class="flex-shrink-0 w-12 h-12 rounded-full bg-[#d4947a]/20 flex items-center justify-center text-[#b3733b] font-display text-xl"
             >
               2
             </div>
             <div>
               <h3 class="mb-2">Планируем занятия</h3>
               <p class="text-base text-[#666] leading-relaxed">
-                Обычно нужно {site.typicalLessons} занятий. Мы подбираем дни и время,
-                которые вам удобны. Лучше всего начать за месяц-полтора до свадьбы,
+                Обычно нужно {site.typicalLessons}. Мы подбираем дни и время,
+                которые вам удобны. Лучше всего начать за месяц-два до свадьбы,
                 но можно и быстрее.
               </p>
             </div>
@@ -283,7 +304,7 @@ const themeColor = "#faf8f5";
           <!-- Step 3 -->
           <div class="flex gap-6 items-start">
             <div
-              class="flex-shrink-0 w-12 h-12 rounded-full bg-[#d4947a] bg-opacity-20 flex items-center justify-center text-[#b3733b] font-display text-xl"
+              class="flex-shrink-0 w-12 h-12 rounded-full bg-[#d4947a]/20 flex items-center justify-center text-[#b3733b] font-display text-xl"
             >
               3
             </div>
@@ -300,16 +321,16 @@ const themeColor = "#faf8f5";
           <!-- Step 4 -->
           <div class="flex gap-6 items-start">
             <div
-              class="flex-shrink-0 w-12 h-12 rounded-full bg-[#d4947a] bg-opacity-20 flex items-center justify-center text-[#b3733b] font-display text-xl"
+              class="flex-shrink-0 w-12 h-12 rounded-full bg-[#d4947a]/20 flex items-center justify-center text-[#b3733b] font-display text-xl"
             >
               4
             </div>
             <div>
               <h3 class="mb-2">Генеральная репетиция</h3>
               <p class="text-base text-[#666] leading-relaxed">
-                За несколько дней до свадьбы репетируем в платье, обуви, на том же
-                месте, где будет танец. Все чувствуют себя уверенно и готовы к
-                главному моменту.
+                Ближе к свадьбе прогоняем танец целиком — с поправкой на платье, обувь
+                и размер площадки, чтобы в главный момент ничего не стало
+                сюрпризом.
               </p>
             </div>
           </div>
@@ -367,7 +388,7 @@ const themeColor = "#faf8f5";
         <div class="space-y-6">
           <details class="group">
             <summary
-              class="cursor-pointer flex items-center gap-3 pb-4 border-b border-[#d4947a] border-opacity-30 text-lg font-normal text-[#8b6b47] hover:text-[#b3733b]"
+              class="cursor-pointer flex items-center gap-3 pb-4 border-b border-[#d4947a]/30 text-lg font-normal text-[#8b6b47] hover:text-[#b3733b]"
             >
               <span class="inline-block group-open:rotate-180 transition-transform">
                 ▼
@@ -377,13 +398,13 @@ const themeColor = "#faf8f5";
             <p class="pt-4 text-base text-[#666] leading-relaxed">
               Совершенно нормально. Дмитрий работает с парами, которые начинают
               с нуля. Главное — желание и готовность потратить время на занятия.
-              За несколько недель вы научитесь красиво двигаться в паре.
+              Хореография подбирается под ваш уровень.
             </p>
           </details>
 
           <details class="group">
             <summary
-              class="cursor-pointer flex items-center gap-3 pb-4 border-b border-[#d4947a] border-opacity-30 text-lg font-normal text-[#8b6b47] hover:text-[#b3733b]"
+              class="cursor-pointer flex items-center gap-3 pb-4 border-b border-[#d4947a]/30 text-lg font-normal text-[#8b6b47] hover:text-[#b3733b]"
             >
               <span class="inline-block group-open:rotate-180 transition-transform">
                 ▼
@@ -391,15 +412,15 @@ const themeColor = "#faf8f5";
               Можно ли начать за неделю до свадьбы?
             </summary>
             <p class="pt-4 text-base text-[#666] leading-relaxed">
-              Можно, но очень напряжно. Идеально — месяц-полтора. Если времени мало,
-              Дмитрий может придумать красивый и простой танец, который вы быстро
-              выучите. Напишите ему — подумает вместе с вами.
+              Можно, но будет напряжённо. Идеально — месяц-два. Если времени мало,
+              Дмитрий может придумать красивый и простой танец, который проще
+              выучить. Напишите ему — подумаете вместе.
             </p>
           </details>
 
           <details class="group">
             <summary
-              class="cursor-pointer flex items-center gap-3 pb-4 border-b border-[#d4947a] border-opacity-30 text-lg font-normal text-[#8b6b47] hover:text-[#b3733b]"
+              class="cursor-pointer flex items-center gap-3 pb-4 border-b border-[#d4947a]/30 text-lg font-normal text-[#8b6b47] hover:text-[#b3733b]"
             >
               <span class="inline-block group-open:rotate-180 transition-transform">
                 ▼
@@ -407,14 +428,14 @@ const themeColor = "#faf8f5";
               Как обсуждаются цена и место занятий?
             </summary>
             <p class="pt-4 text-base text-[#666] leading-relaxed">
-              Цена, место занятий, формат — всё обсуждается лично в Telegram или при
-              личной встрече. Дмитрий подберёт вариант, удобный именно вам.
+              Цена, место занятий, расписание — всё обсуждается лично в Telegram.
+              Дмитрий подберёт вариант, удобный именно вам.
             </p>
           </details>
 
           <details class="group">
             <summary
-              class="cursor-pointer flex items-center gap-3 pb-4 border-b border-[#d4947a] border-opacity-30 text-lg font-normal text-[#8b6b47] hover:text-[#b3733b]"
+              class="cursor-pointer flex items-center gap-3 pb-4 border-b border-[#d4947a]/30 text-lg font-normal text-[#8b6b47] hover:text-[#b3733b]"
             >
               <span class="inline-block group-open:rotate-180 transition-transform">
                 ▼
@@ -430,7 +451,7 @@ const themeColor = "#faf8f5";
 
           <details class="group">
             <summary
-              class="cursor-pointer flex items-center gap-3 pb-4 border-b border-[#d4947a] border-opacity-30 text-lg font-normal text-[#8b6b47] hover:text-[#b3733b]"
+              class="cursor-pointer flex items-center gap-3 pb-4 border-b border-[#d4947a]/30 text-lg font-normal text-[#8b6b47] hover:text-[#b3733b]"
             >
               <span class="inline-block group-open:rotate-180 transition-transform">
                 ▼
@@ -471,6 +492,14 @@ const themeColor = "#faf8f5";
     <section class="section-padding bg-[#f0e4d7] section-reveal">
       <div class="container-narrow text-center">
         <h2 class="mb-6 italic">Готовы к первому танцу?</h2>
+
+        <!-- Quote Callout -->
+        <blockquote class="quote-callout max-w-2xl mx-auto mb-10">
+          <p class="text-xl md:text-2xl italic text-[#8b6b47] leading-relaxed mb-4">
+            Первый танец — тот момент свадьбы, который хочется помнить всю жизнь.
+          </p>
+        </blockquote>
+
         <p class="text-lg text-[#666] mb-8 leading-relaxed">
           Напишите Дмитрию в Telegram — расскажите о себе и о том, какой танец вам снится.
         </p>
@@ -503,8 +532,8 @@ const themeColor = "#faf8f5";
           Instagram {site.instagramHandle}
         </a>
       </div>
-      <p class="text-white text-opacity-80 text-sm">
-        © 2026 {site.name} — Постановка свадебных танцев
+      <p class="text-white/80 text-sm">
+        {site.name} — постановка свадебных танцев
       </p>
     </div>
   </footer>
@@ -514,3 +543,79 @@ const themeColor = "#faf8f5";
   import { initPage } from "./main";
   initPage();
 </script>
+
+<style>
+  .hero-wash {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 55% 60% at 85% 30%, rgba(212, 148, 122, 0.22), transparent 70%),
+      radial-gradient(ellipse 40% 45% at 5% 90%, rgba(200, 168, 130, 0.25), transparent 70%);
+  }
+
+  .hero-kicker {
+    letter-spacing: 0.32em;
+  }
+
+  .equalizer {
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+    height: 44px;
+    width: fit-content;
+  }
+
+  .equalizer span {
+    display: block;
+    width: 4px;
+    height: var(--h);
+    border-radius: 2px;
+    background: #d4947a;
+    transform-origin: bottom;
+    animation: equalizer 0.9s ease-in-out infinite alternate;
+    animation-delay: calc(var(--i) * -0.17s);
+  }
+
+  .equalizer span:nth-child(3n) {
+    background: #b3733b;
+    animation-duration: 1.3s;
+  }
+
+  .equalizer span:nth-child(4n + 1) {
+    animation-duration: 0.7s;
+  }
+
+  @keyframes equalizer {
+    from {
+      transform: scaleY(0.25);
+    }
+    to {
+      transform: scaleY(1);
+    }
+  }
+
+  .hero-photo-frame {
+    position: absolute;
+    inset: 0;
+    border: 1px solid #d4947a;
+    transform: translate(-14px, 14px);
+  }
+
+  .hero-photo-note {
+    position: absolute;
+    right: -0.5rem;
+    bottom: 1.25rem;
+    padding: 0.4rem 1rem;
+    background: #faf8f5;
+    color: #8b6b47;
+    font-size: 1rem;
+    box-shadow: 0 6px 20px rgba(139, 107, 71, 0.18);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .equalizer span {
+      animation: none;
+    }
+  }
+</style>

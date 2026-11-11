@@ -4,78 +4,83 @@ import { photos } from "../../../data/photos";
 import { site } from "../../../data/site";
 ---
 
-<section
-  class="section py-16 md:py-24 bg-white/30"
-  data-section
->
+<section class="section bg-white" data-section>
   <div class="container-narrow">
-    <h2 class="text-center text-3xl md:text-4xl font-display font-bold uppercase mb-12">
-      Дмитрий Карпов
-    </h2>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-      <!-- Image -->
-      <div class="flex justify-center" data-animate-in>
-        <div class="relative">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <!-- Photos -->
+      <div class="grid grid-cols-2 gap-4 md:gap-5" data-animate-in="left">
+        <div class="poster overflow-hidden col-span-2">
           <Image
             src={photos.portrait.src}
             alt={photos.portrait.alt}
             widths={[320, 640]}
-            sizes="320px"
-            class="w-64 h-64 object-cover rounded-2xl shadow-lg"
+            sizes="(max-width: 1024px) 92vw, 480px"
+            class="block w-full aspect-[16/10] object-cover"
           />
-          <div
-            class="absolute inset-0 rounded-2xl bg-gradient-to-tr from-[#0f5a9f]/20 via-transparent to-[#ff8c42]/20 pointer-events-none"
-          ></div>
+        </div>
+        <div class="poster overflow-hidden who-photo-orange">
+          <Image
+            src={photos.partyWide.src}
+            alt={photos.partyWide.alt}
+            widths={[320, 640]}
+            sizes="(max-width: 1024px) 45vw, 230px"
+            class="block w-full aspect-[4/3] object-cover"
+          />
+        </div>
+        <div class="poster overflow-hidden who-photo-gold">
+          <Image
+            src={photos.teamMedals.src}
+            alt={photos.teamMedals.alt}
+            widths={[320, 640]}
+            sizes="(max-width: 1024px) 45vw, 230px"
+            class="block w-full aspect-[4/3] object-cover"
+          />
         </div>
       </div>
 
       <!-- Text -->
-      <div class="space-y-6" data-animate-in>
-        <p class="text-lg leading-relaxed">
-          Преподаватель бачаты и постановщик свадебных танцев. Дмитрий вёл
-          группы, танцует на вечеринках и фестивалях и, главное, помогает
-          парам создать самый красивый момент их свадьбы.
-        </p>
-        <p class="text-lg leading-relaxed">
-          Его подход — это баланс между точностью и удовольствием от
-          танца. Он знает, что для каждой пары нужна своя история, своя
-          музыка, своё движение.
-        </p>
-        <p class="text-lg leading-relaxed">
-          <strong>Бачата</strong> — специализация Дмитрия. Близкий, теплый,
-          энергичный танец, который идеально подходит для свадебного момента.
-          Но это не единственное — вальс, медленный танец, микс стилей, даже
-          ваша собственная песня с авторской хореографией.
-        </p>
+      <div>
+        <p class="kicker mb-4" data-animate-in>Кто ведёт вас по шагам</p>
+        <h2 class="mb-8">{site.name}</h2>
 
-        <!-- Link to Instagram -->
-        <div class="pt-4">
-          <a
-            href={site.instagramUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 text-[#0f5a9f] hover:text-[#ff8c42] font-bold transition-colors"
-          >
-            → Смотреть танцы в Instagram
-          </a>
+        <div class="space-y-5 text-lg" data-animate-in>
+          <p>
+            Преподаватель бачаты и постановщик свадебных танцев. Вёл группы для начинающих и
+            продолжающих, танцует на вечеринках и фестивалях и ставит танцы парам к свадьбе.
+          </p>
+          <p>
+            <strong>Бачата</strong> — его специализация: тёплый, близкий танец, который хорошо
+            смотрится на свадьбе. Но Дмитрий поставит и вальс, и медленный танец, и микс стилей —
+            под ту песню, которую выберете вы.
+          </p>
+          <p>
+            Хореография строится вокруг вас: вашей песни, уровня, платья и размера площадки. Опыт
+            не нужен — Дмитрий работает и с парами, которые никогда не танцевали.
+          </p>
         </div>
+
+        <a
+          href={site.instagramUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-accent mt-8"
+          data-animate-in
+        >
+          Танцы в Instagram
+        </a>
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  section {
-    background-image: radial-gradient(
-      circle at 80% 20%,
-      rgba(15, 90, 159, 0.03) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      circle at 20% 80%,
-      rgba(255, 140, 66, 0.03) 0%,
-      transparent 50%
-    );
+  .who-photo-orange {
+    --poster-shadow: #ff8c42;
+    transform: rotate(-1.5deg);
+  }
+
+  .who-photo-gold {
+    --poster-shadow: #ffd60a;
+    transform: rotate(1.5deg);
   }
 </style>

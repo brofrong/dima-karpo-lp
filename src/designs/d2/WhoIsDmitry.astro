@@ -18,19 +18,19 @@ const { photos } = Astro.props;
       <p class="text-lg text-[#c9a881] font-serif leading-relaxed mb-6">
         Дмитрий преподаёт бачату. Он вёл группы для начинающих и
         для продолжающих танцоров, танцует на вечеринках и фестивалях, а главное
-        — ставит свадебные танцы. Каждый его ученик чувствует себя уверенно и
-        красиво.
+        — ставит свадебные танцы. Работает и с парами, которые никогда раньше не
+        танцевали.
       </p>
       <p class="text-lg text-[#c9a881] font-serif leading-relaxed">
         Его специализация — <em>бачата</em>. Но он ставит любые танцы: вальсы,
-        медленные танцы, миксы стилей, танцы под вашу собственную музыку. Главное
-        — что в его руках ваш танец становится незабываемым.
+        медленные танцы, миксы стилей, танцы под вашу собственную музыку. Хореография
+        строится вокруг вас: вашей песни, уровня, платья и размера площадки.
       </p>
     </div>
   </div>
 
   <!-- Photo grid -->
-  <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-12">
+  <div class="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-5 mb-12">
     <!-- Portrait -->
     <div
       data-photo-frame
@@ -41,7 +41,7 @@ const { photos } = Astro.props;
         alt={photos.portrait.alt}
         widths={[320, 480]}
         sizes="(max-width: 768px) 45vw, 280px"
-        class="w-full h-full object-cover mix-blend-multiply filter saturate-75"
+        class="w-full h-full object-cover sepia-[0.25] saturate-[0.9]"
       />
     </div>
 
@@ -55,7 +55,7 @@ const { photos } = Astro.props;
         alt={photos.dancePink.alt}
         widths={[320, 480]}
         sizes="(max-width: 768px) 45vw, 280px"
-        class="w-full h-full object-cover mix-blend-multiply filter saturate-75"
+        class="w-full h-full object-cover sepia-[0.25] saturate-[0.9]"
       />
     </div>
 
@@ -69,21 +69,21 @@ const { photos } = Astro.props;
         alt={photos.danceDip.alt}
         widths={[320, 480]}
         sizes="(max-width: 768px) 45vw, 280px"
-        class="w-full h-full object-cover mix-blend-multiply filter saturate-75"
+        class="w-full h-full object-cover sepia-[0.25] saturate-[0.9]"
       />
     </div>
 
     <!-- Party wide (cropped) -->
     <div
       data-photo-frame
-      class="col-span-2 md:col-span-1 aspect-square border border-[#d4a574] overflow-hidden"
+      class="order-last md:order-none col-span-2 md:col-span-1 aspect-[2/1] md:aspect-square border border-[#d4a574] overflow-hidden"
     >
       <Image
         src={photos.partyWide.src}
         alt={photos.partyWide.alt}
         widths={[320, 480]}
         sizes="(max-width: 768px) 95vw, 280px"
-        class="w-full h-full object-cover object-center mix-blend-multiply filter saturate-75"
+        class="w-full h-full object-cover object-center sepia-[0.25] saturate-[0.9]"
       />
     </div>
 
@@ -97,7 +97,7 @@ const { photos } = Astro.props;
         alt={photos.teamMedals.alt}
         widths={[320, 480]}
         sizes="(max-width: 768px) 45vw, 280px"
-        class="w-full h-full object-cover mix-blend-multiply filter saturate-75"
+        class="w-full h-full object-cover sepia-[0.25] saturate-[0.9]"
       />
     </div>
   </div>

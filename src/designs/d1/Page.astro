@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { helloLink } from "../../data/site";
 import Hero from "./Hero.astro";
 import About from "./About.astro";
 import Styles from "./Styles.astro";
@@ -42,10 +43,10 @@ import "./styles.css";
     data-telegram-fab
   >
     <a
-      href="https://t.me/KarpovDmitriyy?text=Привет!%20Я%20интересуюсь%20постановкой%20свадебного%20танца%20к%20своей%20свадьбе"
+      href={helloLink}
       target="_blank"
       rel="noopener noreferrer"
-      class="flex items-center justify-center w-14 h-14 rounded-full bg-[#ff006e] text-white shadow-lg hover:shadow-xl transition-all hover:scale-110"
+      class="flex items-center justify-center w-14 h-14 rounded-full bg-[#ff006e] text-white no-underline shadow-lg hover:shadow-xl transition-all hover:scale-110"
       title="Написать в Telegram"
       aria-label="Написать в Telegram"
     >

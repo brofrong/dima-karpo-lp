@@ -9,6 +9,7 @@ import type { ExtraId, LevelId, StyleId } from "../../lib/planner";
 
 export function mountPlanner(root: HTMLElement): void {
   const store = createPlannerStore();
+  const calm = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   const find = <T extends HTMLElement>(selector: string) => {
     const element = root.querySelector<T>(selector);
@@ -27,9 +28,6 @@ export function mountPlanner(root: HTMLElement): void {
   const sessions = find("[data-planner-sessions]");
   const cta = find<HTMLAnchorElement>("a[data-planner-cta]");
 
-  prev.addEventListener("click", () => store.prevMonth());
-  next.addEventListener("click", () => store.nextMonth());
-
   root.addEventListener("click", (event) => {
     const button = (event.target as Element).closest<HTMLButtonElement>(
       "button",
@@ -37,49 +35,17 @@ export function mountPlanner(root: HTMLElement): void {
     if (!button || button.disabled) return;
 
     const { date, plannerStyle, plannerLevel, plannerExtra } = button.dataset;
-    if (date) store.setWedding(date as ISODate);
+    if (button === prev) store.prevMonth();
+    else if (button === next) store.nextMonth();
+    else if (date) store.setWedding(date as ISODate);
     else if (plannerStyle) store.setStyle(plannerStyle as StyleId);
     else if (plannerLevel) store.setLevel(plannerLevel as LevelId);
     else if (plannerExtra) store.toggleExtra(plannerExtra as ExtraId);
   });
 
   let shownMonth = "";
-  let isAnimating = false;
-  let hasWeddingDate = false;
+  let shownSessions = "";
   const days = new Map<string, HTMLButtonElement>();
-
-  function animatePlannerBackground(isSelected: boolean): void {
-    if (isAnimating) return;
-    isAnimating = true;
-
-    // Use a dummy object to animate the background via onUpdate
-    gsap.to(
-      { progress: 0 },
-      {
-        progress: 1,
-        duration: 0.8,
-        ease: "power2.inOut",
-        onUpdate: function () {
-          const p = this.targets()[0].progress;
-          // Manually interpolate colors
-          if (isSelected) {
-            const r = Math.round(254 + (230 - 254) * p);
-            const g = Math.round(248 + (240 - 248) * p);
-            const b = Math.round(243 + (255 - 243) * p);
-            root.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
-          } else {
-            const r = Math.round(230 + (254 - 230) * p);
-            const g = Math.round(240 + (248 - 240) * p);
-            const b = Math.round(255 + (243 - 255) * p);
-            root.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
-          }
-        },
-        onComplete: () => {
-          isAnimating = false;
-        },
-      },
-    );
-  }
 
   function renderMonth(view: PlannerView): void {
     grid.replaceChildren();
@@ -98,28 +64,35 @@ export function mountPlanner(root: HTMLElement): void {
       days.set(cell.iso, button);
       grid.append(button);
     }
+
+    if (shownMonth !== "" && !calm.matches) {
+      gsap.from(grid.children, {
+        opacity: 0,
+        scale: 0.6,
+        duration: 0.3,
+        stagger: { each: 0.008, from: "start" },
+        ease: "back.out(2)",
+        clearProps: "opacity,transform",
+      });
+    }
+  }
+
+  function setPressed(
+    selector: string,
+    isPressed: (button: HTMLButtonElement) => boolean,
+  ): void {
+    for (const button of root.querySelectorAll<HTMLButtonElement>(selector)) {
+      button.setAttribute("aria-pressed", String(isPressed(button)));
+    }
   }
 
   store.subscribe((view) => {
     const month = `${view.year}-${view.month}`;
-
-    // Trigger background animation when wedding date is selected
-    const isNowSelected = view.wedding !== null;
-    if (isNowSelected && !hasWeddingDate) {
-      animatePlannerBackground(true);
-      hasWeddingDate = true;
-    } else if (!isNowSelected && hasWeddingDate) {
-      animatePlannerBackground(false);
-      hasWeddingDate = false;
-    }
-
-    // Rebuild day buttons only when month changes
     if (month !== shownMonth) {
       renderMonth(view);
       shownMonth = month;
     }
 
-    // Update day button states
     for (const cell of view.weeks.flat()) {
       const button = days.get(cell.iso);
       if (!button) continue;
@@ -136,59 +109,32 @@ export function mountPlanner(root: HTMLElement): void {
       );
     }
 
-    // Update month title and nav
     monthTitle.textContent = view.monthTitle;
     prev.disabled = !view.canPrev;
     next.disabled = !view.canNext;
 
-    // Update style buttons
-    for (const button of root.querySelectorAll<HTMLButtonElement>(
+    setPressed(
       "[data-planner-style]",
-    )) {
-      button.setAttribute(
-        "aria-pressed",
-        String(button.dataset.plannerStyle === view.selection.style),
-      );
-    }
-
-    // Update level buttons
-    for (const button of root.querySelectorAll<HTMLButtonElement>(
+      (button) => button.dataset.plannerStyle === view.selection.style,
+    );
+    setPressed(
       "[data-planner-level]",
-    )) {
-      button.setAttribute(
-        "aria-pressed",
-        String(button.dataset.plannerLevel === view.selection.level),
-      );
-    }
+      (button) => button.dataset.plannerLevel === view.selection.level,
+    );
+    setPressed("[data-planner-extra]", (button) =>
+      view.selection.extras.includes(button.dataset.plannerExtra as ExtraId),
+    );
 
-    // Update extra buttons
-    for (const button of root.querySelectorAll<HTMLButtonElement>(
-      "[data-planner-extra]",
-    )) {
-      button.setAttribute(
-        "aria-pressed",
-        String(
-          view.selection.extras.includes(
-            button.dataset.plannerExtra as ExtraId,
-          ),
-        ),
-      );
-    }
-
-    // Update result display with animated counter for lessons
-    const currentLessons = parseInt(lessons.textContent || "0");
-    if (currentLessons !== view.lessons) {
-      gsap.to(
-        { value: currentLessons },
-        {
-          value: view.lessons,
-          duration: 0.4,
-          ease: "power2.out",
-          onUpdate: function () {
-            lessons.textContent = String(Math.round(this.targets()[0].value));
-          },
-        },
-      );
+    const lessonsText = String(view.lessons);
+    if (lessons.textContent !== lessonsText) {
+      lessons.textContent = lessonsText;
+      if (!calm.matches) {
+        gsap.fromTo(
+          lessons,
+          { scale: 1.4 },
+          { scale: 1, duration: 0.5, ease: "back.out(3)", overwrite: true },
+        );
+      }
     }
 
     daysLeft.textContent = view.plan ? String(view.plan.daysLeft) : "—";
@@ -199,17 +145,37 @@ export function mountPlanner(root: HTMLElement): void {
       ? view.plan.advice
       : "Выберите дату свадьбы — и программа разложится по дням.";
 
-    // Update sessions list
-    sessions.replaceChildren(
-      ...(view.plan?.sessions ?? []).map((session) => {
-        const item = document.createElement("li");
-        item.setAttribute("data-planner-session", String(session.number));
-        item.textContent = `${weekdayShortRu(session.date)}, ${formatRuDayMonth(
-          session.date,
-        )} — ${session.title}`;
-        return item;
-      }),
-    );
+    // Rebuild the programme only when it changed, so flipping months does not replay the entrance.
+    const planned = view.plan?.sessions ?? [];
+    const key = planned
+      .map((session) => `${session.date}|${session.title}`)
+      .join(";");
+    if (key !== shownSessions) {
+      shownSessions = key;
+      sessions.replaceChildren(
+        ...planned.map((session) => {
+          const item = document.createElement("li");
+          item.setAttribute("data-planner-session", String(session.number));
+          item.textContent = `${weekdayShortRu(session.date)}, ${formatRuDayMonth(session.date)} — ${session.title}`;
+          return item;
+        }),
+      );
+
+      if (planned.length > 0 && !calm.matches) {
+        gsap.fromTo(
+          sessions.children,
+          { opacity: 0, x: -18 },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.4,
+            stagger: 0.05,
+            ease: "power3.out",
+            overwrite: true,
+          },
+        );
+      }
+    }
 
     cta.href = view.ctaHref;
   });

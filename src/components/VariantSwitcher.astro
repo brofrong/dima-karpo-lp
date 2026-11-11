@@ -1,6 +1,6 @@
 ---
-// A slim rail on the left edge for hopping between the five designs while
-// choosing one. Plain scoped CSS on purpose: it must look the same on every
+// A slim rail on the left edge (bottom-left corner on phones) for hopping
+// between the five designs while choosing one. Plain scoped CSS on purpose: it must look the same on every
 // design and not depend on any design's Tailwind theme.
 import { designs, withBase } from "../data/designs";
 
@@ -83,14 +83,17 @@ const { current } = Astro.props;
   .dk-switch__home {
     margin-bottom: 2px;
   }
+  /* On phones the left edge is content, so the rail lies down in the corner. */
   @media (max-width: 640px) {
     .dk-switch {
-      left: 4px;
-      padding: 3px;
+      left: 8px;
+      top: auto;
+      bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+      flex-direction: row;
+      transform: none;
     }
-    .dk-switch a {
-      width: 22px;
-      height: 22px;
+    .dk-switch__home {
+      margin: 0 2px 0 0;
     }
   }
   @media print {

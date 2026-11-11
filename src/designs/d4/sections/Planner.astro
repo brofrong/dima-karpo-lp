@@ -12,18 +12,17 @@ import { WEEKDAYS_SHORT } from "../../../lib/dates";
 
 <section
   id="planner"
-  class="section py-16 md:py-24 bg-gradient-to-br from-[#f5f1e8] via-white to-[#f0f0f0]"
+  class="section bg-[#0f5a9f] text-white border-y-2 border-[#2d3436]"
   data-planner-section
 >
   <div class="container-narrow">
-    <h2 class="text-center text-3xl md:text-4xl font-display font-bold uppercase mb-12">
-      Вычислите свою программу
-    </h2>
+    <p class="kicker text-center mb-4 text-[#ffd60a]">Календарь подготовки</p>
+    <h2 class="text-center mb-12">Посчитайте программу</h2>
 
     <!-- Planner widget -->
     <div
       data-planner
-      class="bg-white/80 backdrop-blur rounded-2xl p-4 md:p-8 shadow-xl"
+      class="poster planner-card text-[#2d3436] p-3 md:p-8"
     >
       <!-- Calendar Section -->
       <div class="mb-12">
@@ -38,7 +37,7 @@ import { WEEKDAYS_SHORT } from "../../../lib/dates";
               type="button"
               data-planner-prev
               aria-label="Предыдущий месяц"
-              class="btn bg-[#0f5a9f]/10 hover:bg-[#0f5a9f]/20 text-[#0f5a9f] px-2 sm:px-6 py-2 sm:py-3 text-xs sm:text-base"
+              class="btn bg-[#0f5a9f]/10 hover:bg-[#0f5a9f]/20 text-[#0f5a9f] min-w-[44px] px-2 sm:px-6 py-2 sm:py-3 text-xs sm:text-base"
             >
               <span class="hidden sm:inline">← Назад</span>
               <span class="sm:hidden">←</span>
@@ -54,9 +53,9 @@ import { WEEKDAYS_SHORT } from "../../../lib/dates";
               type="button"
               data-planner-next
               aria-label="Следующий месяц"
-              class="btn bg-[#0f5a9f]/10 hover:bg-[#0f5a9f]/20 text-[#0f5a9f] px-2 sm:px-6 py-2 sm:py-3 text-xs sm:text-base"
+              class="btn bg-[#0f5a9f]/10 hover:bg-[#0f5a9f]/20 text-[#0f5a9f] min-w-[44px] px-2 sm:px-6 py-2 sm:py-3 text-xs sm:text-base"
             >
-              <span class="hidden sm:inline">Вперед →</span>
+              <span class="hidden sm:inline">Вперёд →</span>
               <span class="sm:hidden">→</span>
             </button>
           </div>
@@ -130,7 +129,7 @@ import { WEEKDAYS_SHORT } from "../../../lib/dates";
 
         <!-- Extras -->
         <div>
-          <h4 class="font-display font-bold text-sm uppercase text-[#ffd60a] mb-3">
+          <h4 class="font-display font-bold text-sm uppercase text-[#2d3436] mb-3">
             Дополнительно
           </h4>
           <div class="space-y-2">
@@ -162,14 +161,13 @@ import { WEEKDAYS_SHORT } from "../../../lib/dates";
               class="font-display text-4xl font-bold"
               style="color: #0f5a9f"
               data-planner-lessons
-              data-color-shift
             >
               {recommendLessons(DEFAULT_SELECTION)}
             </p>
           </div>
           <div>
             <p class="text-sm text-[#666] uppercase font-bold">Дней до свадьбы</p>
-            <p class="font-display text-4xl font-bold" style="color: #ff8c42" data-planner-days-left data-color-shift>
+            <p class="font-display text-4xl font-bold" style="color: #ff8c42" data-planner-days-left>
               —
             </p>
           </div>
@@ -201,7 +199,7 @@ import { WEEKDAYS_SHORT } from "../../../lib/dates";
           href={helloLink}
           target="_blank"
           rel="noopener noreferrer"
-          class="btn btn-primary w-full sm:w-auto block text-center"
+          class="btn btn-primary w-full sm:w-auto"
         >
           Отправить программу в Telegram
         </a>
@@ -210,7 +208,11 @@ import { WEEKDAYS_SHORT } from "../../../lib/dates";
   </div>
 </section>
 
-<style>
+<style is:global>
+  .planner-card {
+    --poster-shadow: #ffd60a;
+  }
+
   .calendar-grid {
     min-height: 300px;
   }
@@ -233,6 +235,7 @@ import { WEEKDAYS_SHORT } from "../../../lib/dates";
   [data-planner] button[data-date][aria-pressed="true"] {
     background-color: #ffd60a;
     color: #2d3436;
+    box-shadow: inset 0 0 0 2px #2d3436;
   }
 
   [data-planner] button[data-date]:disabled {
@@ -241,9 +244,8 @@ import { WEEKDAYS_SHORT } from "../../../lib/dates";
   }
 
   [data-planner] button[data-date]:focus {
-    outline: none;
-    ring: 2px;
-    ring-color: #0f5a9f;
+    outline: 2px solid #0f5a9f;
+    outline-offset: 2px;
   }
 
   @media (min-width: 640px) {
@@ -263,14 +265,12 @@ import { WEEKDAYS_SHORT } from "../../../lib/dates";
   }
 
   [data-planner] button[data-date][data-today] {
-    ring: 2px;
-    ring-color: #0f5a9f;
+    box-shadow: inset 0 0 0 2px #0f5a9f, 0 0 0 3px #0f5a9f;
   }
 
   [data-planner] button[data-date][data-lesson] {
-    ring: 2px;
-    ring-color: #ff8c42;
-    ring-opacity: 0.6;
+    background-color: rgba(255, 140, 66, 0.18);
+    box-shadow: inset 0 0 0 2px #ff8c42;
   }
 
   [data-planner-session] {

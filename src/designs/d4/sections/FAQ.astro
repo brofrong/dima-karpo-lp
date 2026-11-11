@@ -1,172 +1,132 @@
 ---
+const questions = [
+  {
+    question: "Мы никогда не танцевали. Получится?",
+    answer:
+      "Да. Дмитрий работает и с парами, которые никогда раньше не танцевали. Хореография подбирается под ваш уровень, а на подготовку обычно хватает 5–7 занятий.",
+  },
+  {
+    question: "А если до свадьбы мало времени?",
+    answer:
+      "Напишите Дмитрию как можно раньше. Лучше всего начинать за месяц-два, но если времени меньше — можно выбрать танец попроще и успеть его выучить.",
+  },
+  {
+    question: "Сколько это стоит?",
+    answer:
+      "Цену, место и расписание Дмитрий обсуждает лично в Telegram — напишите ему, и он всё расскажет.",
+  },
+  {
+    question: "Можно танец под нашу песню?",
+    answer:
+      "Да. Хореография строится вокруг вас: вашей песни, уровня, платья и размера площадки.",
+  },
+  {
+    question: "Только бачата?",
+    answer:
+      "Бачата — специализация Дмитрия, но он ставит и любой другой свадебный танец: вальс, медленный танец, микс стилей.",
+  },
+  {
+    question: "Где проходят занятия?",
+    answer: "Место и расписание подбираются под вас — договоритесь с Дмитрием в Telegram.",
+  },
+];
 ---
 
-<section
-  class="section py-16 md:py-24 bg-white"
-  data-section
->
+<section class="section bg-white" data-section>
   <div class="container-narrow">
-    <h2 class="text-center text-3xl md:text-4xl font-display font-bold uppercase mb-12">
-      Частые вопросы
-    </h2>
+    <p class="kicker text-center mb-4">Коротко о главном</p>
+    <h2 class="text-center mb-12">Частые вопросы</h2>
 
     <div class="space-y-4 max-w-3xl mx-auto">
-      <!-- Q1 -->
-      <details
-        class="group bg-white rounded-xl border-2 border-[#0f5a9f]/20 hover:border-[#0f5a9f] transition-colors"
-        data-animate-in
-      >
-        <summary
-          class="flex items-center justify-between px-6 py-4 cursor-pointer font-display font-bold text-lg uppercase"
-        >
-          <span class="text-[#0f5a9f]">Мы никогда не танцевали. Сможем ли мы?</span>
-          <span class="text-2xl">+</span>
-        </summary>
-        <div class="px-6 py-4 border-t-2 border-[#0f5a9f]/20 text-[#2d3436]">
-          <p class="mb-3">
-            Да, абсолютно сможете. Дмитрий работает с парами, у которых нет
-            опыта в танцах. Пять-семь занятий — и вы уже танцуете уверенно и
-            красиво.
-          </p>
-          <p class="text-sm text-[#666]">
-            Главное — начать заранее и не спешить. Танец «улегается» в теле
-            медленнее, чем кажется, но результат того стоит.
-          </p>
-        </div>
-      </details>
-
-      <!-- Q2 -->
-      <details
-        class="group bg-white rounded-xl border-2 border-[#ff8c42]/20 hover:border-[#ff8c42] transition-colors"
-        data-animate-in
-      >
-        <summary
-          class="flex items-center justify-between px-6 py-4 cursor-pointer font-display font-bold text-lg uppercase"
-        >
-          <span class="text-[#ff8c42]">Можно ли занять меньше 5–7 занятий?</span>
-          <span class="text-2xl">+</span>
-        </summary>
-        <div class="px-6 py-4 border-t-2 border-[#ff8c42]/20 text-[#2d3436]">
-          <p class="mb-3">
-            Можно. Если времени совсем мало или вы хотите что-то простое,
-            возможна экспресс-постановка за 1–2 встречи. Но при этом теряется
-            время на отработку и уверенность.
-          </p>
-          <p class="text-sm text-[#666]">
-            Рекомендуем всё же потратить хотя бы месяц на подготовку — разница
-            в качестве танца будет видна.
-          </p>
-        </div>
-      </details>
-
-      <!-- Q3 -->
-      <details
-        class="group bg-white rounded-xl border-2 border-[#ffd60a]/20 hover:border-[#ffd60a] transition-colors"
-        data-animate-in
-      >
-        <summary
-          class="flex items-center justify-between px-6 py-4 cursor-pointer font-display font-bold text-lg uppercase"
-        >
-          <span class="text-[#ffd60a]">Сколько стоит танец?</span>
-          <span class="text-2xl">+</span>
-        </summary>
-        <div class="px-6 py-4 border-t-2 border-[#ffd60a]/20 text-[#2d3436]">
-          <p class="mb-3">
-            Стоимость и место занятий обсуждаются в Telegram. Дмитрий учитывает
-            количество занятий, ваше расположение и особые пожелания.
-          </p>
-          <p class="text-sm text-[#666]">
-            Напишите ему — и он предложит удобный вариант для вас.
-          </p>
-        </div>
-      </details>
-
-      <!-- Q4 -->
-      <details
-        class="group bg-white rounded-xl border-2 border-[#4da6ff]/20 hover:border-[#4da6ff] transition-colors"
-        data-animate-in
-      >
-        <summary
-          class="flex items-center justify-between px-6 py-4 cursor-pointer font-display font-bold text-lg uppercase"
-        >
-          <span class="text-[#4da6ff]">Можно заниматься в платье и туфлях?</span>
-          <span class="text-2xl">+</span>
-        </summary>
-        <div class="px-6 py-4 border-t-2 border-[#4da6ff]/20 text-[#2d3436]">
-          <p class="mb-3">
-            Да, и это даже рекомендуется! На последних занятиях приносите платье
-            и туфли, в которых вы будете танцевать на свадьбе. Это помогает
-            привыкнуть и почувствовать себя уверенно.
-          </p>
-          <p class="text-sm text-[#666]">
-            Первые два-три занятия можно в удобной одежде — учиться проще.
-          </p>
-        </div>
-      </details>
-
-      <!-- Q5 -->
-      <details
-        class="group bg-white rounded-xl border-2 border-[#0f5a9f]/20 hover:border-[#0f5a9f] transition-colors"
-        data-animate-in
-      >
-        <summary
-          class="flex items-center justify-between px-6 py-4 cursor-pointer font-display font-bold text-lg uppercase"
-        >
-          <span class="text-[#0f5a9f]">Можно хореографию изменять во время свадьбы?</span>
-          <span class="text-2xl">+</span>
-        </summary>
-        <div class="px-6 py-4 border-t-2 border-[#0f5a9f]/20 text-[#2d3436]">
-          <p class="mb-3">
-            Когда-то случается! Не волнуйтесь. Вы выучили основы, почувствовали
-            друг друга — это главное. Даже если что-то пойдёт по-другому, танец
-            всё равно будет красивым и естественным.
-          </p>
-          <p class="text-sm text-[#666]">
-            Главная цель — получить удовольствие от танца и момента.
-          </p>
-        </div>
-      </details>
-
-      <!-- Q6 -->
-      <details
-        class="group bg-white rounded-xl border-2 border-[#ff8c42]/20 hover:border-[#ff8c42] transition-colors"
-        data-animate-in
-      >
-        <summary
-          class="flex items-center justify-between px-6 py-4 cursor-pointer font-display font-bold text-lg uppercase"
-        >
-          <span class="text-[#ff8c42]">Где и как проходят занятия?</span>
-          <span class="text-2xl">+</span>
-        </summary>
-        <div class="px-6 py-4 border-t-2 border-[#ff8c42]/20 text-[#2d3436]">
-          <p class="mb-3">
-            Место, формат и расписание Дмитрий подскажет в Telegram — всё
-            подбирается под вас.
-          </p>
-          <p class="text-sm text-[#666]">
-            Обсудите с Дмитрием, как вам удобнее.
-          </p>
-        </div>
-      </details>
+      {
+        questions.map((item) => (
+          <details class="faq-item" data-animate-in>
+            <summary>
+              <span>{item.question}</span>
+              <span class="faq-mark" aria-hidden="true">
+                +
+              </span>
+            </summary>
+            <p>{item.answer}</p>
+          </details>
+        ))
+      }
     </div>
   </div>
 </section>
 
 <style>
-  details summary {
-    user-select: none;
-    list-style: none;
+  .faq-item {
+    border: 2px solid #2d3436;
+    border-radius: 1rem;
+    background: #fff;
+    box-shadow: 5px 5px 0 #0f5a9f;
+    transition:
+      box-shadow 0.2s ease,
+      transform 0.2s ease;
   }
 
-  details summary::-webkit-details-marker {
+  .faq-item:nth-child(3n + 2) {
+    box-shadow: 5px 5px 0 #ff8c42;
+  }
+
+  .faq-item:nth-child(3n) {
+    box-shadow: 5px 5px 0 #ffd60a;
+  }
+
+  .faq-item[open] {
+    transform: translate(-2px, -2px);
+  }
+
+  .faq-item summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    line-height: 1.25;
+    text-transform: uppercase;
+  }
+
+  .faq-item summary::-webkit-details-marker {
     display: none;
   }
 
-  details[open] summary span:last-child {
+  .faq-mark {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 9999px;
+    background: #ffd60a;
+    border: 2px solid #2d3436;
+    font-size: 1.25rem;
+    line-height: 1;
+    transition: transform 0.3s ease;
+  }
+
+  .faq-item[open] .faq-mark {
     transform: rotate(45deg);
   }
 
-  details summary span:last-child {
-    transition: transform 0.3s ease;
+  .faq-item p {
+    padding: 0 1.25rem 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .faq-item summary {
+      padding: 1.25rem 1.5rem;
+      font-size: 1.2rem;
+    }
+
+    .faq-item p {
+      padding: 0 1.5rem 1.5rem;
+    }
   }
 </style>
