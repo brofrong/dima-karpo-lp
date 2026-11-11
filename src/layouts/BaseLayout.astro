@@ -1,0 +1,53 @@
+---
+import VariantSwitcher from "../components/VariantSwitcher.astro";
+import { site } from "../data/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Browser UI colour; match the design's page background. */
+  themeColor?: string;
+  /** 1–5 on a design page; omit on the gallery. */
+  variant?: number;
+  /** Extra classes for <body>. */
+  bodyClass?: string;
+}
+
+const {
+  title = site.seoTitle,
+  description = site.seoDescription,
+  themeColor = "#0b0b0f",
+  variant,
+  bodyClass = "",
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const icon = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/favicon.svg`;
+---
+
+<!doctype html>
+<html lang="ru" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content={themeColor} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={icon} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <!-- Runs before paint: lets CSS hide things for entrance animations only when JS is alive. -->
+    <script is:inline>
+      document.documentElement.classList.replace("no-js", "js");
+    </script>
+    <slot name="head" />
+  </head>
+  <body class={bodyClass}>
+    <slot />
+    {variant && <VariantSwitcher current={variant} />}
+  </body>
+</html>

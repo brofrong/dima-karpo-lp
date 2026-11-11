@@ -1,0 +1,31 @@
+@import "tailwindcss" source("../pages");
+
+@theme {
+  --font-display: "Unbounded", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --color-ink: #0c0a0e;
+  --color-paper: #f6efe9;
+  --color-rose: #ff4d6d;
+}
+
+@keyframes gallery-rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.js .gallery-rise {
+  animation: gallery-rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(var(--i, 0) * 80ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .gallery-rise {
+    animation: none;
+  }
+}

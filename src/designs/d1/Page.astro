@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { site } from "../../data/site";
+import Planner from "../_reference/Planner.astro";
+---
+
+<BaseLayout variant={1}>
+  <main>
+    <h1>Вариант 1</h1>
+    <Planner />
+    <a href={site.instagramUrl} target="_blank" rel="noopener noreferrer">Instagram</a>
+  </main>
+</BaseLayout>

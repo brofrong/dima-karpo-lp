@@ -1,0 +1,100 @@
+---
+// Minimal working planner: the DOM contract in its plainest form.
+// Used only to prove scripts/shot.ts and as an example for the designs.
+import { helloLink } from "../../data/site";
+import { WEEKDAYS_SHORT } from "../../lib/dates";
+import { DEFAULT_SELECTION, EXTRAS, LEVELS, recommendLessons, STYLES } from "../../lib/planner";
+---
+
+<section data-planner class="ref-planner">
+  <div>
+    <div class="ref-planner__nav">
+      <button type="button" data-planner-prev aria-label="Предыдущий месяц">←</button>
+      <strong data-planner-month aria-live="polite"></strong>
+      <button type="button" data-planner-next aria-label="Следующий месяц">→</button>
+    </div>
+    <div class="ref-planner__weekdays" aria-hidden="true">
+      {WEEKDAYS_SHORT.map((day) => <span>{day}</span>)}
+    </div>
+    <div class="ref-planner__grid" data-planner-grid></div>
+    <noscript>Календарь работает с JavaScript. Напишите Дмитрию — он подберёт даты занятий.</noscript>
+  </div>
+
+  <div>
+    <p>Стиль</p>
+    {
+      STYLES.map((style) => (
+        <button type="button" data-planner-style={style.id} aria-pressed={style.id === DEFAULT_SELECTION.style}>
+          {style.title}
+        </button>
+      ))
+    }
+    <p>Опыт</p>
+    {
+      LEVELS.map((level) => (
+        <button type="button" data-planner-level={level.id} aria-pressed={level.id === DEFAULT_SELECTION.level}>
+          {level.title}
+        </button>
+      ))
+    }
+    <p>Дополнительно</p>
+    {
+      EXTRAS.map((extra) => (
+        <button type="button" data-planner-extra={extra.id} aria-pressed="false">
+          {extra.title}
+        </button>
+      ))
+    }
+  </div>
+
+  <div aria-live="polite">
+    <p>
+      Занятий: <strong data-planner-lessons>{recommendLessons(DEFAULT_SELECTION)}</strong> · дней до свадьбы:
+      <strong data-planner-days-left>—</strong>
+    </p>
+    <p data-planner-headline>Обычно хватает 5–7 занятий</p>
+    <p data-planner-advice>Выберите дату свадьбы — и программа разложится по дням.</p>
+    <ol data-planner-sessions></ol>
+    <a data-planner-cta href={helloLink} target="_blank" rel="noopener noreferrer">Отправить программу в Telegram</a>
+  </div>
+</section>
+
+<script>
+  import { mountPlanner } from "./planner-client";
+
+  for (const root of document.querySelectorAll<HTMLElement>("[data-planner]")) mountPlanner(root);
+</script>
+
+<style>
+  .ref-planner {
+    display: grid;
+    gap: 24px;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 24px;
+    font: 16px/1.4 system-ui, sans-serif;
+  }
+  .ref-planner__nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .ref-planner__weekdays,
+  .ref-planner__grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    text-align: center;
+  }
+  .ref-planner :global(button) {
+    min-height: 40px;
+    min-width: 40px;
+  }
+  .ref-planner :global(button[aria-pressed="true"]) {
+    background: #111;
+    color: #fff;
+  }
+  .ref-planner :global(button[data-lesson]) {
+    outline: 2px solid #e11d48;
+  }
+</style>

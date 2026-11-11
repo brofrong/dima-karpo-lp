@@ -1,0 +1,101 @@
+---
+// A slim rail on the left edge for hopping between the five designs while
+// choosing one. Plain scoped CSS on purpose: it must look the same on every
+// design and not depend on any design's Tailwind theme.
+import { designs, withBase } from "../data/designs";
+
+interface Props {
+  current: number;
+}
+
+const { current } = Astro.props;
+---
+
+<nav class="dk-switch" aria-label="Варианты дизайна" data-variant-switcher>
+  <a class="dk-switch__home" href={withBase("/")} title="Все варианты" aria-label="Все варианты">
+    <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true">
+      <path d="M2 2h5v5H2zM9 2h5v5H9zM2 9h5v5H2zM9 9h5v5H9z" fill="currentColor"></path>
+    </svg>
+  </a>
+  {
+    designs.map((design) => (
+      <a
+        class:list={["dk-switch__item", { "is-current": design.number === current }]}
+        href={withBase(`/${design.number}/`)}
+        title={design.name}
+        aria-label={`Вариант ${design.number}: ${design.name}`}
+        aria-current={design.number === current ? "page" : undefined}
+      >
+        {design.number}
+      </a>
+    ))
+  }
+</nav>
+
+<style>
+  .dk-switch {
+    position: fixed;
+    left: 8px;
+    top: 50%;
+    z-index: 2147483000;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 4px;
+    transform: translateY(-50%);
+    border-radius: 999px;
+    background: rgb(12 12 16 / 0.72);
+    border: 1px solid rgb(255 255 255 / 0.14);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    font: 600 11px/1 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    opacity: 0.55;
+    transition: opacity 0.2s ease;
+  }
+  .dk-switch:hover,
+  .dk-switch:focus-within {
+    opacity: 1;
+  }
+  .dk-switch a {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    color: rgb(255 255 255 / 0.78);
+    text-decoration: none;
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease;
+  }
+  .dk-switch a:hover {
+    background: rgb(255 255 255 / 0.16);
+    color: #fff;
+  }
+  .dk-switch a:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 1px;
+  }
+  .dk-switch a.is-current {
+    background: #fff;
+    color: #0c0c10;
+  }
+  .dk-switch__home {
+    margin-bottom: 2px;
+  }
+  @media (max-width: 640px) {
+    .dk-switch {
+      left: 4px;
+      padding: 3px;
+    }
+    .dk-switch a {
+      width: 22px;
+      height: 22px;
+    }
+  }
+  @media print {
+    .dk-switch {
+      display: none;
+    }
+  }
+</style>
