@@ -1,0 +1,245 @@
+---
+import { helloLink } from "../../data/site";
+import { WEEKDAYS_SHORT } from "../../lib/dates";
+import {
+  DEFAULT_SELECTION,
+  EXTRAS,
+  LEVELS,
+  recommendLessons,
+  STYLES,
+} from "../../lib/planner";
+---
+
+<div class="container-width">
+  <div class="mb-16">
+    <h2 class="text-4xl md:text-5xl font-serif italic mb-4">
+      Выберите дату свадьбы
+    </h2>
+    <p class="text-lg text-[#c9a881] font-serif italic">
+      Календарь покажет вам программу занятий
+    </p>
+  </div>
+
+  <section
+    data-planner
+    class="bg-[#0f0d0f] border border-[#3d3035] rounded-none p-8 md:p-12"
+  >
+    <!-- Calendar Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-12">
+      <!-- Calendar -->
+      <div class="lg:col-span-2">
+        <!-- Navigation -->
+        <div class="flex items-center justify-between mb-8">
+          <button
+            type="button"
+            data-planner-prev
+            aria-label="Предыдущий месяц"
+            class="text-[#d4a574] hover:text-[#e8c4a0] text-2xl transition-colors p-2"
+          >
+            ←
+          </button>
+          <h3
+            data-planner-month
+            aria-live="polite"
+            class="text-2xl font-serif italic text-[#d4a574] min-w-40 text-center"
+          >
+          </h3>
+          <button
+            type="button"
+            data-planner-next
+            aria-label="Следующий месяц"
+            class="text-[#d4a574] hover:text-[#e8c4a0] text-2xl transition-colors p-2"
+          >
+            →
+          </button>
+        </div>
+
+        <!-- Weekday headers -->
+        <div
+          class="grid grid-cols-7 gap-2 mb-4 text-center text-sm text-[#8b4a52] font-serif"
+          aria-hidden="true"
+        >
+          {WEEKDAYS_SHORT.map((day) => <div class="py-2">{day}</div>)}
+        </div>
+
+        <!-- Days grid -->
+        <div data-planner-grid class="gap-2"></div>
+
+        <noscript>
+          Календарь работает с JavaScript. Напишите Дмитрию — он подберёт даты
+          занятий.
+        </noscript>
+      </div>
+
+      <!-- Options -->
+      <div class="space-y-8">
+        <!-- Style -->
+        <div>
+          <p class="text-sm uppercase tracking-widest text-[#d4a574] mb-4 font-serif">
+            Стиль танца
+          </p>
+          <div class="space-y-3">
+            {
+              STYLES.map((style) => (
+                <button
+                  type="button"
+                  data-planner-style={style.id}
+                  aria-pressed={style.id === DEFAULT_SELECTION.style}
+                  class="block text-left w-full text-[#c9a881] hover:text-[#d4a574] transition-colors pb-1 font-serif"
+                >
+                  {style.title}
+                </button>
+              ))
+            }
+          </div>
+        </div>
+
+        <!-- Level -->
+        <div>
+          <p class="text-sm uppercase tracking-widest text-[#d4a574] mb-4 font-serif">
+            Ваш опыт
+          </p>
+          <div class="space-y-3">
+            {
+              LEVELS.map((level) => (
+                <button
+                  type="button"
+                  data-planner-level={level.id}
+                  aria-pressed={level.id === DEFAULT_SELECTION.level}
+                  class="block text-left w-full text-[#c9a881] hover:text-[#d4a574] transition-colors pb-1 font-serif"
+                >
+                  {level.title}
+                </button>
+              ))
+            }
+          </div>
+        </div>
+
+        <!-- Extras -->
+        <div>
+          <p class="text-sm uppercase tracking-widest text-[#d4a574] mb-4 font-serif">
+            Дополнительно
+          </p>
+          <div class="space-y-3">
+            {
+              EXTRAS.map((extra) => (
+                <button
+                  type="button"
+                  data-planner-extra={extra.id}
+                  aria-pressed="false"
+                  class="block text-left w-full text-[#c9a881] hover:text-[#d4a574] transition-colors pb-1 font-serif"
+                >
+                  {extra.title}
+                </button>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Section -->
+    <div class="border-t border-[#3d3035] pt-12">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <!-- Lessons count -->
+        <div class="text-center">
+          <p class="text-sm uppercase tracking-widest text-[#8b4a52] mb-2 font-serif">
+            Занятий
+          </p>
+          <p class="text-4xl font-serif italic text-[#d4a574]">
+            <strong data-planner-lessons>{recommendLessons(DEFAULT_SELECTION)}</strong>
+          </p>
+        </div>
+
+        <!-- Days left -->
+        <div class="text-center">
+          <p class="text-sm uppercase tracking-widest text-[#8b4a52] mb-2 font-serif">
+            Дней до свадьбы
+          </p>
+          <p class="text-4xl font-serif italic text-[#d4a574]">
+            <strong data-planner-days-left>—</strong>
+          </p>
+        </div>
+
+        <!-- Status -->
+        <div class="text-center">
+          <p
+            data-planner-headline
+            aria-live="polite"
+            class="text-lg font-serif italic text-[#d4a574] mb-2"
+          >
+            Обычно хватает 5–7 занятий
+          </p>
+        </div>
+      </div>
+
+      <!-- Advice -->
+      <div class="bg-[#1a1520] p-6 mb-8 border border-[#3d3035]">
+        <p
+          data-planner-advice
+          aria-live="polite"
+          class="text-[#c9a881] font-serif italic"
+        >
+          Выберите дату свадьбы — и программа разложится по дням.
+        </p>
+      </div>
+
+      <!-- Sessions list -->
+      <div class="mb-8">
+        <h4 class="text-sm uppercase tracking-widest text-[#d4a574] mb-4 font-serif">
+          Программа занятий
+        </h4>
+        <ol
+          data-planner-sessions
+          class="space-y-2 text-[#c9a881] font-serif italic"
+        >
+        </ol>
+        <p
+          class="text-sm text-[#8b4a52] mt-4 font-serif"
+          id="planner-empty-state"
+        >
+          Выберите дату свадьбы, чтобы увидеть программу
+        </p>
+      </div>
+
+      <!-- CTA -->
+      <a
+        data-planner-cta
+        href={helloLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="block w-full button-outline text-center py-4"
+      >
+        Отправить программу в Telegram
+      </a>
+    </div>
+  </section>
+</div>
+
+<script>
+  import { mountPlanner } from "./planner-client";
+
+  for (const root of document.querySelectorAll<HTMLElement>(
+    "[data-planner]",
+  )) {
+    mountPlanner(root);
+  }
+</script>
+
+<style>
+  :global(html.js) ol[data-planner-sessions]:empty {
+    display: none;
+  }
+
+  :global(html:not(.js)) ol[data-planner-sessions]:empty {
+    display: none;
+  }
+
+  :global(html:not(.js)) #planner-empty-state {
+    display: none;
+  }
+
+  :global(html.js) #planner-empty-state {
+    display: none;
+  }
+</style>

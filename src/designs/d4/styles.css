@@ -1,0 +1,220 @@
+@import "tailwindcss" source(".");
+
+@theme {
+  --font-display: "Russo One", sans-serif;
+  --font-sans: "Raleway", sans-serif;
+  --color-bg: #f5f1e8;
+  --color-ink: #2d3436;
+  --color-blue: #0f5a9f;
+  --color-blue-light: #4da6ff;
+  --color-orange: #ff8c42;
+  --color-gold: #ffd60a;
+}
+
+@layer base {
+  html {
+    overflow-x: clip;
+  }
+
+  body {
+    @apply bg-[#f5f1e8] text-[#2d3436] font-sans;
+  }
+
+  h1 {
+    @apply font-display text-4xl md:text-[3.5rem] font-bold uppercase tracking-tight;
+  }
+
+  h2 {
+    @apply font-display text-3xl md:text-4xl font-bold uppercase;
+  }
+
+  h3 {
+    @apply font-display text-xl md:text-2xl font-bold uppercase;
+  }
+
+  p {
+    @apply leading-relaxed;
+  }
+
+  button {
+    @apply transition-all duration-200;
+  }
+
+  html.js [data-animate-in] {
+    opacity: 0;
+  }
+}
+
+/* Custom animations and keyframes */
+@keyframes footstep-fade {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes color-shift {
+  0% {
+    --color-progress: #0f5a9f;
+  }
+  50% {
+    --color-progress: #ff8c42;
+  }
+  100% {
+    --color-progress: #ffd60a;
+  }
+}
+
+@keyframes float-rotate {
+  0% {
+    transform: translateY(0px) rotateZ(-2deg);
+  }
+  50% {
+    transform: translateY(-8px) rotateZ(2deg);
+  }
+  100% {
+    transform: translateY(0px) rotateZ(-2deg);
+  }
+}
+
+.animate-footstep {
+  animation: footstep-fade 0.6s ease-out infinite;
+}
+
+@supports (animation-timeline: view()) {
+  @keyframes on-scroll-scale {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+/* Style icon floating animation */
+html.js [data-style-icon] {
+  animation: float-rotate 4s ease-in-out infinite;
+}
+
+/* Prevent motion on reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .smooth-scroll {
+    scroll-behavior: auto;
+  }
+}
+
+/* Button styles */
+.btn {
+  @apply inline-flex items-center justify-center px-6 py-3 rounded-lg font-bold text-white uppercase tracking-wider transition-all duration-300 active:scale-95;
+}
+
+.btn-primary {
+  @apply bg-[#0f5a9f] hover:bg-[#0d4a7f];
+}
+
+.btn-accent {
+  @apply bg-[#ff8c42] hover:bg-[#e67a30];
+}
+
+/* Section and container styles */
+.section {
+  @apply py-16 md:py-24 px-4 md:px-8;
+}
+
+.container-narrow {
+  @apply max-w-5xl mx-auto;
+}
+
+.timeline-connector {
+  position: relative;
+}
+
+/* Timeline step styling */
+.timeline-step {
+  @apply relative pb-12 last:pb-0;
+}
+
+.timeline-step::before {
+  content: "";
+  @apply absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#0f5a9f] via-[#ff8c42] to-[#ffd60a];
+  width: 3px;
+  margin-left: -1.5px;
+}
+
+/* Planner styles */
+[data-planner] {
+  @apply bg-white/60 rounded-2xl p-6 md:p-8 backdrop-blur-sm;
+}
+
+[data-planner] button {
+  @apply min-w-[40px] min-h-[40px];
+}
+
+[data-planner] button[aria-pressed="true"] {
+  @apply bg-[#0f5a9f] text-white font-bold;
+}
+
+[data-planner] button[data-date] {
+  @apply rounded-lg hover:bg-[#0f5a9f]/10;
+}
+
+[data-planner] button[data-date][aria-pressed="true"] {
+  @apply bg-[#ffd60a] text-[#2d3436] font-bold;
+}
+
+[data-planner] button[data-date][data-lesson] {
+  @apply ring-2 ring-[#0f5a9f];
+}
+
+[data-planner-session] {
+  @apply p-4 rounded-lg bg-[#f5f1e8]/80 border-l-4 border-[#0f5a9f];
+}

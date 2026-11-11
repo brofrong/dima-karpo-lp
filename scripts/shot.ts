@@ -44,7 +44,7 @@ if (!existsSync(join(siteDir, String(number), "index.html"))) {
   );
   process.exit(2);
 }
-const outDir = `/tmp/dk-shots/${id}`;
+const outDir = `${process.env.DK_SHOTS_DIR ?? "/tmp/dk-shots"}/${id}`;
 rmSync(outDir, { recursive: true, force: true });
 mkdirSync(outDir, { recursive: true });
 

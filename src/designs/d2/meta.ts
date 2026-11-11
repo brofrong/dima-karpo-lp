@@ -1,7 +1,7 @@
 import type { DesignMeta } from "../../data/designs";
 
 export const meta: DesignMeta = {
-  name: "Вариант 2",
-  tagline: "Скоро здесь будет дизайн",
-  palette: ["#111111", "#333333", "#777777"],
+  name: "Вечерний Класс",
+  tagline: "Элегантность в каждом движении",
+  palette: ["#1a1520", "#8b4a52", "#d4a574", "#c9a881"],
 };

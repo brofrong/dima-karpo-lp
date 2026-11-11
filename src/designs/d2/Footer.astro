@@ -1,0 +1,57 @@
+---
+import { site, helloLink } from "../../data/site";
+---
+
+<footer class="bg-[#0f0d0f] border-t border-[#3d3035] py-16 md:py-20 px-6">
+  <div class="max-w-4xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
+      <!-- Main CTA -->
+      <div class="text-center md:text-left">
+        <h2 class="text-3xl md:text-4xl font-serif italic mb-6">
+          Готовы танцевать?
+        </h2>
+        <p class="text-[#c9a881] font-serif mb-6 leading-relaxed">
+          Напишите Дмитрию в Telegram, и вы начнёте путь к идеальному танцу.
+        </p>
+        <a
+          href={helloLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block button-solid"
+        >
+          {site.telegramHandle}
+        </a>
+      </div>
+
+      <!-- Links -->
+      <div class="text-center md:text-right">
+        <p class="text-sm uppercase tracking-widest text-[#8b4a52] mb-6 font-serif">
+          Смотрите танцы
+        </p>
+        <a
+          href={site.instagramUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block button-outline"
+        >
+          {site.instagramHandle}
+        </a>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="gold-divider mb-12"></div>
+
+    <!-- Footer text -->
+    <div class="text-center text-[#8b4a52] font-serif text-sm leading-relaxed">
+      <p>
+        <em>Вечерний Класс</em> — свадебный танец с Дмитрием Карповым
+      </p>
+      <p class="mt-4">
+        Все детали обсуждаются в Telegram.
+        <br />
+        Нет скрытых цен, нет сомнений — только красивый танец.
+      </p>
+    </div>
+  </div>
+</footer>

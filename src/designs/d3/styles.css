@@ -1,0 +1,219 @@
+@import "tailwindcss" source(".");
+
+@theme {
+  --color-cream: #fef8f3;
+  --color-orange-main: #ff9500;
+  --color-orange-warm: #f09433;
+  --color-blue-main: #0064ff;
+  --color-red: #ff6b6b;
+  --color-dark: #2d3436;
+
+  --font-display: "Jost", sans-serif;
+  --font-body: "Montserrat", sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-cream text-dark font-body;
+    font-family: "Montserrat", sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Jost", sans-serif;
+    font-weight: 700;
+  }
+
+  h1 {
+    @apply text-4xl lg:text-5xl font-bold leading-tight;
+  }
+
+  h2 {
+    @apply text-3xl lg:text-4xl font-bold leading-tight;
+  }
+
+  h3 {
+    @apply text-2xl lg:text-3xl font-bold;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-6 py-3 bg-orange-main text-white font-bold uppercase text-sm rounded-lg transition-transform duration-300 hover:scale-105 active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 border-2 border-orange-main text-orange-main font-bold uppercase text-sm rounded-lg transition-all duration-300 hover:bg-orange-main hover:text-white;
+  }
+
+  .section-container {
+    @apply w-full max-w-7xl mx-auto px-4 py-16 lg:py-24;
+  }
+
+  .button-group {
+    @apply flex flex-wrap gap-3;
+  }
+
+  .button-group button {
+    @apply px-4 py-2 border-2 border-current rounded-lg transition-all duration-300 font-semibold text-sm;
+  }
+
+  .button-group button[aria-pressed="false"] {
+    @apply bg-transparent text-dark border-dark/30 hover:border-dark;
+  }
+
+  .button-group button[aria-pressed="true"] {
+    @apply bg-orange-main text-white border-orange-main;
+  }
+
+  .button-group button:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+}
+
+/* Smooth scroll for Lenis */
+html.lenis {
+  height: auto;
+}
+
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+  touch-action: none;
+}
+
+[data-lenis-prevent] {
+  overscroll-behavior: contain;
+  touch-action: none;
+}
+
+/* Animation utilities */
+@keyframes draw-svg {
+  from {
+    stroke-dasharray: var(--dash-length, 1000);
+    stroke-dashoffset: var(--dash-length, 1000);
+  }
+  to {
+    stroke-dasharray: var(--dash-length, 1000);
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-scale {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.animate-draw-svg {
+  animation: draw-svg 1.5s ease-in-out forwards;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.6s ease-out forwards;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-marquee] {
+    animation: none !important;
+  }
+}
+
+/* Marquee animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-100% - 2rem));
+  }
+}
+
+[data-marquee] {
+  display: flex;
+  animation: marquee 30s linear infinite;
+  white-space: nowrap;
+}
+
+[data-marquee] span {
+  margin-right: 2rem;
+  flex-shrink: 0;
+}
+
+/* Planner styles */
+[data-planner] {
+  @apply bg-white rounded-lg shadow-lg p-8;
+}
+
+[data-planner-grid] {
+  @apply grid grid-cols-7 gap-2 my-6;
+}
+
+[data-planner-grid] button {
+  @apply aspect-square flex items-center justify-center border-2 border-blue-main/30 rounded-lg text-sm font-semibold transition-all duration-300;
+}
+
+[data-planner-grid] button[data-today] {
+  @apply border-blue-main bg-blue-main/10;
+}
+
+[data-planner-grid] button[aria-pressed="true"] {
+  @apply bg-orange-main text-white border-orange-main;
+}
+
+[data-planner-grid] button[data-lesson] {
+  @apply ring-2 ring-blue-main ring-offset-2;
+}
+
+[data-planner-grid] button:disabled {
+  @apply opacity-40 cursor-not-allowed;
+}
+
+/* Ensure text is always visible */
+html.no-js [data-hidden-for-animation] {
+  display: none;
+}
+
+html.js [data-hidden-for-animation] {
+  display: block;
+}

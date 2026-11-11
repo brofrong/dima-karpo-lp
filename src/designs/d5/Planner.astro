@@ -1,0 +1,231 @@
+---
+import { helloLink } from "../../data/site";
+import { WEEKDAYS_SHORT } from "../../lib/dates";
+import {
+  DEFAULT_SELECTION,
+  EXTRAS,
+  LEVELS,
+  recommendLessons,
+  STYLES,
+} from "../../lib/planner";
+---
+
+<section id="planner" data-planner class="section-padding bg-[#f0e4d7]">
+  <div class="container-narrow grid gap-8 md:gap-12 md:grid-cols-3">
+    <!-- Calendar -->
+    <div class="md:col-span-2 bg-white rounded-lg p-6 border border-[#d4947a] border-opacity-20">
+      <div class="flex items-center justify-between mb-6">
+        <button
+          type="button"
+          data-planner-prev
+          class="w-10 h-10 flex items-center justify-center text-2xl text-[#b3733b] bg-none border-none cursor-pointer hover:opacity-70 transition-opacity"
+          aria-label="Предыдущий месяц"
+        >
+          ←
+        </button>
+        <h3
+          class="text-xl font-normal text-[#8b6b47]"
+          data-planner-month
+          aria-live="polite"
+        ></h3>
+        <button
+          type="button"
+          data-planner-next
+          class="w-10 h-10 flex items-center justify-center text-2xl text-[#b3733b] bg-none border-none cursor-pointer hover:opacity-70 transition-opacity"
+          aria-label="Следующий месяц"
+        >
+          →
+        </button>
+      </div>
+
+      <div class="grid grid-cols-7 gap-1 text-center text-sm text-[#8b6b47] font-body mb-2" aria-hidden="true">
+        {WEEKDAYS_SHORT.map((day) => <span class="py-2 font-semibold">{day}</span>)}
+      </div>
+
+      <div class="grid grid-cols-7 gap-1" data-planner-grid></div>
+    </div>
+
+    <!-- Options (sidebar on desktop) -->
+    <div class="bg-white rounded-lg p-6 border border-[#d4947a] border-opacity-20 md:row-span-2 max-h-fit">
+      <div class="space-y-6">
+        <div class="space-y-3">
+          <h4 class="text-base font-normal text-[#8b6b47] mb-2">Стиль танца</h4>
+          <div class="space-y-2">
+            {
+              STYLES.map((style) => (
+                <button
+                  type="button"
+                  data-planner-style={style.id}
+                  class="block w-full text-left px-4 py-2 border-b-2 border-transparent text-[#333] hover:text-[#b3733b] hover:border-[#b3733b] transition-colors bg-transparent text-base font-normal btn-option"
+                  aria-pressed={style.id === DEFAULT_SELECTION.style}
+                >
+                  {style.title}
+                </button>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <h4 class="text-base font-normal text-[#8b6b47] mb-2">Ваш опыт</h4>
+          <div class="space-y-2">
+            {
+              LEVELS.map((level) => (
+                <button
+                  type="button"
+                  data-planner-level={level.id}
+                  class="block w-full text-left px-4 py-2 border-b-2 border-transparent text-[#333] hover:text-[#b3733b] hover:border-[#b3733b] transition-colors bg-transparent text-base font-normal btn-option"
+                  aria-pressed={level.id === DEFAULT_SELECTION.level}
+                >
+                  {level.title}
+                </button>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <h4 class="text-base font-normal text-[#8b6b47] mb-2">Дополнительно</h4>
+          <div class="space-y-2">
+            {
+              EXTRAS.map((extra) => (
+                <button
+                  type="button"
+                  data-planner-extra={extra.id}
+                  class="block w-full text-left px-4 py-2 border-b-2 border-transparent text-[#333] hover:text-[#b3733b] hover:border-[#b3733b] transition-colors bg-transparent text-base font-normal btn-option"
+                  aria-pressed="false"
+                >
+                  {extra.title}
+                </button>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="bg-white rounded-lg p-6 border border-[#d4947a] border-opacity-20 md:col-span-2" aria-live="polite">
+      <div class="flex items-baseline gap-3 mb-4">
+        <div class="text-base text-[#8b6b47]">Занятий:</div>
+        <div class="text-3xl font-display text-[#b3733b]">
+          <strong data-planner-lessons>
+            {recommendLessons(DEFAULT_SELECTION)}
+          </strong>
+        </div>
+      </div>
+
+      <div class="text-sm text-[#666] mb-6">
+        <span class="mr-2">дней до свадьбы:</span>
+        <strong data-planner-days-left>—</strong>
+      </div>
+
+      <p class="text-xl font-normal italic text-[#8b6b47] mb-2" data-planner-headline>
+        Обычно хватает 5–7 занятий
+      </p>
+
+      <p class="text-base text-[#666] mb-6" data-planner-advice>
+        Выберите дату свадьбы — и программа разложится по дням.
+      </p>
+
+      <div class="mb-6">
+        <ol class="list-decimal list-inside space-y-2" data-planner-sessions></ol>
+      </div>
+
+      <a
+        data-planner-cta
+        href={helloLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-cta w-full text-center block"
+      >
+        Отправить программу Дмитрию
+      </a>
+
+      <noscript>
+        <p class="text-base text-[#666] italic mt-4">
+          Календарь работает с JavaScript. Напишите Дмитрию — он подберёт даты
+          занятий.
+        </p>
+      </noscript>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { mountPlanner } from "./planner-client";
+
+  for (const root of document.querySelectorAll<HTMLElement>("[data-planner]")) {
+    mountPlanner(root);
+  }
+</script>
+
+<style>
+  [data-planner-grid] :global(button) {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    border-radius: 0.125rem;
+    border: 1px solid rgba(212, 148, 122, 0.2);
+    background: white;
+    color: #333;
+    transition: all 0.3s;
+    min-height: 40px;
+  }
+
+  [data-planner-grid] :global(button:hover) {
+    border-color: #d4947a;
+    border-opacity: 0.5;
+  }
+
+  [data-planner-grid] :global(button:disabled) {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  [data-planner-grid] :global(button[aria-pressed="true"]) {
+    background: #d4947a;
+    color: white;
+    border-color: #d4947a;
+    font-weight: 600;
+  }
+
+  [data-planner-grid] :global(button[data-lesson]) {
+    position: relative;
+  }
+
+  [data-planner-grid] :global(button[data-lesson]::after) {
+    content: "•";
+    position: absolute;
+    top: 0.125rem;
+    right: 0.125rem;
+    color: #d4947a;
+    font-size: 0.875rem;
+  }
+
+  [data-planner-grid] :global(button[data-today]) {
+    text-decoration: underline;
+  }
+
+  :global([data-planner-style][aria-pressed="true"]),
+  :global([data-planner-level][aria-pressed="true"]),
+  :global([data-planner-extra][aria-pressed="true"]) {
+    color: #d4947a;
+    border-color: #d4947a;
+    font-weight: 600;
+  }
+
+  :global([data-planner-sessions]) {
+    list-style-type: decimal;
+    list-style-position: inside;
+  }
+
+  :global([data-planner-sessions] li) {
+    font-size: 0.875rem;
+    color: #333;
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+  }
+</style>

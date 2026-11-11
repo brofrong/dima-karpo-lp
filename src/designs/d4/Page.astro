@@ -1,7 +1,108 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import Hero from "./sections/Hero.astro";
+import WhoIs from "./sections/WhoIs.astro";
+import Styles from "./sections/Styles.astro";
+import HowItGoes from "./sections/HowItGoes.astro";
+import Planner from "./sections/Planner.astro";
+import FAQ from "./sections/FAQ.astro";
+import Footer from "./sections/Footer.astro";
+import { site, helloLink } from "../../data/site";
+import "./styles.css";
+
+const title = "Танец Шаг за Шагом — свадебный танец с Дмитрием Карповым";
+const description =
+  "Путь к совершенству в каждом движении. Программа свадебного танца от первого контакта до генеральной репетиции.";
 ---
 
-<BaseLayout variant={4}>
-  <main><h1>Вариант 4</h1></main>
+<BaseLayout
+  title={title}
+  description={description}
+  themeColor="#f5f1e8"
+  variant={4}
+>
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Russo+One&family=Raleway:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </Fragment>
+
+  <main>
+    <Hero />
+    <WhoIs />
+    <Styles />
+    <HowItGoes />
+    <Planner />
+    <FAQ />
+    <div class="section bg-gradient-to-br from-[#0f5a9f] via-[#ff8c42] to-[#ffd60a] text-white py-20">
+      <div class="container-narrow px-4">
+        <h2 class="text-center text-3xl md:text-4xl font-display font-bold uppercase mb-6">
+          Ваш путь начинается здесь
+        </h2>
+        <p class="text-center text-lg mb-8 max-w-2xl mx-auto">
+          Готовы воплотить мечту о свадебном танце? Напишите Дмитрию прямо
+          сейчас, и вместе вы создадите нечто особенное.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href={helloLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-primary bg-white text-[#0f5a9f] hover:bg-gray-100"
+          >
+            Написать в Telegram
+          </a>
+          <a
+            href={site.instagramUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-accent border-2 border-white text-white hover:bg-white/20"
+          >
+            Смотреть в Instagram
+          </a>
+        </div>
+      </div>
+    </div>
+    <Footer />
+  </main>
+
+  <script>
+    import { initFootprintCanvas } from "./canvas-footprints";
+    import { mountPlanner } from "./planner-client";
+    import { initAnimations } from "./animations";
+
+    // Initialize canvas animations
+    const heroCanvas = document.querySelector(
+      "canvas[data-hero-canvas]",
+    ) as HTMLCanvasElement;
+    if (heroCanvas) {
+      initFootprintCanvas(heroCanvas, {
+        color: "#0f5a9f",
+        loopDuration: 3000,
+      });
+    }
+
+    const stepDiagramCanvas = document.querySelector(
+      "canvas[data-step-diagram]",
+    ) as HTMLCanvasElement;
+    if (stepDiagramCanvas) {
+      const { initStepDiagramCanvas } = await import("./canvas-footprints");
+      initStepDiagramCanvas(stepDiagramCanvas, {
+        colors: ["#0f5a9f", "#ff8c42", "#ffd60a", "#4da6ff"],
+      });
+    }
+
+    // Initialize GSAP animations
+    initAnimations();
+
+    // Initialize planner
+    for (const root of document.querySelectorAll<HTMLElement>(
+      "[data-planner]",
+    )) {
+      mountPlanner(root);
+    }
+  </script>
 </BaseLayout>

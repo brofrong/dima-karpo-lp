@@ -1,0 +1,165 @@
+---
+import { helloLink } from "../../data/site";
+import { WEEKDAYS_SHORT } from "../../lib/dates";
+import { DEFAULT_SELECTION, EXTRAS, LEVELS, recommendLessons, STYLES } from "../../lib/planner";
+---
+
+<section id="planner" data-section class="section-padding bg-[#0a0e27] border-t-2 border-[#ff006e]">
+  <div class="container-max">
+    <h2 class="mb-16 neon-text text-center">Подбираем программу занятий</h2>
+
+    <div
+      data-planner
+      class="max-w-4xl mx-auto space-y-12 p-6 md:p-8 rounded border-2 border-[#ff006e] bg-gradient-to-br from-[#1a1f3a] to-[#0a0e27]"
+    >
+      <!-- Calendar -->
+      <div class="space-y-4">
+        <h3 class="text-lg font-bold neon-text-cyan">Выберите дату свадьбы</h3>
+
+        <div class="flex items-center justify-between gap-4 mb-4">
+          <button
+            type="button"
+            data-planner-prev
+            aria-label="Предыдущий месяц"
+            class="px-4 py-2 border border-[#00d9ff] rounded text-[#00d9ff] hover:bg-[#00d9ff] hover:text-[#0a0e27] transition-all"
+          >
+            ←
+          </button>
+          <h4 data-planner-month class="text-base font-bold neon-text flex-1 text-center"></h4>
+          <button
+            type="button"
+            data-planner-next
+            aria-label="Следующий месяц"
+            class="px-4 py-2 border border-[#00d9ff] rounded text-[#00d9ff] hover:bg-[#00d9ff] hover:text-[#0a0e27] transition-all"
+          >
+            →
+          </button>
+        </div>
+
+        <!-- Weekday headers -->
+        <div class="grid grid-cols-7 gap-2 mb-2" aria-hidden="true">
+          {WEEKDAYS_SHORT.map((day) => <div class="text-center text-xs font-bold text-[#00d9ff]">{day}</div>)}
+        </div>
+
+        <!-- Calendar grid -->
+        <div data-planner-grid class="grid grid-cols-7 gap-2"></div>
+      </div>
+
+      <!-- Style selection -->
+      <div class="space-y-3">
+        <h3 class="text-lg font-bold neon-text-cyan">Стиль танца</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {
+            STYLES.map((style) => (
+              <button
+                type="button"
+                data-planner-style={style.id}
+                aria-pressed={style.id === DEFAULT_SELECTION.style}
+                class={`py-2 px-3 rounded text-sm font-bold border border-[#ff006e] transition-all ${
+                  style.id === DEFAULT_SELECTION.style
+                    ? "bg-[#ff006e] text-[#0a0e27] neon-glow-pink"
+                    : "text-[#ff006e] hover:bg-[#ff006e] hover:text-[#0a0e27]"
+                }`}
+              >
+                {style.title}
+              </button>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Level selection -->
+      <div class="space-y-3">
+        <h3 class="text-lg font-bold neon-text-cyan">Ваш опыт</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {
+            LEVELS.map((level) => (
+              <button
+                type="button"
+                data-planner-level={level.id}
+                aria-pressed={level.id === DEFAULT_SELECTION.level}
+                class={`py-2 px-3 rounded text-sm font-bold border border-[#ff006e] transition-all ${
+                  level.id === DEFAULT_SELECTION.level
+                    ? "bg-[#ff006e] text-[#0a0e27] neon-glow-pink"
+                    : "text-[#ff006e] hover:bg-[#ff006e] hover:text-[#0a0e27]"
+                }`}
+              >
+                {level.title}
+              </button>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Extras selection -->
+      <div class="space-y-3">
+        <h3 class="text-lg font-bold neon-text-cyan">Дополнительно</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {
+            EXTRAS.map((extra) => (
+              <button
+                type="button"
+                data-planner-extra={extra.id}
+                aria-pressed="false"
+                class="py-2 px-3 rounded text-sm font-bold border border-[#00d9ff] text-[#00d9ff] hover:bg-[#00d9ff] hover:text-[#0a0e27] transition-all"
+              >
+                {extra.title}
+              </button>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Results section -->
+      <div
+        data-planner-results
+        class="space-y-4 p-6 bg-gradient-to-r from-[#1a1f3a] to-[#0a0e27] rounded border border-[#00d9ff]"
+        aria-live="polite"
+      >
+        <div class="flex justify-between items-center gap-4">
+          <div>
+            <div class="text-sm text-gray-400">Занятий:</div>
+            <div class="text-3xl font-bold neon-text">
+              <span data-planner-lessons>{recommendLessons(DEFAULT_SELECTION)}</span>
+            </div>
+          </div>
+          <div class="text-right">
+            <div class="text-sm text-gray-400">Дней до свадьбы:</div>
+            <div class="text-3xl font-bold neon-text-cyan">
+              <span data-planner-days-left>—</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="py-4 border-t border-[#ff006e] border-opacity-30">
+          <p data-planner-headline class="text-lg font-bold neon-text-yellow mb-2">Выберите дату</p>
+          <p data-planner-advice class="text-sm text-gray-300">
+            Выберите дату свадьбы — и программа соберётся сама.
+          </p>
+        </div>
+
+        <!-- Sessions list -->
+        <div class="space-y-2">
+          <ol data-planner-sessions class="space-y-2"></ol>
+        </div>
+
+        <!-- CTA -->
+        <a
+          data-planner-cta
+          href={helloLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="block w-full text-center btn-neon py-4 text-base font-bold mt-4"
+        >
+          Отправить программу в Telegram
+        </a>
+      </div>
+
+      <noscript>
+        <p class="text-center text-gray-300 text-sm">
+          Калькулятор работает с JavaScript. Напишите мне в Telegram — я подберу даты занятий для вас.
+        </p>
+      </noscript>
+    </div>
+  </div>
+</section>

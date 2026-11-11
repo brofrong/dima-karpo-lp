@@ -1,0 +1,73 @@
+---
+---
+
+<section class="d3-marquee" id="marquee" aria-label="Marquee: BACHATA · LOVE · DANCE">
+  <div data-d3-marquee class="d3-marquee__content">
+    <span>BACHATA</span>
+    <span>·</span>
+    <span>LOVE</span>
+    <span>·</span>
+    <span>DANCE</span>
+    <span>·</span>
+    <span>СВАДЬБА</span>
+    <span>·</span>
+    <span>BACHATA</span>
+    <span>·</span>
+    <span>LOVE</span>
+    <span>·</span>
+    <span>DANCE</span>
+    <span>·</span>
+    <span>СВАДЬБА</span>
+    <span>·</span>
+  </div>
+</section>
+
+<style>
+  .d3-marquee {
+    padding: 3rem 1rem;
+    background: linear-gradient(90deg, #fef8f3 0%, #fff9f0 50%, #fef8f3 100%);
+    overflow: hidden;
+    border-top: 1px solid rgba(255, 149, 0, 0.2);
+    border-bottom: 1px solid rgba(0, 100, 255, 0.2);
+  }
+
+  .d3-marquee__content {
+    display: flex;
+    gap: 1rem;
+    font-size: clamp(1.25rem, 4vw, 2.5rem);
+    font-weight: 700;
+    font-family: "Jost", sans-serif;
+    white-space: nowrap;
+    color: #2d3436;
+    letter-spacing: -0.02em;
+  }
+
+  .d3-marquee__content span {
+    flex-shrink: 0;
+    display: inline-block;
+  }
+
+  /* Gradient text effect */
+  .d3-marquee__content span:nth-child(4n+1) {
+    color: #ff9500;
+  }
+
+  .d3-marquee__content span:nth-child(4n+3) {
+    color: #0064ff;
+  }
+
+  .d3-marquee__content span:nth-child(4n+4) {
+    color: #666;
+  }
+
+  /* Marquee animation is handled by GSAP in main.ts for scroll-sync */
+
+  @media (prefers-reduced-motion: reduce) {
+    .d3-marquee__content {
+      animation: none;
+      justify-content: center;
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+</style>

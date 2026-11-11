@@ -1,0 +1,89 @@
+---
+import { Image } from "astro:assets";
+import { photos } from "../../data/photos";
+import { site } from "../../data/site";
+---
+
+<section data-section class="section-padding bg-gradient-to-b from-[#0a0e27] to-[#1a1f3a]">
+  <div class="container-max">
+    <h2 class="mb-12 neon-text">Кто я и откуда я танцую</h2>
+
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <!-- Left: Photo gallery -->
+      <div class="grid grid-cols-2 gap-4">
+        <!-- Portrait -->
+        <div data-card data-reveal class="neon-border rounded overflow-hidden bg-[#1a1f3a] group cursor-pointer">
+          <Image
+            src={photos.portrait.src}
+            alt={photos.portrait.alt}
+            widths={[320]}
+            sizes="320px"
+            class="w-full h-auto group-hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+
+        <!-- Dance Smile -->
+        <div
+          data-card
+          data-reveal
+          class="neon-border-cyan rounded overflow-hidden bg-[#1a1f3a] row-span-2 flex items-center group cursor-pointer"
+        >
+          <Image
+            src={photos.danceSmile.src}
+            alt={photos.danceSmile.alt}
+            widths={[320]}
+            sizes="320px"
+            class="w-full h-auto group-hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+
+        <!-- Team Medals -->
+        <div data-card data-reveal class="neon-border rounded overflow-hidden bg-[#1a1f3a] group cursor-pointer">
+          <Image
+            src={photos.teamMedals.src}
+            alt={photos.teamMedals.alt}
+            widths={[320]}
+            sizes="320px"
+            class="w-full h-auto group-hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+      </div>
+
+      <!-- Right: Text content -->
+      <div class="space-y-6">
+        <p class="text-lg neon-text-cyan">
+          Танец для меня — это не просто движения под музыку, это история, которую рассказывает
+          пара своим гостям.
+        </p>
+
+        <p class="text-base text-gray-300">
+          Я специализируюсь на бачате — чувственном, близком танце, который идеально подходит для
+          первого свадебного номера. Но готов поставить и вальс, микс стилей или танец под вашу
+          любимую песню.
+        </p>
+
+        <p class="text-base text-gray-300">
+          Вёл группы для начинающих и опытных танцоров, выступаю на вечеринках и фестивалях,
+          работаю с семейными парами и друзьями.
+        </p>
+
+        <p class="text-base text-gray-300">
+          Главное: каждая пара уникальна. Я слушаю вашу музыку, смотрю на то, как вы двигаетесь,
+          и создаю хореографию специально для вас — так, чтобы она была красивой, безопасной и
+          ненапряжной.
+        </p>
+
+        <div class="pt-4">
+          <a
+            href={site.instagramUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-block text-[#ff006e] hover:text-[#00d9ff] transition-colors font-bold"
+          >
+            Смотрите танцы в Instagram →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

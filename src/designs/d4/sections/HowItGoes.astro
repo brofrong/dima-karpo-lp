@@ -1,0 +1,180 @@
+---
+---
+
+<section
+  class="section py-16 md:py-24 bg-white relative"
+  data-section
+>
+  <div class="container-narrow">
+    <h2 class="text-center text-3xl md:text-4xl font-display font-bold uppercase mb-16">
+      Как это работает
+    </h2>
+
+    <!-- Step diagram canvas -->
+    <div class="mb-20 bg-white rounded-2xl p-4 md:p-8 shadow-md overflow-x-auto">
+      <canvas
+        data-step-diagram
+        aria-hidden="true"
+        class="w-full max-w-2xl mx-auto h-auto block"
+        width="600"
+        height="150"
+      ></canvas>
+      <p class="text-center text-sm text-[#666] mt-4">
+        Базовый шаг бачаты — простой и естественный ритм, который вы освоите в первых занятиях
+      </p>
+    </div>
+
+    <!-- Timeline -->
+    <div class="relative">
+      <!-- SVG Timeline connector -->
+      <svg
+        class="absolute left-0 md:left-1/2 top-0 bottom-0 w-1 md:w-0.5 md:transform md:-translate-x-1/2 h-full pointer-events-none"
+        data-timeline
+        preserveAspectRatio="none"
+      >
+        <line
+          x1="2"
+          y1="0"
+          x2="2"
+          y2="100%"
+          stroke="url(#gradient)"
+          stroke-width="4"
+          stroke-dasharray="1000"
+          stroke-dashoffset="1000"
+          data-draw-line
+        />
+        <defs>
+          <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#0f5a9f;stop-opacity:1" />
+            <stop offset="50%" style="stop-color:#ff8c42;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#ffd60a;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+      </svg>
+
+      <!-- Steps -->
+      <div class="space-y-12">
+        <!-- Step 1 -->
+        <div class="timeline-step md:odd:pr-[52%] md:even:pl-[52%]" data-step-card>
+          <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
+            <h3 class="font-display font-bold text-xl uppercase mb-2 text-[#0f5a9f]">
+              Шаг 1: Первый контакт
+            </h3>
+            <p class="text-[#2d3436] mb-3">
+              Вы пишете Дмитрию в Telegram. Обсуждаете музыку, стиль, идею
+              танца. Договариваетесь о первом занятии — когда вам удобно, где
+              удобно.
+            </p>
+            <div class="text-sm text-[#666] italic">
+              📞 Всё просто: вопросы, ответы, договорённость
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="timeline-step md:odd:pr-[52%] md:even:pl-[52%]" data-step-card>
+          <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
+            <h3 class="font-display font-bold text-xl uppercase mb-2 text-[#ff8c42]">
+              Шаг 2: Основа и ритм
+            </h3>
+            <p class="text-[#2d3436] mb-3">
+              Первые две-три встречи — это база. Вы учитесь слышать музыку,
+              понимать ведение, чувствовать друг друга. Шаги, ритм, близость в
+              паре.
+            </p>
+            <div class="text-sm text-[#666] italic">
+              🎵 Каждое занятие — новые движения, новое понимание
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="timeline-step md:odd:pr-[52%] md:even:pl-[52%]" data-step-card>
+          <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
+            <h3 class="font-display font-bold text-xl uppercase mb-2 text-[#ffd60a] text-opacity-80">
+              Шаг 3: Хореография
+            </h3>
+            <p class="text-[#2d3436] mb-3">
+              Теперь вы готовы. Дмитрий показывает связку под вашу музыку.
+              Фигуры, переходы, моменты для улыбок и взглядов. Танец становится
+              вашей историей.
+            </p>
+            <div class="text-sm text-[#666] italic">
+              ✨ Вот он — ваш танец в полном виде
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="timeline-step md:odd:pr-[52%] md:even:pl-[52%]" data-step-card>
+          <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
+            <h3 class="font-display font-bold text-xl uppercase mb-2 text-[#4da6ff]">
+              Шаг 4: Генеральная репетиция
+            </h3>
+            <p class="text-[#2d3436] mb-3">
+              Последнее занятие — в платье, в туфлях, на площадке похожей на
+              танцпол. Вы уже не учитесь, вы репетируете. Уверенность,
+              красота, финал.
+            </p>
+            <div class="text-sm text-[#666] italic">
+              🎬 Генеральный прогон перед первой и единственной премьерой
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="timeline-step md:odd:pr-[52%] md:even:pl-[52%]" data-step-card>
+          <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
+            <h3 class="font-display font-bold text-xl uppercase mb-2 text-[#0f5a9f]">
+              Шаг 5: Ваш день
+            </h3>
+            <p class="text-[#2d3436] mb-3">
+              Свадьба. Танец. Все смотрят на вас, но вы видите только друг
+              друга. Это самый красивый момент вечера, и вы готовы на все 100%.
+            </p>
+            <div class="text-sm text-[#666] italic">
+              💫 Воплощение мечты. Танец на всю жизнь.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="mt-20 bg-gradient-to-r from-[#0f5a9f]/5 via-[#ff8c42]/5 to-[#ffd60a]/5 rounded-xl p-8 border-l-4 border-[#0f5a9f]">
+      <h3 class="font-display font-bold text-xl uppercase mb-4">
+        В среднем: 5–7 занятий
+      </h3>
+      <p class="text-[#2d3436] mb-4">
+        Обычно пара начинает заниматься за месяц-два до свадьбы, два раза в
+        неделю. Но каждый случай уникален — кто-то готовится дольше, кто-то
+        быстрее. Всё зависит от вашего уровня и того, что вы хотите.
+      </p>
+      <p class="text-sm text-[#666]">
+        💡 Советуем писать Дмитрию заранее — так больше времени на полноценную
+        подготовку и спокойствие перед большим днём.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Timeline positioning for desktop */
+  @media (min-width: 768px) {
+    .timeline-step:nth-child(odd) {
+      text-align: right;
+      padding-right: calc(50% + 2rem);
+    }
+
+    .timeline-step:nth-child(even) {
+      text-align: left;
+      padding-left: calc(50% + 2rem);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .timeline-step {
+      padding-left: 3rem;
+    }
+  }
+</style>

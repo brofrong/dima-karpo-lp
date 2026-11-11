@@ -1,0 +1,111 @@
+---
+---
+
+<section data-section class="section-padding bg-gradient-to-b from-[#1a1f3a] to-[#0a0e27]">
+  <div class="container-max">
+    <h2 class="mb-16 neon-text">Как это происходит</h2>
+
+    <div class="space-y-8 relative">
+      {/* Timeline vertical line */}
+      <div
+        class="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#ff006e] via-[#00d9ff] to-[#ff006e] transform -translate-x-1/2"
+      ></div>
+
+      {/* Step 1 */}
+      <div data-timeline-step class="relative mb-12">
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="text-right md:pr-12 flex flex-col justify-center">
+            <div class="inline-block md:ml-auto mb-4">
+              <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#ff006e] font-bold text-[#0a0e27]">
+                1
+              </span>
+            </div>
+            <h3 class="text-2xl font-bold mb-3 neon-text">Первое сообщение</h3>
+            <p class="text-gray-300">
+              Вы пишете мне в Telegram с датой свадьбы и рассказываете о себе: какой танец нравится,
+              есть ли опыт, какую песню хотите.
+            </p>
+          </div>
+          <div class="md:pl-12"></div>
+        </div>
+      </div>
+
+      {/* Step 2 */}
+      <div data-timeline-step class="relative mb-12">
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="md:pr-12"></div>
+          <div class="md:pl-12 flex flex-col justify-center">
+            <div class="inline-block mb-4">
+              <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#00d9ff] font-bold text-[#0a0e27]">
+                2
+              </span>
+            </div>
+            <h3 class="text-2xl font-bold mb-3 neon-text-cyan">Обсуждение и план</h3>
+            <p class="text-gray-300">
+              Обговариваем детали: ваш стиль танца, уровень подготовки, хотите ли вы поддержек и
+              как часто удобно заниматься. На основе этого составляю программу занятий.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Step 3 */}
+      <div data-timeline-step class="relative mb-12">
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="text-right md:pr-12 flex flex-col justify-center">
+            <div class="inline-block md:ml-auto mb-4">
+              <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#ffd60a] font-bold text-[#0a0e27]">
+                3
+              </span>
+            </div>
+            <h3 class="text-2xl font-bold mb-3 neon-text-yellow">Занятия</h3>
+            <p class="text-gray-300">
+              Обычно нужно 5–7 встреч, чтобы выучить хореографию и почувствовать себя уверенно. Занятия
+              проходят в удобном для вас ритме, в помещении на ваш выбор.
+            </p>
+          </div>
+          <div class="md:pl-12"></div>
+        </div>
+      </div>
+
+      {/* Step 4 */}
+      <div data-timeline-step class="relative">
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="md:pr-12"></div>
+          <div class="md:pl-12 flex flex-col justify-center">
+            <div class="inline-block mb-4">
+              <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#a71930] font-bold text-white">
+                4
+              </span>
+            </div>
+            <h3 class="text-2xl font-bold mb-3 neon-text">День свадьбы</h3>
+            <p class="text-gray-300">
+              Вы выходите на танец, гости уже хотят смотреть. Музыка включается, и вы просто наслаждаетесь
+              моментом — всё уже в мышцах, всё получится красиво.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @media (max-width: 768px) {
+    .absolute {
+      left: 0;
+    }
+
+    [data-timeline-step] {
+      margin-left: 3rem;
+    }
+
+    [data-timeline-step] .grid {
+      grid-template-columns: 1fr;
+    }
+
+    [data-timeline-step] .text-right {
+      text-align: left;
+    }
+  }
+</style>

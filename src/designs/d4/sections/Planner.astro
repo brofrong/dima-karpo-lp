@@ -1,0 +1,283 @@
+---
+import { helloLink } from "../../../data/site";
+import {
+  LEVELS,
+  STYLES,
+  EXTRAS,
+  DEFAULT_SELECTION,
+  recommendLessons,
+} from "../../../lib/planner";
+import { WEEKDAYS_SHORT } from "../../../lib/dates";
+---
+
+<section
+  id="planner"
+  class="section py-16 md:py-24 bg-gradient-to-br from-[#f5f1e8] via-white to-[#f0f0f0]"
+  data-planner-section
+>
+  <div class="container-narrow">
+    <h2 class="text-center text-3xl md:text-4xl font-display font-bold uppercase mb-12">
+      Вычислите свою программу
+    </h2>
+
+    <!-- Planner widget -->
+    <div
+      data-planner
+      class="bg-white/80 backdrop-blur rounded-2xl p-4 md:p-8 shadow-xl"
+    >
+      <!-- Calendar Section -->
+      <div class="mb-12">
+        <h3 class="font-display font-bold text-lg uppercase mb-6 text-[#0f5a9f]">
+          Выберите дату свадьбы
+        </h3>
+
+        <div class="space-y-4 mb-6">
+          <!-- Month Navigation -->
+          <div class="flex items-center justify-between gap-2 sm:gap-4">
+            <button
+              type="button"
+              data-planner-prev
+              aria-label="Предыдущий месяц"
+              class="btn bg-[#0f5a9f]/10 hover:bg-[#0f5a9f]/20 text-[#0f5a9f] px-2 sm:px-6 py-2 sm:py-3 text-xs sm:text-base"
+            >
+              <span class="hidden sm:inline">← Назад</span>
+              <span class="sm:hidden">←</span>
+            </button>
+            <strong
+              data-planner-month
+              class="font-display text-xs sm:text-lg uppercase text-[#2d3436] text-center flex-1"
+              aria-live="polite"
+            >
+              Месяц
+            </strong>
+            <button
+              type="button"
+              data-planner-next
+              aria-label="Следующий месяц"
+              class="btn bg-[#0f5a9f]/10 hover:bg-[#0f5a9f]/20 text-[#0f5a9f] px-2 sm:px-6 py-2 sm:py-3 text-xs sm:text-base"
+            >
+              <span class="hidden sm:inline">Вперед →</span>
+              <span class="sm:hidden">→</span>
+            </button>
+          </div>
+
+          <!-- Weekday Headers -->
+          <div
+            class="grid grid-cols-7 gap-0.5 md:gap-1 text-center text-xs font-bold text-[#666] uppercase mb-2"
+            aria-hidden="true"
+          >
+            {WEEKDAYS_SHORT.map((day) => <div>{day}</div>)}
+          </div>
+
+          <!-- Calendar Grid -->
+          <div
+            data-planner-grid
+            class="grid grid-cols-7 gap-0.5 md:gap-1 calendar-grid"
+          >
+          </div>
+        </div>
+        <noscript
+          class="text-sm text-[#666] italic bg-[#f5f1e8] p-4 rounded"
+        >
+          Календарь требует JavaScript. Напишите Дмитрию в Telegram — он
+          поможет подобрать даты занятий.
+        </noscript>
+      </div>
+
+      <!-- Options Section -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <!-- Style -->
+        <div>
+          <h4 class="font-display font-bold text-sm uppercase text-[#0f5a9f] mb-3">
+            Стиль танца
+          </h4>
+          <div class="space-y-2">
+            {
+              STYLES.map((style) => (
+                <button
+                  type="button"
+                  data-planner-style={style.id}
+                  aria-pressed={style.id === DEFAULT_SELECTION.style}
+                  class="w-full text-left px-3 py-2 rounded-lg text-sm transition-all hover:bg-[#0f5a9f]/10 aria-pressed:bg-[#0f5a9f] aria-pressed:text-white aria-pressed:font-bold"
+                >
+                  {style.title}
+                </button>
+              ))
+            }
+          </div>
+        </div>
+
+        <!-- Level -->
+        <div>
+          <h4 class="font-display font-bold text-sm uppercase text-[#ff8c42] mb-3">
+            Опыт в танцах
+          </h4>
+          <div class="space-y-2">
+            {
+              LEVELS.map((level) => (
+                <button
+                  type="button"
+                  data-planner-level={level.id}
+                  aria-pressed={level.id === DEFAULT_SELECTION.level}
+                  class="w-full text-left px-3 py-2 rounded-lg text-sm transition-all hover:bg-[#ff8c42]/10 aria-pressed:bg-[#ff8c42] aria-pressed:text-white aria-pressed:font-bold"
+                >
+                  {level.title}
+                </button>
+              ))
+            }
+          </div>
+        </div>
+
+        <!-- Extras -->
+        <div>
+          <h4 class="font-display font-bold text-sm uppercase text-[#ffd60a] mb-3">
+            Дополнительно
+          </h4>
+          <div class="space-y-2">
+            {
+              EXTRAS.map((extra) => (
+                <button
+                  type="button"
+                  data-planner-extra={extra.id}
+                  aria-pressed="false"
+                  class="w-full text-left px-3 py-2 rounded-lg text-sm transition-all hover:bg-[#ffd60a]/10 aria-pressed:bg-[#ffd60a] aria-pressed:text-[#2d3436] aria-pressed:font-bold"
+                >
+                  {extra.title}
+                </button>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Section -->
+      <div
+        class="bg-gradient-to-r from-[#0f5a9f]/5 via-[#ff8c42]/5 to-[#ffd60a]/5 rounded-xl p-6 border-l-4 border-[#0f5a9f]"
+        aria-live="polite"
+      >
+        <div class="grid grid-cols-2 gap-6 mb-6">
+          <div>
+            <p class="text-sm text-[#666] uppercase font-bold">Занятий</p>
+            <p
+              class="font-display text-4xl font-bold"
+              style="color: #0f5a9f"
+              data-planner-lessons
+              data-color-shift
+            >
+              {recommendLessons(DEFAULT_SELECTION)}
+            </p>
+          </div>
+          <div>
+            <p class="text-sm text-[#666] uppercase font-bold">Дней до свадьбы</p>
+            <p class="font-display text-4xl font-bold" style="color: #ff8c42" data-planner-days-left data-color-shift>
+              —
+            </p>
+          </div>
+        </div>
+
+        <p
+          class="font-display font-bold text-lg uppercase text-[#2d3436] mb-2"
+          data-planner-headline
+        >
+          Обычно хватает 5–7 занятий
+        </p>
+        <p
+          class="text-[#2d3436] mb-6"
+          data-planner-advice
+        >
+          Выберите дату свадьбы — и программа разложится по дням.
+        </p>
+
+        <!-- Sessions List -->
+        <ol
+          data-planner-sessions
+          class="space-y-2 mb-6"
+        >
+        </ol>
+
+        <!-- CTA -->
+        <a
+          data-planner-cta
+          href={helloLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-primary w-full sm:w-auto block text-center"
+        >
+          Отправить программу в Telegram
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .calendar-grid {
+    min-height: 300px;
+  }
+
+  [data-planner] button[data-date] {
+    border-radius: 0.5rem;
+    min-width: 32px;
+    min-height: 40px;
+    font-weight: 600;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    font-size: 0.875rem;
+  }
+
+  [data-planner] button[data-date]:hover {
+    background-color: rgba(15, 90, 159, 0.1);
+  }
+
+  [data-planner] button[data-date][aria-pressed="true"] {
+    background-color: #ffd60a;
+    color: #2d3436;
+  }
+
+  [data-planner] button[data-date]:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  [data-planner] button[data-date]:focus {
+    outline: none;
+    ring: 2px;
+    ring-color: #0f5a9f;
+  }
+
+  @media (min-width: 640px) {
+    [data-planner] button[data-date] {
+      min-width: 40px;
+      min-height: 45px;
+      font-size: 0.9375rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    [data-planner] button[data-date] {
+      min-width: 50px;
+      min-height: 60px;
+      font-size: 1rem;
+    }
+  }
+
+  [data-planner] button[data-date][data-today] {
+    ring: 2px;
+    ring-color: #0f5a9f;
+  }
+
+  [data-planner] button[data-date][data-lesson] {
+    ring: 2px;
+    ring-color: #ff8c42;
+    ring-opacity: 0.6;
+  }
+
+  [data-planner-session] {
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    background-color: rgba(245, 241, 232, 0.8);
+    border-left: 4px solid #0f5a9f;
+    font-size: 0.875rem;
+  }
+</style>

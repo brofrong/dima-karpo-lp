@@ -1,0 +1,118 @@
+---
+import { Image } from "astro:assets";
+import { helloLink } from "../../data/site";
+import Ornament from "./Ornament.astro";
+
+interface Props {
+  photos: any;
+}
+
+const { photos } = Astro.props;
+---
+
+<header class="relative min-h-screen flex flex-col items-center justify-center py-16 md:py-20 px-6">
+  <div class="absolute inset-0 pointer-events-none">
+    <div
+      class="absolute top-12 left-1/2 -translate-x-1/2 w-32 h-32 opacity-20"
+      aria-hidden="true"
+    >
+      <svg viewBox="0 0 120 120" class="w-full h-full">
+        <defs>
+          <radialGradient id="ornGradient" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#d4a574" />
+            <stop offset="100%" stop-color="#8b4a52" />
+          </radialGradient>
+        </defs>
+        <circle cx="60" cy="60" r="55" fill="url(#ornGradient)" opacity="0.1" />
+      </svg>
+    </div>
+  </div>
+
+  <div class="relative z-10 max-w-4xl">
+    <!-- SVG Ornament -->
+    <Ornament />
+
+    <!-- Main Headline -->
+    <h1
+      data-headline
+      class="text-center mb-8 md:mb-12 font-serif italic leading-tight"
+    >
+      Первый танец<br />вашей мечты
+    </h1>
+
+    <!-- Subtitle -->
+    <p
+      class="text-center text-lg md:text-xl mb-12 md:mb-16 text-[#c9a881] font-serif italic max-w-2xl mx-auto"
+    >
+      Элегантность в каждом движении. Бачата, вальс или микс на вашу музыку —
+      всё начинается здесь.
+    </p>
+
+    <!-- Hero Photo and CTA Section -->
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center mb-8"
+    >
+      <!-- Photo -->
+      <div class="order-2 md:order-1">
+        <div
+          data-photo-frame
+          class="aspect-square bg-[#0f0d0f] overflow-hidden border-2 border-[#d4a574]"
+        >
+          <Image
+            src={photos.danceSmile.src}
+            alt={photos.danceSmile.alt}
+            widths={[320, 640]}
+            sizes="(max-width: 768px) 90vw, 400px"
+            class="w-full h-full object-cover mix-blend-multiply filter saturate-75"
+          />
+        </div>
+      </div>
+
+      <!-- CTA Buttons -->
+      <div class="order-1 md:order-2 flex flex-col gap-6">
+        <div>
+          <p class="text-sm uppercase tracking-widest text-[#d4a574] mb-4 font-serif">
+            Готовы к переменам?
+          </p>
+          <h2 class="text-3xl md:text-4xl font-serif italic mb-6">
+            Дмитрий Карпов
+          </h2>
+          <p class="text-[#c9a881] mb-8 font-serif">
+            Преподаватель бачаты и постановщик свадебных танцев. <br />
+            Ваш танец будет красивым, безопасным и запоминающимся.
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-4">
+          <a
+            href={helloLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="button-solid text-center"
+          >
+            Написать в Telegram
+          </a>
+          <a
+            href="#planner"
+            class="button-outline text-center"
+          >
+            Выбрать дату
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Decorative divider -->
+    <div class="my-12 md:my-16">
+      <div class="gold-divider"></div>
+    </div>
+
+    <!-- Brief intro -->
+    <div class="text-center max-w-2xl mx-auto">
+      <p class="text-[#c9a881] font-serif leading-relaxed">
+        Обычно нужно 5–7 занятий, чтобы подготовиться. Хватает одного или двух
+        месяцев. Место и расписание — договоримся в Telegram.
+      </p>
+    </div>
+  </div>
+</header>

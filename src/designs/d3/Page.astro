@@ -1,7 +1,83 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import "./styles.css";
+
+import Hero from "./sections/Hero.astro";
+import WhoIs from "./sections/WhoIs.astro";
+import WhatDance from "./sections/WhatDance.astro";
+import HowItGoes from "./sections/HowItGoes.astro";
+import Marquee from "./sections/Marquee.astro";
+import Planner from "./sections/Planner.astro";
+import FAQ from "./sections/FAQ.astro";
+import CTA from "./sections/CTA.astro";
+
+const title = "Свадебный танец с Дмитрием Карповым — Flux Motion";
+const description = "Стильный первый танец с легкой, текучей хореографией. Движение без границ.";
+const themeColor = "#fef8f3";
 ---
 
-<BaseLayout variant={3}>
-  <main><h1>Вариант 3</h1></main>
+<BaseLayout
+  title={title}
+  description={description}
+  themeColor={themeColor}
+  variant={3}
+  bodyClass="d3-variant"
+>
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;700&family=Montserrat:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style is:inline>
+      :root {
+        --color-cream: #fef8f3;
+        --color-orange-main: #ff9500;
+        --color-orange-warm: #f09433;
+        --color-blue-main: #0064ff;
+        --color-red: #ff6b6b;
+        --color-dark: #2d3436;
+      }
+    </style>
+  </Fragment>
+
+  <main class="d3-main">
+    <Hero />
+    <WhoIs />
+    <WhatDance />
+    <HowItGoes />
+    <Marquee />
+    <Planner />
+    <FAQ />
+    <CTA />
+  </main>
+
+  <script>
+    import { initPage } from "./main";
+    initPage();
+  </script>
 </BaseLayout>
+
+<style>
+  .d3-main {
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  :global(.d3-variant) {
+    background-color: #fef8f3;
+    color: #2d3436;
+  }
+
+  :global(.d3-variant h1),
+  :global(.d3-variant h2),
+  :global(.d3-variant h3) {
+    font-family: "Jost", sans-serif;
+    font-weight: 700;
+  }
+
+  :global(.d3-variant body) {
+    font-family: "Montserrat", sans-serif;
+  }
+</style>

@@ -1,0 +1,235 @@
+@import "tailwindcss" source(".");
+
+@theme {
+  --font-display: "Tektur", sans-serif;
+  --font-body: "Manrope", sans-serif;
+  --color-primary: #ff006e;
+  --color-accent: #00d9ff;
+  --color-yellow: #ffd60a;
+  --color-blue: #1f77f2;
+  --color-red: #a71930;
+  --color-dark: #0a0e27;
+  --color-light-dark: #1a1f3a;
+}
+
+@layer base {
+  html {
+    @apply bg-[#0a0e27];
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-[#0a0e27] text-white font-body;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display font-bold;
+    letter-spacing: -0.02em;
+  }
+
+  h1 {
+    @apply text-4xl md:text-6xl lg:text-7xl;
+  }
+
+  h2 {
+    @apply text-3xl md:text-5xl;
+  }
+
+  h3 {
+    @apply text-xl md:text-2xl;
+  }
+
+  p {
+    @apply leading-relaxed;
+  }
+
+  a {
+    @apply underline hover:no-underline transition-all;
+  }
+}
+
+/* Neon glow utilities */
+@layer components {
+  .neon-text {
+    @apply text-[#ff006e];
+    text-shadow:
+      0 0 10px rgba(255, 0, 110, 0.5),
+      0 0 20px rgba(255, 0, 110, 0.3);
+  }
+
+  .neon-text-cyan {
+    @apply text-[#00d9ff];
+    text-shadow:
+      0 0 10px rgba(0, 217, 255, 0.5),
+      0 0 20px rgba(0, 217, 255, 0.3);
+  }
+
+  .neon-text-yellow {
+    @apply text-[#ffd60a];
+    text-shadow:
+      0 0 10px rgba(255, 214, 10, 0.5),
+      0 0 20px rgba(255, 214, 10, 0.3);
+  }
+
+  .neon-border {
+    @apply border-[#ff006e] border;
+    box-shadow:
+      0 0 10px rgba(255, 0, 110, 0.3),
+      inset 0 0 10px rgba(255, 0, 110, 0.1);
+  }
+
+  .neon-border-cyan {
+    @apply border-[#00d9ff] border;
+    box-shadow:
+      0 0 10px rgba(0, 217, 255, 0.3),
+      inset 0 0 10px rgba(0, 217, 255, 0.1);
+  }
+
+  .neon-glow-pink {
+    box-shadow:
+      0 0 20px rgba(255, 0, 110, 0.5),
+      0 0 40px rgba(255, 0, 110, 0.3);
+  }
+
+  .neon-glow-cyan {
+    box-shadow:
+      0 0 20px rgba(0, 217, 255, 0.5),
+      0 0 40px rgba(0, 217, 255, 0.3);
+  }
+
+  .btn-neon {
+    @apply inline-block px-6 py-3 md:px-8 md:py-4 font-display font-bold text-sm md:text-base;
+    @apply border-2 border-[#ff006e] text-white;
+    @apply transition-all duration-300 cursor-pointer;
+    @apply hover:bg-[#ff006e] hover:shadow-lg;
+    box-shadow: 0 0 15px rgba(255, 0, 110, 0.3);
+  }
+
+  .btn-neon:hover {
+    box-shadow:
+      0 0 25px rgba(255, 0, 110, 0.6),
+      0 0 40px rgba(255, 0, 110, 0.3);
+  }
+
+  .btn-neon-secondary {
+    @apply inline-block px-6 py-3 md:px-8 md:py-4 font-display font-bold text-sm md:text-base;
+    @apply border-2 border-[#00d9ff] text-white;
+    @apply transition-all duration-300 cursor-pointer;
+    @apply hover:bg-[#00d9ff] hover:text-[#0a0e27];
+    box-shadow: 0 0 15px rgba(0, 217, 255, 0.3);
+  }
+
+  .btn-neon-secondary:hover {
+    box-shadow:
+      0 0 25px rgba(0, 217, 255, 0.6),
+      0 0 40px rgba(0, 217, 255, 0.3);
+  }
+
+  .section-padding {
+    @apply px-6 py-16 md:px-12 md:py-20 lg:px-16 lg:py-28;
+  }
+
+  .container-max {
+    @apply max-w-7xl mx-auto;
+  }
+}
+
+/* Keyframe animations */
+@keyframes float-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    text-shadow:
+      0 0 10px rgba(255, 0, 110, 0.5),
+      0 0 20px rgba(255, 0, 110, 0.3);
+  }
+  50% {
+    text-shadow:
+      0 0 20px rgba(255, 0, 110, 0.8),
+      0 0 40px rgba(255, 0, 110, 0.5);
+  }
+}
+
+@keyframes glow-pulse-cyan {
+  0%,
+  100% {
+    text-shadow:
+      0 0 10px rgba(0, 217, 255, 0.5),
+      0 0 20px rgba(0, 217, 255, 0.3);
+    border-color: rgba(0, 217, 255, 0.5);
+  }
+  50% {
+    text-shadow:
+      0 0 20px rgba(0, 217, 255, 0.8),
+      0 0 40px rgba(0, 217, 255, 0.5);
+    border-color: rgba(0, 217, 255, 0.8);
+  }
+}
+
+@keyframes rotate-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash-animation {
+  from {
+    stroke-dashoffset: 1000;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-skip-reduced-motion] {
+    animation-duration: initial !important;
+    animation-iteration-count: initial !important;
+    transition-duration: initial !important;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  h1 {
+    @apply text-3xl;
+  }
+
+  h2 {
+    @apply text-2xl;
+  }
+
+  h3 {
+    @apply text-lg;
+  }
+
+  .section-padding {
+    @apply px-4 py-12;
+  }
+}

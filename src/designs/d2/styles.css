@@ -1,0 +1,264 @@
+@import "tailwindcss" source(".");
+
+@theme {
+  --font-display: "Cormorant Garamond", serif;
+  --font-body: "Literata", serif;
+  --color-bg: #1a1520;
+  --color-text: #c9a881;
+  --color-accent: #d4a574;
+  --color-burgundy: #8b4a52;
+  --color-dark: #2c2620;
+}
+
+@layer base {
+  html {
+    @apply bg-[#1a1520] text-[#c9a881];
+    font-family: "Literata", serif;
+    font-size: 16px;
+  }
+
+  body {
+    @apply bg-[#1a1520] text-[#c9a881];
+    line-height: 1.6;
+    font-feature-settings:
+      "liga" 1,
+      "calt" 1;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 400;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1 {
+    @apply text-5xl md:text-6xl;
+    letter-spacing: -0.02em;
+    font-style: italic;
+  }
+
+  h2 {
+    @apply text-4xl md:text-5xl;
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+
+  p {
+    font-family: "Literata", serif;
+  }
+
+  a {
+    @apply text-[#d4a574] hover:text-[#e8c4a0] transition-colors duration-300;
+  }
+
+  button {
+    font-family: "Cormorant Garamond", serif;
+  }
+}
+
+@layer utilities {
+  .section-spacing {
+    @apply py-20 md:py-32 px-6 md:px-12;
+  }
+
+  .container-width {
+    @apply max-w-6xl mx-auto;
+  }
+
+  .gold-divider {
+    @apply w-full h-px bg-gradient-to-r from-transparent via-[#d4a574] to-transparent;
+  }
+
+  .burgundy-line {
+    @apply h-0.5 bg-[#8b4a52];
+  }
+
+  .button-outline {
+    @apply px-8 py-3 border border-[#d4a574] text-[#d4a574] font-serif italic hover:bg-[#d4a574] hover:text-[#1a1520] transition-all duration-300;
+  }
+
+  .button-solid {
+    @apply px-8 py-3 bg-[#8b4a52] text-[#d4a574] font-serif italic hover:bg-[#6b3a42] transition-all duration-300;
+  }
+}
+
+/* Smooth scroll for Lenis */
+html.smooth-scroll {
+  scroll-behavior: auto;
+}
+
+/* Serif typography enhancements */
+body {
+  font-variant-ligatures: common-ligatures discretionary-ligatures;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* SVG ornament animation setup */
+[data-ornament] {
+  opacity: 0;
+}
+
+html.js [data-ornament] {
+  opacity: 1;
+}
+
+/* Divider animations */
+[data-divider] svg {
+  opacity: 0;
+}
+
+html.js [data-divider] svg {
+  opacity: 1;
+}
+
+/* Hide entrance animation elements before JS loads - but keep h1 visible */
+html:not(.js) [data-entrance] {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* H1 headline: visible by default, hidden with JS for animation */
+h1[data-headline] {
+  opacity: 1;
+}
+
+html.js h1[data-headline] {
+  opacity: 0;
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Photo duotone filters */
+[data-photo-duotone] {
+  mix-blend-mode: multiply;
+  filter: saturate(0.8);
+}
+
+/* Button focus styles */
+button:focus-visible {
+  @apply outline-2 outline-offset-2 outline-[#d4a574];
+}
+
+a:focus-visible {
+  @apply outline-2 outline-offset-2 outline-[#d4a574];
+}
+
+/* Sticky Telegram button on mobile */
+@media (max-width: 768px) {
+  [data-sticky-cta] {
+    @apply fixed bottom-6 right-6 z-50;
+  }
+}
+
+/* Heading italic styles */
+h1 em,
+h2 em,
+h3 em {
+  font-style: italic;
+  font-weight: inherit;
+}
+
+/* Photo frame borders */
+[data-photo-frame] {
+  @apply border border-[#d4a574];
+}
+
+/* Planner styles */
+[data-planner] {
+  @apply text-[#c9a881];
+}
+
+[data-planner-grid] {
+  @apply grid grid-cols-7 gap-2 mb-8;
+}
+
+button[data-date] {
+  @apply min-w-12 min-h-12 border border-[#3d3035] text-[#c9a881] hover:border-[#d4a574] transition-colors duration-200;
+  font-family: "Cormorant Garamond", serif;
+}
+
+button[data-date][aria-pressed="true"] {
+  @apply border-[#d4a574] bg-[#2c2620] text-[#d4a574];
+}
+
+button[data-date][disabled] {
+  @apply opacity-25 cursor-not-allowed;
+}
+
+button[data-date][data-today] {
+  @apply border-[#8b4a52];
+}
+
+button[data-planner-style],
+button[data-planner-level],
+button[data-planner-extra] {
+  @apply text-[#c9a881] hover:text-[#d4a574] transition-colors duration-200 relative min-h-10 py-2;
+}
+
+button[data-planner-style][aria-pressed="true"]::after,
+button[data-planner-level][aria-pressed="true"]::after,
+button[data-planner-extra][aria-pressed="true"]::after {
+  content: "";
+  @apply absolute bottom-0 left-0 w-full h-0.5 bg-[#d4a574];
+}
+
+a[data-planner-cta] {
+  @apply inline-block;
+}
+
+/* FAQ card styles */
+[data-faq-item] {
+  @apply border-t border-[#3d3035] py-6;
+}
+
+[data-faq-item] button {
+  @apply w-full flex items-center justify-between text-left hover:text-[#d4a574] transition-colors duration-200;
+}
+
+[data-faq-item] button::after {
+  content: "▼";
+  @apply text-[#d4a574] text-sm transition-transform duration-300;
+}
+
+[data-faq-item][data-expanded] button::after {
+  transform: rotate(180deg);
+}
+
+[data-faq-content] {
+  @apply max-h-0 overflow-hidden transition-all duration-300;
+}
+
+[data-faq-item][data-expanded] [data-faq-content] {
+  @apply max-h-96;
+}
+
+/* Grid for photo layouts */
+.photo-grid-2 {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-6;
+}
+
+.photo-grid-3 {
+  @apply grid grid-cols-1 md:grid-cols-3 gap-6;
+}
+
+.photo-grid-4 {
+  @apply grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6;
+}

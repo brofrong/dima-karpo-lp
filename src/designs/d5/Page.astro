@@ -1,7 +1,516 @@
 ---
+import { Image } from "astro:assets";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { site, helloLink } from "../../data/site";
+import { photos } from "../../data/photos";
+import Planner from "./Planner.astro";
+import "./styles.css";
+
+const title = "Своя Музыка — свадебный танец с Дмитрием Карповым";
+const description =
+  "Вашем танце, вашей песне, вашей истории. Постановка свадебного танца: бачата, вальс, микс или ваш любимый трек.";
+const themeColor = "#faf8f5";
 ---
 
-<BaseLayout variant={5}>
-  <main><h1>Вариант 5</h1></main>
+<BaseLayout
+  title={title}
+  description={description}
+  themeColor={themeColor}
+  variant={5}
+>
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=PT+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+  </Fragment>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="section-padding bg-[#faf8f5]">
+      <div class="container-narrow text-center">
+        <!-- Ornament -->
+        <div class="mb-8 flex justify-center">
+          <svg
+            class="ornament-animated"
+            width="60"
+            height="2"
+            viewBox="0 0 60 2"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <line
+              x1="0"
+              y1="1"
+              x2="60"
+              y2="1"
+              stroke="#d4947a"
+              stroke-width="1.5"
+            />
+          </svg>
+        </div>
+
+        <!-- H1 -->
+        <h1 class="mb-4 hero-title">Ваш первый танец вместе</h1>
+
+        <!-- Subtitle -->
+        <p class="text-xl md:text-2xl text-[#b3733b] italic mb-12 hero-subtitle">
+          Вашем танце, вашей песне, вашей истории
+        </p>
+
+        <!-- Featured Photo -->
+        <div class="mb-12 flex justify-center overflow-hidden rounded-sm hero-photo">
+          <div class="photo-tinted w-full max-w-[640px]">
+            <Image
+              src={photos.danceSmile.src}
+              alt={photos.danceSmile.alt}
+              widths={[320, 640]}
+              sizes="(max-width: 768px) 320px, 640px"
+              class="w-full h-auto block border border-[#d4947a] border-opacity-30"
+            />
+          </div>
+        </div>
+
+        <!-- CTAs -->
+        <div class="flex flex-col md:flex-row gap-4 justify-center">
+          <a href={helloLink} target="_blank" rel="noopener noreferrer"
+            class="btn-cta">
+            Написать Дмитрию
+          </a>
+          <a
+            href="#planner"
+            class="px-8 py-3 border-2 border-[#b3733b] text-[#b3733b] font-body text-lg rounded-md transition-all duration-300 hover:bg-[#b3733b] hover:text-white"
+          >
+            Попробовать календарь
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ornament Divider -->
+    <div class="py-6 flex justify-center ornament-scroll">
+      <svg
+        width="120"
+        height="2"
+        viewBox="0 0 120 2"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <line
+          x1="0"
+          y1="1"
+          x2="120"
+          y2="1"
+          stroke="#d4947a"
+          stroke-width="1"
+        />
+      </svg>
+    </div>
+
+    <!-- Who Dmitriy Is -->
+    <section class="section-padding bg-white section-reveal">
+      <div class="container-narrow">
+        <div class="md:grid md:grid-cols-2 md:gap-12 md:items-center">
+          <div>
+            <h2 class="mb-6">Кто такой Дмитрий</h2>
+            <p class="text-lg text-[#666] mb-4 leading-relaxed">
+              Дмитрий Карпов — преподаватель бачаты и постановщик свадебных танцев с большой
+              страстью к движению и музыке. Он работает с парами, которые хотят
+              создать незабываемый момент на своей свадьбе.
+            </p>
+            <p class="text-lg text-[#666] mb-6 leading-relaxed">
+              Бачата — его специализация. Это теплый, чувственный танец, где партнеры
+              очень близко друг к другу. Но Дмитрий ставит и классические танцы,
+              и микс стилей, и танцы под вашу любимую песню.
+            </p>
+            <p class="text-base text-[#8b6b47] italic">
+              Работает с парами, которые раньше вообще не танцевали — это совсем не
+              проблема. Важно — что вы хотите сказать в этом танце.
+            </p>
+          </div>
+          <div class="mt-8 md:mt-0">
+            <div class="photo-tinted rounded-sm overflow-hidden">
+              <Image
+                src={photos.portrait.src}
+                alt={photos.portrait.alt}
+                widths={[320]}
+                sizes="(max-width: 768px) 300px, 360px"
+                class="w-full h-auto block border border-[#d4947a] border-opacity-30"
+              />
+            </div>
+            <p class="text-center text-[#8b6b47] mt-4 text-sm">
+              Смотрите ещё на <a
+                href={site.instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-[#d4947a] hover:underline font-semibold"
+              >
+                Instagram {site.instagramHandle}
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ornament Divider -->
+    <div class="py-6 flex justify-center ornament-scroll">
+      <svg
+        width="120"
+        height="2"
+        viewBox="0 0 120 2"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <line
+          x1="0"
+          y1="1"
+          x2="120"
+          y2="1"
+          stroke="#d4947a"
+          stroke-width="1"
+        />
+      </svg>
+    </div>
+
+    <!-- What Dance -->
+    <section class="section-padding bg-[#f0e4d7] section-reveal">
+      <div class="container-narrow">
+        <h2 class="text-center mb-12">Какой танец выбрать</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Bachata -->
+          <div>
+            <h3 class="mb-4">Бачата</h3>
+            <p class="text-base text-[#666] mb-6 leading-relaxed">
+              Тёплый, чувственный, близкий танец. Это специализация Дмитрия — он
+              чувствует каждый шаг, каждое движение партнёра. На свадьбе бачата
+              выглядит трогательно и запоминающейся.
+            </p>
+            <div class="photo-tinted rounded-sm overflow-hidden mb-4">
+              <Image
+                src={photos.dancePink.src}
+                alt={photos.dancePink.alt}
+                widths={[360]}
+                sizes="360px"
+                class="w-full h-auto block border border-[#d4947a] border-opacity-30"
+              />
+            </div>
+          </div>
+
+          <!-- Classic & Mix -->
+          <div>
+            <h3 class="mb-4">Вальс, микс и ваш трек</h3>
+            <p class="text-base text-[#666] mb-6 leading-relaxed">
+              Классический вальс или медленный танец — элегантно и всегда к месту.
+              Микс стилей позволяет начать нежно и закончить зажигательно. Приносите
+              свою песню — Дмитрий придумает хореографию именно под неё.
+            </p>
+            <div class="photo-tinted rounded-sm overflow-hidden mb-4">
+              <Image
+                src={photos.danceHall.src}
+                alt={photos.danceHall.alt}
+                widths={[360]}
+                sizes="360px"
+                class="w-full h-auto block border border-[#d4947a] border-opacity-30"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ornament Divider -->
+    <div class="py-6 flex justify-center ornament-scroll">
+      <svg
+        width="120"
+        height="2"
+        viewBox="0 0 120 2"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <line
+          x1="0"
+          y1="1"
+          x2="120"
+          y2="1"
+          stroke="#d4947a"
+          stroke-width="1"
+        />
+      </svg>
+    </div>
+
+    <!-- How It Goes -->
+    <section class="section-padding bg-white section-reveal">
+      <div class="container-narrow">
+        <h2 class="text-center mb-12">Как это работает</h2>
+        <div class="space-y-10">
+          <!-- Step 1 -->
+          <div class="flex gap-6 items-start">
+            <div
+              class="flex-shrink-0 w-12 h-12 rounded-full bg-[#d4947a] bg-opacity-20 flex items-center justify-center text-[#b3733b] font-display text-xl"
+            >
+              1
+            </div>
+            <div>
+              <h3 class="mb-2">Первый контакт</h3>
+              <p class="text-base text-[#666] leading-relaxed">
+                Вы пишете Дмитрию в Telegram. Рассказываете о дате свадьбы, о том,
+                какой танец вам нравится, есть ли опыт в танцах. Обсуждаете детали:
+                песню, площадку, ваши пожелания.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="flex gap-6 items-start">
+            <div
+              class="flex-shrink-0 w-12 h-12 rounded-full bg-[#d4947a] bg-opacity-20 flex items-center justify-center text-[#b3733b] font-display text-xl"
+            >
+              2
+            </div>
+            <div>
+              <h3 class="mb-2">Планируем занятия</h3>
+              <p class="text-base text-[#666] leading-relaxed">
+                Обычно нужно {site.typicalLessons} занятий. Мы подбираем дни и время,
+                которые вам удобны. Лучше всего начать за месяц-полтора до свадьбы,
+                но можно и быстрее.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="flex gap-6 items-start">
+            <div
+              class="flex-shrink-0 w-12 h-12 rounded-full bg-[#d4947a] bg-opacity-20 flex items-center justify-center text-[#b3733b] font-display text-xl"
+            >
+              3
+            </div>
+            <div>
+              <h3 class="mb-2">Учимся танцевать</h3>
+              <p class="text-base text-[#666] leading-relaxed">
+                На первых занятиях разбираемся с основами, ритмом, ведением в паре.
+                Потом начинаем собирать танец под вашу музыку. Каждое занятие —
+                это прогресс.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="flex gap-6 items-start">
+            <div
+              class="flex-shrink-0 w-12 h-12 rounded-full bg-[#d4947a] bg-opacity-20 flex items-center justify-center text-[#b3733b] font-display text-xl"
+            >
+              4
+            </div>
+            <div>
+              <h3 class="mb-2">Генеральная репетиция</h3>
+              <p class="text-base text-[#666] leading-relaxed">
+                За несколько дней до свадьбы репетируем в платье, обуви, на том же
+                месте, где будет танец. Все чувствуют себя уверенно и готовы к
+                главному моменту.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ornament Divider -->
+    <div class="py-6 flex justify-center ornament-scroll">
+      <svg
+        width="120"
+        height="2"
+        viewBox="0 0 120 2"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <line
+          x1="0"
+          y1="1"
+          x2="120"
+          y2="1"
+          stroke="#d4947a"
+          stroke-width="1"
+        />
+      </svg>
+    </div>
+
+    <!-- Planner -->
+    <Planner />
+
+    <!-- Ornament Divider -->
+    <div class="py-6 flex justify-center ornament-scroll">
+      <svg
+        width="120"
+        height="2"
+        viewBox="0 0 120 2"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <line
+          x1="0"
+          y1="1"
+          x2="120"
+          y2="1"
+          stroke="#d4947a"
+          stroke-width="1"
+        />
+      </svg>
+    </div>
+
+    <!-- FAQ -->
+    <section class="section-padding bg-white section-reveal">
+      <div class="container-narrow">
+        <h2 class="text-center mb-12">Частые вопросы</h2>
+        <div class="space-y-6">
+          <details class="group">
+            <summary
+              class="cursor-pointer flex items-center gap-3 pb-4 border-b border-[#d4947a] border-opacity-30 text-lg font-normal text-[#8b6b47] hover:text-[#b3733b]"
+            >
+              <span class="inline-block group-open:rotate-180 transition-transform">
+                ▼
+              </span>
+              Я никогда не танцевал — это нормально?
+            </summary>
+            <p class="pt-4 text-base text-[#666] leading-relaxed">
+              Совершенно нормально. Дмитрий работает с парами, которые начинают
+              с нуля. Главное — желание и готовность потратить время на занятия.
+              За несколько недель вы научитесь красиво двигаться в паре.
+            </p>
+          </details>
+
+          <details class="group">
+            <summary
+              class="cursor-pointer flex items-center gap-3 pb-4 border-b border-[#d4947a] border-opacity-30 text-lg font-normal text-[#8b6b47] hover:text-[#b3733b]"
+            >
+              <span class="inline-block group-open:rotate-180 transition-transform">
+                ▼
+              </span>
+              Можно ли начать за неделю до свадьбы?
+            </summary>
+            <p class="pt-4 text-base text-[#666] leading-relaxed">
+              Можно, но очень напряжно. Идеально — месяц-полтора. Если времени мало,
+              Дмитрий может придумать красивый и простой танец, который вы быстро
+              выучите. Напишите ему — подумает вместе с вами.
+            </p>
+          </details>
+
+          <details class="group">
+            <summary
+              class="cursor-pointer flex items-center gap-3 pb-4 border-b border-[#d4947a] border-opacity-30 text-lg font-normal text-[#8b6b47] hover:text-[#b3733b]"
+            >
+              <span class="inline-block group-open:rotate-180 transition-transform">
+                ▼
+              </span>
+              Как обсуждаются цена и место занятий?
+            </summary>
+            <p class="pt-4 text-base text-[#666] leading-relaxed">
+              Цена, место занятий, формат — всё обсуждается лично в Telegram или при
+              личной встрече. Дмитрий подберёт вариант, удобный именно вам.
+            </p>
+          </details>
+
+          <details class="group">
+            <summary
+              class="cursor-pointer flex items-center gap-3 pb-4 border-b border-[#d4947a] border-opacity-30 text-lg font-normal text-[#8b6b47] hover:text-[#b3733b]"
+            >
+              <span class="inline-block group-open:rotate-180 transition-transform">
+                ▼
+              </span>
+              Нужно ли приносить свой трек на занятия?
+            </summary>
+            <p class="pt-4 text-base text-[#666] leading-relaxed">
+              Да, приносите. Дмитрий будет ставить хореографию именно под вашу песню,
+              её ритм, её дыхание. Если трека ещё нет, можно начать с классических
+              вариантов, а потом переделать под вашу песню.
+            </p>
+          </details>
+
+          <details class="group">
+            <summary
+              class="cursor-pointer flex items-center gap-3 pb-4 border-b border-[#d4947a] border-opacity-30 text-lg font-normal text-[#8b6b47] hover:text-[#b3733b]"
+            >
+              <span class="inline-block group-open:rotate-180 transition-transform">
+                ▼
+              </span>
+              Что если партнёр/партнёрша очень нервничает?
+            </summary>
+            <p class="pt-4 text-base text-[#666] leading-relaxed">
+              Это нормально, и Дмитрий это понимает. На занятиях вы будете чувствовать
+              себя всё комфортнее в паре. Хороший учитель создаст атмосферу, в которой
+              страх уходит.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ornament Divider -->
+    <div class="py-6 flex justify-center ornament-scroll">
+      <svg
+        width="120"
+        height="2"
+        viewBox="0 0 120 2"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <line
+          x1="0"
+          y1="1"
+          x2="120"
+          y2="1"
+          stroke="#d4947a"
+          stroke-width="1"
+        />
+      </svg>
+    </div>
+
+    <!-- Closing CTA -->
+    <section class="section-padding bg-[#f0e4d7] section-reveal">
+      <div class="container-narrow text-center">
+        <h2 class="mb-6 italic">Готовы к первому танцу?</h2>
+        <p class="text-lg text-[#666] mb-8 leading-relaxed">
+          Напишите Дмитрию в Telegram — расскажите о себе и о том, какой танец вам снится.
+        </p>
+        <a href={helloLink} target="_blank" rel="noopener noreferrer"
+          class="btn-cta px-10 py-4">
+          Написать в Telegram
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-[#8b6b47] text-white section-padding text-center">
+    <div class="container-narrow space-y-4">
+      <div class="flex justify-center gap-6">
+        <a
+          href={site.telegramUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hover:opacity-80 transition-opacity"
+        >
+          Telegram {site.telegramHandle}
+        </a>
+        <a
+          href={site.instagramUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hover:opacity-80 transition-opacity"
+        >
+          Instagram {site.instagramHandle}
+        </a>
+      </div>
+      <p class="text-white text-opacity-80 text-sm">
+        © 2026 {site.name} — Постановка свадебных танцев
+      </p>
+    </div>
+  </footer>
 </BaseLayout>
+
+<script>
+  import { initPage } from "./main";
+  initPage();
+</script>

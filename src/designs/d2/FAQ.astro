@@ -1,0 +1,120 @@
+---
+const faqs = [
+  {
+    question: "А если мы вообще не танцевали?",
+    answer:
+      "Идеально! Дмитрий работает с парами без опыта. Начинает с самых основ, и уже после первого занятия вы почувствуете музыку и движение. К свадьбе вы будете танцевать уверенно и красиво.",
+  },
+  {
+    question: "Сколько времени займут занятия?",
+    answer:
+      "Обычно 5–7 занятий. Лучше всего начать за месяц-два до свадьбы. Но если времени меньше, можно и быстрее. Дмитрий подберёт расписание под вас.",
+  },
+  {
+    question: "Где проходят занятия?",
+    answer:
+      "Место и формат занятий Дмитрий подскажет в Telegram — договоритесь так, как удобно вам. Главное — что вы будете готовы к своему танцу.",
+  },
+  {
+    question: "Что если мне в платье неудобно танцевать?",
+    answer:
+      "Хороший вопрос! На финальном занятии вы танцуете в свадебной обуви и платье (если оно уже есть). Дмитрий проверит каждый момент, чтобы вы чувствовали себя комфортно и красиво. Практика в платье — это часть подготовки.",
+  },
+  {
+    question: "Можем ли мы выбрать свою музыку?",
+    answer:
+      "Конечно! Вы можете принести любимую песню, и Дмитрий поставит танец под неё. Или выбрать классический трек, или микс из нескольких песен. Ваша музыка — ваш танец.",
+  },
+  {
+    question: "Какой танец лучше всего для свадьбы?",
+    answer:
+      "Это зависит от вас: от вашего стиля, от песни, от времени подготовки. Бачата — самая тёплая и искренняя. Вальс — классический и магический. Микс — энергичный и неожиданный. Дмитрий поможет выбрать.",
+  },
+];
+---
+
+<div class="container-width">
+  <div class="mb-16">
+    <h2 class="text-4xl md:text-5xl font-serif italic mb-4">
+      Часто спрашивают
+    </h2>
+  </div>
+
+  <div class="max-w-3xl mx-auto space-y-px border-b border-[#3d3035]">
+    {
+      faqs.map((faq) => (
+        <div
+          data-faq-item
+          class="border-t border-[#3d3035] py-6"
+        >
+          <button
+            type="button"
+            class="w-full flex items-center justify-between text-left hover:text-[#d4a574] transition-colors duration-200 group"
+            aria-expanded="false"
+          >
+            <h3 class="text-lg md:text-xl font-serif italic pr-4">
+              {faq.question}
+            </h3>
+            <span
+              class="flex-shrink-0 text-[#d4a574] text-sm transition-transform duration-300 group-aria-expanded:rotate-180"
+              aria-hidden="true"
+            >
+              ▼
+            </span>
+          </button>
+          <div
+            data-faq-content
+            class="max-h-0 overflow-hidden transition-all duration-300"
+          >
+            <p class="text-[#c9a881] font-serif leading-relaxed pt-6">
+              {faq.answer}
+            </p>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll("[data-faq-item]").forEach((item) => {
+    const button = item.querySelector("button");
+    if (!button) return;
+
+    button.addEventListener("click", () => {
+      const isExpanded = item.hasAttribute("data-expanded");
+      const content = item.querySelector("[data-faq-content]") as HTMLElement;
+
+      if (isExpanded) {
+        item.removeAttribute("data-expanded");
+        button.setAttribute("aria-expanded", "false");
+        if (content) {
+          content.style.maxHeight = "0";
+        }
+      } else {
+        // Close other open items
+        document.querySelectorAll("[data-faq-item][data-expanded]").forEach(
+          (openItem) => {
+            if (openItem !== item) {
+              openItem.removeAttribute("data-expanded");
+              const openButton = openItem.querySelector("button");
+              if (openButton) openButton.setAttribute("aria-expanded", "false");
+              const openContent = openItem.querySelector(
+                "[data-faq-content]",
+              ) as HTMLElement;
+              if (openContent) {
+                openContent.style.maxHeight = "0";
+              }
+            }
+          },
+        );
+
+        item.setAttribute("data-expanded", "");
+        button.setAttribute("aria-expanded", "true");
+        if (content) {
+          content.style.maxHeight = content.scrollHeight + "px";
+        }
+      }
+    });
+  });
+</script>

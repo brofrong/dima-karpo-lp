@@ -1,0 +1,97 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+  photos: any;
+}
+
+const { photos } = Astro.props;
+
+const steps = [
+  {
+    number: "1",
+    title: "Первый контакт",
+    description:
+      "Вы пишете Дмитрию в Telegram. Рассказываете о своей свадьбе, о музыке, о том, что вы представляете. Он подскажет дату первого занятия.",
+    photo: photos.portrait,
+  },
+  {
+    number: "2",
+    title: "Первое занятие",
+    description:
+      "Вы встречаетесь, обсуждаете детали, слушаете музыку. Дмитрий чувствует вас как пару и начинает строить хореографию именно под вас.",
+    photo: photos.danceSmile,
+  },
+  {
+    number: "3",
+    title: "Занятия",
+    description:
+      "Обычно 5–7 занятий, два раза в неделю. Вы учите движения, отрабатываете технику, добавляете уверенность. Каждое занятие — шаг к идеальному танцу.",
+    photo: photos.danceHall,
+  },
+  {
+    number: "4",
+    title: "Генеральный прогон",
+    description:
+      "Финальное занятие: вы танцуете в свадебной обуви, в платье (если оно готово). Дмитрий проверяет каждый момент — и вы чувствуете себя готовыми.",
+    photo: photos.teacherCake,
+  },
+];
+---
+
+<div class="container-width">
+  <div class="mb-16">
+    <h2 class="text-4xl md:text-5xl font-serif italic mb-8">
+      Как это работает
+    </h2>
+  </div>
+
+  <!-- Steps -->
+  <div class="space-y-12 md:space-y-20">
+    {
+      steps.map((step) => (
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+          {/* Number and title */}
+          <div class="md:col-span-1">
+            <div class="text-6xl md:text-7xl font-serif italic text-[#d4a574] mb-4 opacity-30">
+              {step.number}
+            </div>
+            <h3 class="text-2xl md:text-3xl font-serif italic mb-4">
+              {step.title}
+            </h3>
+          </div>
+
+          {/* Description */}
+          <div class="md:col-span-1">
+            <p class="text-lg text-[#c9a881] font-serif leading-relaxed">
+              {step.description}
+            </p>
+          </div>
+
+          {/* Photo */}
+          <div
+            class="md:col-span-1"
+            data-photo-frame
+          >
+            <div class="aspect-square border border-[#d4a574] overflow-hidden">
+              <Image
+                src={step.photo.src}
+                alt={step.photo.alt}
+                widths={[320, 480]}
+                sizes="(max-width: 768px) 90vw, 280px"
+                class="w-full h-full object-cover mix-blend-multiply filter saturate-75"
+              />
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  <!-- Bottom message -->
+  <div class="mt-24 md:mt-32 border-t border-[#3d3035] pt-16 text-center">
+    <p class="text-xl text-[#c9a881] font-serif italic mb-6 max-w-2xl mx-auto">
+      Все детали — место, расписание, стоимость — обсуждаются лично в Telegram.
+    </p>
+  </div>
+</div>

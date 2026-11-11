@@ -1,0 +1,170 @@
+---
+import { Image } from "astro:assets";
+import { site } from "../../../data/site";
+import { photos } from "../../../data/photos";
+---
+
+<section class="d3-whois" id="whois">
+  <div class="d3-section-container">
+    <div class="d3-whois__grid">
+      <div class="d3-whois__text">
+        <h2>Кто такой Дмитрий</h2>
+        <p>
+          Дмитрий — преподаватель и постановщик свадебных танцев, специалист по бачате. Он работает с парами, которые никогда раньше не танцевали, и превращает их в уверенных танцоров за несколько недель.
+        </p>
+        <p>
+          Его философия простая: танец — это общение без слов. Каждое движение создаётся под вашу музыку, вашу историю, вашу энергию.
+        </p>
+        <p>
+          Дмитрий танцует на вечеринках и фестивалях, вёл группы для начинающих и продолжающих и помогает даже самым неуверенным получить то, о чём они мечтают.
+        </p>
+        <a href={site.instagramUrl} target="_blank" rel="noopener noreferrer" class="d3-link">
+          Смотри его танцы →
+        </a>
+      </div>
+
+      <div class="d3-whois__image">
+        <Image
+          src={photos.portrait.src}
+          alt={photos.portrait.alt}
+          widths={[320, 400]}
+          sizes="(max-width: 768px) 100vw, 400px"
+          class="d3-whois__img"
+        />
+      </div>
+    </div>
+
+    <!-- Decorative SVG separator -->
+    <svg class="d3-separator" viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path
+        d="M 0 60 Q 150 30 300 60 T 600 60 T 900 60 T 1200 60"
+        fill="none"
+        stroke="#ff9500"
+        stroke-width="2"
+        stroke-linecap="round"
+        opacity="0.3"
+      />
+      <circle cx="300" cy="60" r="3" fill="#0064ff" opacity="0.6" />
+      <circle cx="600" cy="60" r="3" fill="#ff9500" opacity="0.6" />
+      <circle cx="900" cy="60" r="3" fill="#ff6b6b" opacity="0.6" />
+    </svg>
+  </div>
+</section>
+
+<style>
+  .d3-whois {
+    padding: 4rem 1rem;
+    background: linear-gradient(180deg, #fef8f3 0%, #fff9f0 100%);
+  }
+
+  @media (min-width: 768px) {
+    .d3-whois {
+      padding: 6rem 2rem;
+    }
+  }
+
+  .d3-section-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .d3-whois__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  @media (min-width: 768px) {
+    .d3-whois__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+  }
+
+  .d3-whois__text {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .d3-whois__text h2 {
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    font-weight: 700;
+    color: #2d3436;
+    font-family: "Jost", sans-serif;
+  }
+
+  .d3-whois__text p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #555;
+  }
+
+  .d3-link {
+    display: inline-flex;
+    align-items: center;
+    color: #ff9500;
+    text-decoration: none;
+    font-weight: 600;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    width: fit-content;
+    margin-top: 1rem;
+  }
+
+  .d3-link:hover {
+    transform: translateX(4px);
+    color: #f07f00;
+  }
+
+  .d3-whois__image {
+    position: relative;
+    max-width: 350px;
+    margin: 0 auto;
+    aspect-ratio: 1;
+    border-radius: 20px;
+    overflow: hidden;
+    animation: slide-in-right 0.8s ease-out;
+  }
+
+  @media (min-width: 768px) {
+    .d3-whois__image {
+      order: 2;
+      max-width: none;
+    }
+  }
+
+  @keyframes slide-in-right {
+    from {
+      opacity: 0;
+      transform: translateX(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .d3-whois__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .d3-separator {
+    width: 100%;
+    max-width: 100%;
+    margin-top: 4rem;
+    height: 100px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .d3-whois__image {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>

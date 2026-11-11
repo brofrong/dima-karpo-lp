@@ -1,0 +1,78 @@
+---
+import { Image } from "astro:assets";
+import { photos } from "../../../data/photos";
+import { helloLink } from "../../../data/site";
+---
+
+<section
+  class="section pt-12 md:pt-24 pb-24 md:pb-32 bg-[#f5f1e8]"
+  data-hero
+  data-section
+>
+  <div class="container-narrow">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <!-- Left: Headline -->
+      <div class="flex flex-col justify-center">
+        <h1 class="mb-6" data-animate-in>
+          Танец, который помнят на всю жизнь
+        </h1>
+        <p class="text-lg text-[#2d3436] mb-8 leading-relaxed" data-animate-in>
+          От первой встречи до самого светлого момента вашей свадьбы — мы
+          пройдём этот путь вместе. Пять простых шагов помогут вам танцевать
+          уверенно, красиво и естественно.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 mb-8" data-animate-in>
+          <a
+            href={helloLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-primary"
+          >
+            Начать путь
+          </a>
+          <a
+            href="#planner"
+            class="btn bg-white border-2 border-[#0f5a9f] text-[#0f5a9f] hover:bg-[#0f5a9f]/5"
+          >
+            Вычислить программу
+          </a>
+        </div>
+        <p class="text-sm text-[#666] italic" data-animate-in>
+          ✨ Специализация Дмитрия — бачата, но любой стиль возможен
+        </p>
+      </div>
+
+      <!-- Right: Canvas animation -->
+      <div class="flex flex-col items-center justify-center" data-animate-in>
+        <canvas
+          data-hero-canvas
+          aria-hidden="true"
+          class="w-full max-w-xs sm:max-w-sm aspect-square rounded-2xl shadow-lg"
+          width="400"
+          height="400"
+        ></canvas>
+        <Image
+          src={photos.danceSmile.src}
+          alt={photos.danceSmile.alt}
+          widths={[320, 640]}
+          sizes="(max-width: 640px) 280px, (max-width: 768px) 320px, 400px"
+          class="w-full max-w-xs sm:max-w-sm aspect-square object-cover rounded-2xl shadow-lg mt-8 transform hover:scale-105 transition-transform duration-300"
+        />
+      </div>
+    </div>
+
+    <!-- Tagline -->
+    <div class="text-center mt-16">
+      <p class="text-[#0f5a9f] font-display uppercase text-sm tracking-widest font-bold">
+        Ваш путь начинается здесь
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  canvas[data-hero-canvas] {
+    background: linear-gradient(135deg, rgba(15, 90, 159, 0.05) 0%, rgba(255, 140, 66, 0.05) 100%);
+    border: 2px solid rgba(15, 90, 159, 0.2);
+  }
+</style>

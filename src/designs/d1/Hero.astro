@@ -1,0 +1,85 @@
+---
+import { Image } from "astro:assets";
+import { site, helloLink } from "../../data/site";
+import { photos } from "../../data/photos";
+
+interface Props {
+  isDark?: boolean;
+}
+---
+
+<header class="relative w-full min-h-screen bg-[#0a0e27] flex items-center justify-center overflow-hidden">
+  <!-- 3D WebGL Canvas -->
+  <canvas
+    data-hero-canvas
+    class="absolute inset-0 w-full h-full pointer-events-none"
+    width="1440"
+    height="900">
+  </canvas>
+
+  <!-- Fallback image for when WebGL is unavailable -->
+  <div class="absolute inset-0 w-full h-full opacity-0 pointer-events-none bg-gradient-to-b from-[#1a1f3a] to-[#0a0e27]">
+  </div>
+
+  <!-- Content overlay -->
+  <div
+    class="absolute inset-0 z-10 flex flex-col items-center justify-center w-full h-full px-6 py-12 text-center md:py-0 pointer-events-none"
+    data-section
+  >
+    <!-- Main Heading -->
+    <div class="max-w-4xl">
+      <h1 class="font-display font-bold text-4xl md:text-6xl lg:text-7xl leading-tight mb-6 neon-text">
+        Ваша свадьба в движении
+      </h1>
+
+      <p class="text-lg md:text-xl text-[#00d9ff] mb-12 max-w-2xl mx-auto">
+        Помогу вам и вашей паре станцевать первый танец так, чтобы его запомнили навсегда
+      </p>
+    </div>
+
+    <!-- CTA Buttons -->
+    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 pointer-events-auto relative z-20">
+      <a href={helloLink} target="_blank" rel="noopener noreferrer" class="btn-neon">
+        Написать в Telegram
+      </a>
+      <a href="#planner" class="btn-neon-secondary">
+        Посчитать занятия
+      </a>
+    </div>
+
+    <!-- Intro text about Dmitriy -->
+    <div class="max-w-2xl text-sm md:text-base text-gray-300">
+      <p>
+        Я {site.firstName} — преподаватель бачаты и постановщик свадебных танцев. Специализируюсь на
+        создании ярких, энергичных номеров, которые становятся кульминацией торжества.
+      </p>
+    </div>
+  </div>
+
+  <!-- Hero photo at bottom with duotone effect -->
+  <div class="absolute bottom-0 left-1/2 -translate-x-1/2 z-20 w-full max-w-2xl px-6">
+    <div class="relative">
+      <div class="absolute inset-0 bg-gradient-to-t from-[#0a0e27] to-transparent pointer-events-none"></div>
+      <Image
+        src={photos.danceSmile.src}
+        alt={photos.danceSmile.alt}
+        widths={[320, 640]}
+        sizes="(max-width: 768px) 100vw, 640px"
+        class="w-full h-auto block mix-blend-screen opacity-80 rounded"
+      />
+    </div>
+  </div>
+</header>
+
+<style>
+  @media (max-width: 768px) {
+    header {
+      min-height: auto;
+      padding-top: 60px;
+    }
+
+    canvas {
+      height: 300px;
+    }
+  }
+</style>

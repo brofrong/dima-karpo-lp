@@ -1,0 +1,82 @@
+---
+import { site, helloLink } from "../../data/site";
+---
+
+<footer class="section-padding bg-[#0a0e27] border-t-2 border-[#ff006e]">
+  <div class="container-max">
+    <!-- Final CTA -->
+    <div class="max-w-3xl mx-auto text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-bold mb-6 neon-text">Готовы танцевать?</h2>
+      <p class="text-lg text-gray-300 mb-8">
+        Напишите мне в Telegram и расскажите про вашу свадьбу. Я подберу программу занятий
+        и ответу на все вопросы.
+      </p>
+
+      <a href={helloLink} target="_blank" rel="noopener noreferrer" class="btn-neon inline-block text-lg">
+        Написать {site.firstName} в Telegram
+      </a>
+    </div>
+
+    <!-- Links -->
+    <div class="max-w-3xl mx-auto grid md:grid-cols-3 gap-8 text-center py-16 border-t border-[#ff006e] border-opacity-30">
+      <!-- About -->
+      <div class="space-y-3">
+        <h3 class="font-bold neon-text-cyan">О постановке</h3>
+        <ul class="space-y-2 text-gray-400 text-sm">
+          <li>
+            <a href="#planner" class="hover:text-[#ff006e] transition-colors">Калькулятор занятий</a>
+          </li>
+          <li>Бачата, вальс, микс</li>
+          <li>5–7 занятий обычно</li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div class="space-y-3">
+        <h3 class="font-bold neon-text-cyan">Контакты</h3>
+        <ul class="space-y-2 text-gray-400 text-sm">
+          <li>
+            <a
+              href={site.telegramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-[#ff006e] transition-colors"
+            >
+              Telegram
+            </a>
+          </li>
+          <li>
+            <a
+              href={site.instagramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-[#ff006e] transition-colors"
+            >
+              Instagram
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Dance info -->
+      <div class="space-y-3">
+        <h3 class="font-bold neon-text-cyan">Танец</h3>
+        <ul class="space-y-2 text-gray-400 text-sm">
+          <li>Преподаватель бачаты</li>
+          <li>Для пар с любым опытом</li>
+          <li>Свадебный номер в центре</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom -->
+    <div class="max-w-3xl mx-auto text-center py-8 border-t border-[#ff006e] border-opacity-30">
+      <p class="text-gray-400 text-sm">
+        Свадебный танец с {site.firstName} — танец в движении, светодиоды в такт
+      </p>
+      <p class="text-gray-500 text-xs mt-4">
+        Сайт создан с энергией и любовью к танцу
+      </p>
+    </div>
+  </div>
+</footer>

@@ -1,7 +1,195 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { helloLink } from "../../data/site";
+import { photos } from "../../data/photos";
+import Hero from "./Hero.astro";
+import WhoIsDmitry from "./WhoIsDmitry.astro";
+import DanceStyles from "./DanceStyles.astro";
+import HowItGoes from "./HowItGoes.astro";
+import Planner from "./Planner.astro";
+import FAQ from "./FAQ.astro";
+import Footer from "./Footer.astro";
+import "./styles.css";
 ---
 
-<BaseLayout variant={2}>
-  <main><h1>Вариант 2</h1></main>
+<BaseLayout
+  title="Вечерний Класс — свадебный танец с Дмитрием Карповым"
+  description="Свадебный танец в атмосфере элегантного класса. Бачата, вальс или микс на вашу музыку."
+  themeColor="#1a1520"
+  variant={2}
+>
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital@0;1&family=Literata:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+  </Fragment>
+
+  <main class="min-h-screen bg-[#1a1520] text-[#c9a881] overflow-x-hidden">
+    <!-- Hero Section -->
+    <Hero {photos} />
+
+    <!-- Divider -->
+    <div class="flex justify-center py-12 overflow-clip" data-divider>
+      <svg
+        width="120"
+        height="40"
+        viewBox="0 0 120 40"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="stroke-[#d4a574]"
+        stroke-width="1"
+      >
+        <path
+          d="M 10 20 Q 30 10 60 20 T 110 20"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+        />
+        <circle cx="60" cy="20" r="2" fill="currentColor" />
+      </svg>
+    </div>
+
+    <!-- Who is Dmitry -->
+    <section id="about" class="section-spacing bg-[#1a1520] border-t border-[#3d3035]">
+      <WhoIsDmitry {photos} />
+    </section>
+
+    <!-- Divider -->
+    <div class="flex justify-center py-12 overflow-clip" data-divider>
+      <svg
+        width="120"
+        height="40"
+        viewBox="0 0 120 40"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="stroke-[#d4a574]"
+        stroke-width="1"
+      >
+        <path
+          d="M 10 20 Q 30 10 60 20 T 110 20"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+        />
+        <circle cx="60" cy="20" r="2" fill="currentColor" />
+      </svg>
+    </div>
+
+    <!-- Dance Styles -->
+    <section
+      id="styles"
+      class="section-spacing bg-[#0f0d0f] border-t border-[#3d3035]"
+    >
+      <DanceStyles {photos} />
+    </section>
+
+    <!-- Divider -->
+    <div class="flex justify-center py-12 overflow-clip" data-divider>
+      <svg
+        width="120"
+        height="40"
+        viewBox="0 0 120 40"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="stroke-[#d4a574]"
+        stroke-width="1"
+      >
+        <path
+          d="M 10 20 Q 30 10 60 20 T 110 20"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+        />
+        <circle cx="60" cy="20" r="2" fill="currentColor" />
+      </svg>
+    </div>
+
+    <!-- How It Goes -->
+    <section id="process" class="section-spacing bg-[#1a1520] border-t border-[#3d3035]">
+      <HowItGoes {photos} />
+    </section>
+
+    <!-- Divider -->
+    <div class="flex justify-center py-12 overflow-clip" data-divider>
+      <svg
+        width="120"
+        height="40"
+        viewBox="0 0 120 40"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="stroke-[#d4a574]"
+        stroke-width="1"
+      >
+        <path
+          d="M 10 20 Q 30 10 60 20 T 110 20"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+        />
+        <circle cx="60" cy="20" r="2" fill="currentColor" />
+      </svg>
+    </div>
+
+    <!-- Planner -->
+    <section id="planner" class="section-spacing bg-[#0f0d0f] border-t border-[#3d3035]">
+      <Planner />
+    </section>
+
+    <!-- Divider -->
+    <div class="flex justify-center py-12 overflow-clip" data-divider>
+      <svg
+        width="120"
+        height="40"
+        viewBox="0 0 120 40"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="stroke-[#d4a574]"
+        stroke-width="1"
+      >
+        <path
+          d="M 10 20 Q 30 10 60 20 T 110 20"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+        />
+        <circle cx="60" cy="20" r="2" fill="currentColor" />
+      </svg>
+    </div>
+
+    <!-- FAQ -->
+    <section id="faq" class="section-spacing bg-[#1a1520] border-t border-[#3d3035]">
+      <FAQ />
+    </section>
+
+    <!-- Footer -->
+    <Footer />
+  </main>
+
+  <a
+    data-sticky-cta
+    href={helloLink}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="fixed bottom-6 right-6 z-50 inline-flex button-solid rounded-full p-4 md:bottom-8 md:right-8 md:z-40"
+    title="Написать в Telegram"
+  >
+    <svg
+      class="w-6 h-6"
+      fill="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <path
+        d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a11.955 11.955 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.346-.48.33-.913.365-1.32.275-.96-.24-1.868-.52-1.84-1.1.02-.526.756-1.08 2.055-1.254z"
+      />
+    </svg>
+  </a>
+
+  <script>
+    import { initPage } from "./main";
+    initPage();
+  </script>
 </BaseLayout>

@@ -1,0 +1,33 @@
+---
+import { STYLES } from "../../lib/planner";
+---
+
+<section data-section class="section-padding bg-[#0a0e27]">
+  <div class="container-max">
+    <h2 class="mb-16 neon-text">Какой танец выбрать</h2>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {
+        STYLES.map((style) => (
+          <div
+            data-style-card
+            class="neon-border rounded p-6 bg-gradient-to-br from-[#1a1f3a] to-[#0a0e27] hover:from-[#1f2847] hover:to-[#1a1f3a] transition-all duration-300 cursor-pointer relative overflow-hidden group"
+          >
+            <!-- Animated glow background on hover -->
+            <div class="absolute inset-0 opacity-0 group-hover:opacity-10 bg-gradient-to-r from-[#ff006e] to-[#00d9ff] rounded transition-opacity duration-300 -z-10" />
+
+            <h3 class="neon-text-cyan font-bold mb-3 text-lg relative z-10">{style.title}</h3>
+            <p class="text-sm text-gray-300 leading-relaxed relative z-10">{style.note}</p>
+
+            {style.lessons > 0 && (
+              <div class="mt-4 pt-4 border-t border-[#ff006e] border-opacity-30 relative z-10">
+                <span class="text-xs text-[#ffd60a] font-bold">+{style.lessons} занятие</span>
+              </div>
+            )}
+          </div>
+        ))
+      }
+    </div>
+
+  </div>
+</section>

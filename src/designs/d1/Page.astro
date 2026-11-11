@@ -1,13 +1,91 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { site } from "../../data/site";
-import Planner from "../_reference/Planner.astro";
+import Hero from "./Hero.astro";
+import About from "./About.astro";
+import Styles from "./Styles.astro";
+import Timeline from "./Timeline.astro";
+import Planner from "./Planner.astro";
+import FAQ from "./FAQ.astro";
+import Footer from "./Footer.astro";
+import "./styles.css";
 ---
 
-<BaseLayout variant={1}>
-  <main>
-    <h1>Вариант 1</h1>
+<BaseLayout
+  title="Свадебный танец с Дмитрием Карповым — Rhythm Kinetic"
+  description="Постановка энергичного свадебного танца: бачата, вальс или ваша песня. 5–7 занятий, результат в день свадьбы."
+  themeColor="#0a0e27"
+  variant={1}
+>
+  <Fragment slot="head">
+    <!-- Google Fonts: Tektur and Manrope -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tektur:wght@400;500;600;700;800;900&family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </Fragment>
+
+  <main class="w-full bg-[#0a0e27] text-white overflow-hidden">
+    <Hero />
+    <About />
+    <Styles />
+    <Timeline />
     <Planner />
-    <a href={site.instagramUrl} target="_blank" rel="noopener noreferrer">Instagram</a>
+    <FAQ />
+    <Footer />
   </main>
+
+  <!-- Sticky Telegram FAB for mobile -->
+  <div
+    class="fixed bottom-6 right-6 z-40 md:hidden"
+    data-telegram-fab
+  >
+    <a
+      href="https://t.me/KarpovDmitriyy?text=Привет!%20Я%20интересуюсь%20постановкой%20свадебного%20танца%20к%20своей%20свадьбе"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center justify-center w-14 h-14 rounded-full bg-[#ff006e] text-white shadow-lg hover:shadow-xl transition-all hover:scale-110"
+      title="Написать в Telegram"
+      aria-label="Написать в Telegram"
+    >
+      <svg
+        class="w-7 h-7"
+        fill="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.82-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.121l-6.869 4.332-2.97-.924c-.645-.213-.658-.645.136-.96l11.566-4.458c.54-.213 1.006.131.832 1.008z" />
+      </svg>
+    </a>
+  </div>
+
+  <script>
+    import { initPage } from "./main";
+    initPage();
+  </script>
 </BaseLayout>
+
+<style is:global>
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  /* Smooth transitions for all animations */
+  * {
+    transition-property: color, background-color, border-color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Override for interactive elements */
+  button,
+  a {
+    transition-duration: 300ms;
+  }
+</style>

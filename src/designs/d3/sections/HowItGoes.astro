@@ -1,0 +1,217 @@
+---
+---
+
+<section class="d3-howitgoes" id="howitgoes">
+  <div class="d3-section-container">
+    <h2>Как это происходит</h2>
+    <p class="d3-howitgoes__subtitle">От первого письма до свадебного танца</p>
+
+    <div class="d3-timeline">
+      <div class="d3-timeline-step">
+        <div class="d3-timeline-marker">1</div>
+        <h3>Напишите нам</h3>
+        <p>Расскажите о себе, своей дате и мечте. Можно в Telegram — Дмитрий ответит сразу.</p>
+      </div>
+
+      <svg class="d3-timeline-connector" viewBox="0 0 60 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path
+          d="M 30 0 Q 40 20 35 40 Q 30 60 30 80"
+          fill="none"
+          stroke="#ff9500"
+          stroke-width="2"
+          stroke-linecap="round"
+          opacity="0.5"
+        />
+      </svg>
+
+      <div class="d3-timeline-step">
+        <div class="d3-timeline-marker">2</div>
+        <h3>Первое занятие</h3>
+        <p>Выбираем музыку, обсуждаем ваш стиль и начинаем с основ. Никакого давления.</p>
+      </div>
+
+      <svg class="d3-timeline-connector" viewBox="0 0 60 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path
+          d="M 30 0 Q 20 20 25 40 Q 30 60 30 80"
+          fill="none"
+          stroke="#0064ff"
+          stroke-width="2"
+          stroke-linecap="round"
+          opacity="0.5"
+        />
+      </svg>
+
+      <div class="d3-timeline-step">
+        <div class="d3-timeline-marker">3</div>
+        <h3>Построение</h3>
+        <p>Несколько недель занятий, каждое — новый шаг. Хореография растёт вместе с вами.</p>
+      </div>
+
+      <svg class="d3-timeline-connector" viewBox="0 0 60 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path
+          d="M 30 0 Q 40 20 35 40 Q 30 60 30 80"
+          fill="none"
+          stroke="#ff6b6b"
+          stroke-width="2"
+          stroke-linecap="round"
+          opacity="0.5"
+        />
+      </svg>
+
+      <div class="d3-timeline-step">
+        <div class="d3-timeline-marker">4</div>
+        <h3>День свадьбы</h3>
+        <p>Вы выходите на танцпол. Вся энергия, вся любовь, все ваши занятия — в этом танце.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .d3-howitgoes {
+    padding: 4rem 1rem;
+    background: linear-gradient(180deg, #fef8f3 0%, #fff9f0 100%);
+  }
+
+  @media (min-width: 768px) {
+    .d3-howitgoes {
+      padding: 6rem 2rem;
+    }
+  }
+
+  .d3-section-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .d3-howitgoes h2 {
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    font-weight: 700;
+    color: #2d3436;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .d3-howitgoes__subtitle {
+    text-align: center;
+    color: #999;
+    margin-bottom: 3rem;
+    font-size: 1.1rem;
+  }
+
+  .d3-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  @media (min-width: 768px) {
+    .d3-timeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      align-items: start;
+    }
+  }
+
+  .d3-timeline-step {
+    padding: 2rem;
+    background: white;
+    border-radius: 1rem;
+    border-left: 4px solid #ff9500;
+    animation: step-enter 0.6s ease-out backwards;
+    position: relative;
+  }
+
+  .d3-timeline-step:nth-child(1) { animation-delay: 0.1s; }
+  .d3-timeline-step:nth-child(3) { animation-delay: 0.2s; border-left-color: #0064ff; }
+  .d3-timeline-step:nth-child(5) { animation-delay: 0.3s; border-left-color: #ff6b6b; }
+  .d3-timeline-step:nth-child(7) { animation-delay: 0.4s; border-left-color: #f09433; }
+
+  @keyframes step-enter {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .d3-timeline-marker {
+    position: absolute;
+    top: -1rem;
+    left: 2rem;
+    width: 2rem;
+    height: 2rem;
+    background: linear-gradient(135deg, #ff9500, #f09433);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+
+  .d3-timeline-step:nth-child(3) .d3-timeline-marker {
+    background: linear-gradient(135deg, #0064ff, #0052cc);
+  }
+
+  .d3-timeline-step:nth-child(5) .d3-timeline-marker {
+    background: linear-gradient(135deg, #ff6b6b, #ff5252);
+  }
+
+  .d3-timeline-step:nth-child(7) .d3-timeline-marker {
+    background: linear-gradient(135deg, #f09433, #ff9500);
+  }
+
+  .d3-timeline-step h3 {
+    font-size: 1.25rem;
+    color: #2d3436;
+    margin: 1rem 0 0.5rem 0;
+    font-family: "Jost", sans-serif;
+    margin-top: 1.5rem;
+  }
+
+  .d3-timeline-step p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #666;
+  }
+
+  .d3-timeline-connector {
+    width: 40px;
+    height: 80px;
+    margin: 0 auto;
+    display: none;
+  }
+
+  @media (max-width: 767px) {
+    .d3-timeline-connector {
+      display: block;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .d3-timeline-connector {
+      display: block;
+      width: 60px;
+      height: 100px;
+      grid-column: auto;
+      align-self: end;
+      margin-bottom: 2rem;
+      opacity: 0.7;
+      transform: scaleY(1.2);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .d3-timeline-step {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>
